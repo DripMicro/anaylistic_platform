@@ -1,0 +1,30 @@
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
+
+export const reportreferralModel = z.object({
+  Date: z.date(),
+  ReferUrlHash: z.string(),
+  ReferUrl: z.string(),
+  merchant_id: z.number().int(),
+  LastClickIp: z.string(),
+  LastClickCountry: z.string(),
+  affiliate_id: z.number().int(),
+  ProfileID: z.number().int(),
+  AllTimeClicks: z.number().int(),
+  AllTimeViews: z.number().int(),
+  Leads: z.number().int(),
+  Demo: z.number().int(),
+  Accounts: z.number().int(),
+  FTD: z.number().int(),
+  FTDAmount: z.number(),
+  RawFTD: z.number().int(),
+  RawFTDAmount: z.number(),
+  TotalDeposits: z.number().int(),
+  DepositsAmount: z.number(),
+  Volume: z.number(),
+  BonusAmount: z.number(),
+  WithdrawalAmount: z.number(),
+  ChargebackAmount: z.number(),
+  PNL: z.number(),
+  Commissions: z.number(),
+})

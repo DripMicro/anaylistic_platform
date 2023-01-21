@@ -1,0 +1,2085 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model admins {
+  id                 Int             @unique(map: "id") @default(autoincrement())
+  notifyOnAffReg     Int             @default(0)
+  rdate              DateTime        @db.DateTime(0)
+  ip                 String          @db.VarChar(15)
+  chk_ip             String          @db.VarChar(15)
+  valid              Int
+  lang               String          @db.VarChar(3)
+  level              admins_level
+  username           String          @unique(map: "username") @db.VarChar(254)
+  password           String          @db.Char(32)
+  first_name         String          @db.VarChar(254)
+  last_name          String          @db.VarChar(254)
+  email              String          @db.VarChar(254)
+  lastactive         DateTime        @db.DateTime(0)
+  logged             Int
+  group_id           Int
+  phone              String          @db.VarChar(254)
+  IMUserType         String          @db.VarChar(50)
+  IMUser             String          @db.VarChar(254)
+  zopimChat          String          @db.Text
+  bigPic             String          @db.VarChar(254)
+  relatedMerchantID  String          @db.VarChar(20)
+  preferedCurrency   String          @default("USD") @db.VarChar(3)
+  userType           admins_userType @default(default)
+  showAdditionalLink Boolean         @default(false)
+  additionalLinkText String          @db.VarChar(80)
+  additionalLinkUrl  String          @db.VarChar(90)
+}
+
+model admins_notes {
+  id        Int      @unique(map: "id") @default(autoincrement())
+  rdate     DateTime @db.DateTime(0)
+  valid     Int
+  admin_id  Int
+  edited_by Int
+  admins_id Int
+  notes     String   @db.Text
+
+  @@index([admins_id], map: "affiliate_id")
+  @@index([valid], map: "valid")
+}
+
+model affiliate_messages_approval {
+  id            Int      @id @default(autoincrement())
+  affiliate_id  Int
+  message_id    Int
+  approval_date DateTime @default(now()) @db.DateTime(0)
+}
+
+model affiliates {
+  id                              Int                      @unique(map: "id") @default(autoincrement())
+  rdate                           DateTime                 @default(now()) @db.DateTime(0)
+  udate                           DateTime                 @db.DateTime(0)
+  lastvisit                       DateTime                 @db.DateTime(0)
+  lastactive                      DateTime                 @db.DateTime(0)
+  valid                           Int
+  lang                            String                   @db.VarChar(3)
+  language_id                     Int
+  ip                              String                   @db.VarChar(15)
+  group_id                        Int
+  refer_id                        Int
+  refer_banner_id                 Int
+  username                        String                   @db.VarChar(254)
+  password                        String                   @db.VarChar(254)
+  first_name                      String                   @db.VarChar(254)
+  last_name                       String                   @db.VarChar(254)
+  mail                            String                   @db.VarChar(254)
+  website                         String                   @db.VarChar(254)
+  website2                        String                   @db.VarChar(254)
+  website3                        String                   @db.VarChar(254)
+  phone                           String                   @db.VarChar(15)
+  street                          String                   @db.VarChar(254)
+  postalCode                      String                   @db.VarChar(254)
+  city                            String                   @db.VarChar(254)
+  gender                          affiliates_gender
+  company                         String                   @db.VarChar(254)
+  country                         String                   @db.VarChar(254)
+  marketInfo                      String                   @db.VarChar(254)
+  newsletter                      Int
+  IMUser                          String                   @db.VarChar(254)
+  IMUserType                      String                   @db.VarChar(254)
+  logged                          Int
+  paymentMethod                   affiliates_paymentMethod
+  pay_firstname                   String                   @db.VarChar(254)
+  pay_lastname                    String                   @db.VarChar(254)
+  pay_mail                        String                   @db.VarChar(254)
+  pay_account                     String                   @db.VarChar(254)
+  account_name                    String                   @db.VarChar(50)
+  account_number                  String                   @db.VarChar(50)
+  pay_info                        String                   @db.VarChar(254)
+  pay_bank                        String                   @db.VarChar(254)
+  pay_swift                       String                   @db.VarChar(254)
+  pay_iban                        String                   @db.VarChar(254)
+  pay_branch                      String                   @db.VarChar(254)
+  pay_email                       String                   @db.VarChar(254)
+  pay_address1                    String                   @db.VarChar(254)
+  pay_address2                    String                   @db.VarChar(254)
+  pay_city                        String                   @db.VarChar(254)
+  pay_state                       String                   @db.VarChar(254)
+  pay_zip                         String                   @db.VarChar(254)
+  pay_country                     Int
+  pay_company                     String                   @db.VarChar(100)
+  preferredCurrency               String                   @default("USD") @db.VarChar(3)
+  merchants                       String                   @db.VarChar(100)
+  credit                          Float
+  sub_com                         Float
+  showDeposit                     Int
+  com_alert                       Int
+  show_credit                     Int?                     @db.TinyInt
+  manager_private_note            String                   @db.VarChar(350)
+  status_id                       Int                      @default(0)
+  accounts_pixel_params_replacing String                   @default("") @db.VarChar(500)
+  sales_pixel_params_replacing    String                   @default("") @db.VarChar(500)
+  apiAccessType                   String                   @default("none") @db.VarChar(12)
+  apiToken                        String                   @db.VarChar(40)
+  apiStaticIP                     String                   @db.VarChar(120)
+  isIB                            Boolean                  @default(false)
+  qualify_amount                  Float?                   @default(0) @db.Float
+  qualify_type                    affiliates_qualify_type?
+  profilePermissionID             Int                      @default(0)
+  type                            affiliates_type          @default(Affiliate)
+  products                        String                   @db.VarChar(100)
+  optinGuid                       String                   @db.VarChar(64)
+  emailVerification               Int                      @default(0) @db.TinyInt
+  pendingDepositExclude           Int                      @default(0) @db.TinyInt
+  selected_language_id            Int                      @default(1)
+  blockNewTraffic                 Int                      @default(0) @db.TinyInt
+  isDefaultAffiliate              Boolean                  @default(false)
+  regReferUrl                     String                   @db.VarChar(100)
+
+  @@index([group_id], map: "group_id")
+  @@index([mail], map: "mail")
+  @@index([password], map: "password")
+  @@index([username], map: "username")
+}
+
+model affiliates_campaigns_relations {
+  id            Int     @id @default(autoincrement())
+  name          String  @default("") @db.VarChar(40)
+  campID        String  @db.VarChar(20)
+  affiliateID   Int     @default(0)
+  advertiserID  Int     @default(0)
+  profile_id    Int     @default(0)
+  isDefaultCamp Boolean @default(false)
+  merchantid    Int     @default(0)
+
+  @@index([campID, affiliateID], map: "campID")
+}
+
+model affiliates_deals {
+  id           Int                        @unique(map: "id") @default(autoincrement())
+  rdate        DateTime                   @db.DateTime(0)
+  admin_id     Int
+  merchant_id  Int
+  affiliate_id Int
+  dealType     affiliates_deals_dealType
+  amount       Float?
+  valid        Boolean                    @default(true)
+  tier_amount  String                     @db.VarChar(100)
+  tier_pcpa    Float
+  tier_type    affiliates_deals_tier_type @default(EMPTY_ENUM_VALUE)
+  geo          String                     @db.VarChar(2)
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([dealType], map: "dealType")
+}
+
+model affiliates_msgs {
+  id                     Int      @unique(map: "id") @default(autoincrement())
+  rdate                  DateTime @db.DateTime(0)
+  valid                  Int
+  admin_id               Int
+  group_id               Int
+  affiliate_id           Int      @default(-1)
+  advertiser_id          Int      @default(-1)
+  title                  String   @db.VarChar(254)
+  text                   String   @db.Text
+  status_id              Int      @default(0)
+  display_approval_popup Int      @default(0) @db.TinyInt
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([group_id], map: "group_id")
+  @@index([valid], map: "valid")
+}
+
+model affiliates_notes {
+  id           Int                     @unique(map: "id") @default(autoincrement())
+  rdate        DateTime                @db.DateTime(0)
+  valid        Int
+  admin_id     Int
+  edited_by    Int
+  affiliate_id Int
+  group_id     Int
+  notes        String                  @db.Text
+  issue_date   DateTime                @db.DateTime(0)
+  closed_date  DateTime                @db.DateTime(0)
+  status       affiliates_notes_status
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([valid], map: "valid")
+}
+
+model affiliates_profiles {
+  id             Int      @unique(map: "id") @default(autoincrement())
+  rdate          DateTime @db.DateTime(0)
+  valid          Int
+  affiliate_id   Int
+  name           String   @db.VarChar(254)
+  url            String   @db.VarChar(254)
+  description    String   @db.Text
+  source_traffic String   @db.VarChar(254)
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([valid], map: "valid")
+}
+
+model affiliates_static_data {
+  id           Int      @id @default(autoincrement())
+  affiliate_id Int
+  merchant_id  Int
+  rdate        DateTime @db.DateTime(0)
+  key_name     String   @db.VarChar(15)
+  key_value    Float
+  created_on   DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([affiliate_id, merchant_id, rdate], map: "af_mer_date")
+}
+
+model affiliates_status {
+  id                  Int      @unique(map: "id") @default(autoincrement())
+  rdate               DateTime @db.DateTime(0)
+  valid               Int
+  title               String   @db.VarChar(254)
+  created_by_admin_id Int
+
+  @@index([title], map: "title")
+  @@index([valid], map: "valid")
+}
+
+model affiliates_tickets {
+  id           Int                       @id @default(autoincrement())
+  rdate        DateTime                  @db.DateTime(0)
+  last_update  DateTime                  @db.DateTime(0)
+  ticket_id    Int
+  affiliate_id Int
+  admin_id     Int
+  reply_email  String                    @db.VarChar(254)
+  group_id     Int
+  status       affiliates_tickets_status
+  subject      String                    @db.VarChar(254)
+  text         String                    @db.Text
+  readed       Int
+  merchantID   Int
+  aff_readed   Boolean                   @default(true)
+
+  @@index([admin_id], map: "admin_id")
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([merchantID], map: "merchantID")
+  @@index([ticket_id], map: "ticket_id")
+}
+
+model affiliates_traffic {
+  id           Int      @unique(map: "id") @default(autoincrement())
+  rdate        DateTime @db.DateTime(0)
+  ip           String   @db.VarChar(15)
+  affiliate_id Int
+  profile_id   Int      @default(0)
+  merchant_id  Int
+  refer_url    String   @db.VarChar(255)
+  visits       Int
+  uid          String   @default("0") @db.VarChar(35)
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([refer_url, affiliate_id, profile_id], map: "forClicksSum")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([refer_url], map: "refer_url_2")
+}
+
+model apicredentials {
+  id          Int                 @id @default(autoincrement())
+  merchant_id Int
+  valid       Boolean
+  user        String              @db.VarChar(50)
+  password    String              @db.VarChar(50)
+  url         String              @db.VarChar(100)
+  type        apicredentials_type
+
+  @@index([merchant_id], map: "merchant_id")
+}
+
+model chart_data {
+  id         Int              @id @unique(map: "id") @default(autoincrement())
+  lastUpdate DateTime         @db.DateTime(0)
+  fulldate   DateTime         @db.Date
+  level      chart_data_level
+  member_id  Int
+  month      String           @db.VarChar(2)
+  year       Int              @db.Year
+  accounts   Int
+  ftds       Int
+  val1       Int
+  val2       Int
+
+  @@index([year, month], map: "DATE")
+  @@index([level], map: "level")
+}
+
+model commissions {
+  merchantID        Int
+  affiliateID       Int
+  traderID          String    @db.VarChar(30)
+  transactionID     String    @db.VarChar(80)
+  Date              DateTime  @db.Timestamp(0)
+  Type              String    @db.VarChar(255)
+  Amount            Float
+  DealType          String    @db.VarChar(255)
+  Commission        Float
+  DealTypeCondition String    @db.VarChar(255)
+  level             Int?
+  subAffiliateID    Int?
+  status            Int?
+  updated           DateTime? @db.DateTime(0)
+
+  @@id([merchantID, affiliateID, traderID, transactionID, Type, Amount, Date])
+  @@index([Date], map: "Date")
+  @@index([DealType], map: "DealType")
+  @@index([subAffiliateID], map: "subAffiliateID")
+}
+
+model config_api_n_feeds {
+  id              Int      @id @default(autoincrement())
+  apiStaticIP     String   @db.VarChar(120)
+  apiAccessType   String   @db.VarChar(15)
+  apiToken        String   @db.VarChar(120)
+  status          Int      @default(0)
+  createdByUserID Int
+  rdate           DateTime @default(now()) @db.DateTime(0)
+  outputType      String   @default("XML") @db.VarChar(5)
+}
+
+model countries {
+  id       Int     @unique(map: "id") @default(autoincrement())
+  title    String  @db.VarChar(40)
+  valid    Boolean @default(true)
+  code     String  @db.VarChar(5)
+  spotCode Int     @id
+}
+
+model cron_logs {
+  id            Int      @unique(map: "id") @default(autoincrement())
+  lastscan      DateTime @db.DateTime(0)
+  month         Int
+  year          Int
+  merchant_id   Int
+  merchant_name String   @db.VarChar(254)
+  success       Int
+  reg_total     Int      @default(0)
+  sales_total   Int      @default(0)
+  type          String   @db.VarChar(6)
+
+  @@index([merchant_id], map: "merchant_id")
+}
+
+model cronjobvariables {
+  Name  String   @id @db.VarChar(128)
+  Date  DateTime @db.DateTime(0)
+  Value String   @db.VarChar(128)
+}
+
+model dashboard {
+  Date                  DateTime @db.Date
+  MerchantID            Int
+  AffiliateID           Int
+  Impressions           Int
+  Clicks                Int
+  Install               Int
+  Leads                 Int
+  Demo                  Int
+  RealAccount           Int
+  FTD                   Int
+  FTDAmount             Float
+  RawFTD                Int
+  RawFTDAmount          Float
+  Deposits              Int
+  DepositsAmount        Float
+  Bonus                 Float
+  Withdrawal            Float
+  ChargeBack            Float
+  NetDeposit            Float
+  PNL                   Float
+  ActiveTrader          Int
+  Commission            Float
+  PendingDeposits       Int
+  PendingDepositsAmount Float
+  TotalMicroPayments    Int      @default(0)
+  MicroPaymentsAmount   Float    @default(0) @db.Float
+  Volume                Float    @default(0) @db.Float
+
+  @@id([Date, MerchantID, AffiliateID])
+  @@index([AffiliateID], map: "AffiliateID")
+  @@index([Date], map: "Date")
+  @@index([MerchantID], map: "MerchantID")
+}
+
+model data_install {
+  id           Int               @unique(map: "id") @default(autoincrement())
+  rdate        DateTime          @default(now()) @db.Timestamp(0)
+  ctag         String            @db.Char(254)
+  affiliate_id Int
+  group_id     Int
+  banner_id    Int
+  profile_id   Int
+  product_id   Int
+  country      String            @db.VarChar(2)
+  trader_id    String            @db.VarChar(30)
+  phone        String            @db.VarChar(16)
+  trader_alias String            @db.VarChar(254)
+  type         data_install_type
+  freeParam    String            @db.VarChar(254)
+  freeParam2   String            @db.VarChar(150)
+  freeParam3   String            @db.VarChar(170)
+  freeParam4   String            @db.VarChar(170)
+  freeParam5   String            @db.VarChar(170)
+  merchant_id  Int
+  status       String            @db.VarChar(20)
+  lastUpdate   DateTime          @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  platform     String            @db.VarChar(30)
+  uid          String            @db.VarChar(35)
+  email        String            @db.VarChar(40)
+  couponName   String            @db.VarChar(30)
+  campaign_id  String?           @default("") @db.VarChar(50)
+  currentDate  DateTime          @default(now()) @db.Timestamp(0)
+
+  @@index([uid], map: "UID")
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([banner_id], map: "banner_id")
+  @@index([merchant_id, status, type], map: "mer_non_froz_non_dem")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([product_id], map: "product_id")
+  @@index([profile_id], map: "profile_id")
+  @@index([rdate], map: "rdate")
+  @@index([trader_alias], map: "trader_alias")
+  @@index([trader_id], map: "trader_id")
+  @@index([type], map: "type")
+}
+
+model data_recycle {
+  id          Int      @id @default(autoincrement())
+  trader_id   Int
+  tranz_id    String   @db.VarChar(40)
+  recordRdate DateTime @default(now()) @db.Timestamp(0)
+  merchant_id Int
+  admin_id    Int
+  rdate       DateTime @default(now()) @db.DateTime(0)
+  data_table  String   @db.VarChar(10)
+  fields      String   @db.VarChar(400)
+
+  @@index([trader_id, merchant_id], map: "trader_id")
+}
+
+model data_reg {
+  id                    Int           @unique(map: "id") @default(autoincrement())
+  rdate                 DateTime      @default(now()) @db.Timestamp(0)
+  ctag                  String        @db.Char(254)
+  affiliate_id          Int
+  group_id              Int
+  banner_id             Int
+  profile_id            Int
+  product_id            Int
+  country               String        @db.VarChar(2)
+  trader_id             String        @db.VarChar(30)
+  sub_trader_id         Int
+  phone                 String        @db.VarChar(16)
+  trader_alias          String        @db.VarChar(254)
+  type                  data_reg_type
+  freeParam             String        @db.VarChar(254)
+  freeParam2            String        @db.VarChar(150)
+  freeParam3            String        @db.VarChar(170)
+  freeParam4            String        @db.VarChar(170)
+  freeParam5            String        @db.VarChar(170)
+  merchant_id           Int
+  status                String        @db.VarChar(20)
+  lastUpdate            DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  platform              String        @db.VarChar(30)
+  uid                   String        @db.VarChar(35)
+  saleStatus            String        @db.VarChar(50)
+  lastSaleNote          String        @db.VarChar(200)
+  lastSaleNoteDate      DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  lastTimeActive        DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  initialftddate        DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  initialftdtranzid     String        @db.VarChar(40)
+  isSelfDeposit         Boolean       @default(false)
+  ftdamount             Float         @default(0)
+  FTDqualificationDate  DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  traderVolume          Float
+  traderTrades          Int
+  lastStatsRecordDate   DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  traderValue           Float
+  lastDepositRecordDate DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  email                 String        @db.VarChar(40)
+  couponName            String        @db.VarChar(30)
+  campaign_id           String?       @default("") @db.VarChar(50)
+  dummySource           Int
+  currentDate           DateTime      @default(now()) @db.Timestamp(0)
+
+  @@index([FTDqualificationDate], map: "FTDqualificationDate")
+  @@index([uid], map: "UID")
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([banner_id], map: "banner_id")
+  @@index([merchant_id, status, type], map: "mer_non_froz_non_dem")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([product_id], map: "product_id")
+  @@index([profile_id], map: "profile_id")
+  @@index([rdate], map: "rdate")
+  @@index([sub_trader_id], map: "sub_trader_id")
+  @@index([trader_alias], map: "trader_alias")
+  @@index([trader_id], map: "trader_id")
+  @@index([type], map: "type")
+}
+
+model data_sales {
+  id                    Int                 @unique(map: "id") @default(autoincrement())
+  rdate                 DateTime            @default(now()) @db.Timestamp(0)
+  ctag                  String              @db.Char(254)
+  affiliate_id          Int
+  group_id              Int
+  banner_id             Int
+  product_id            Int
+  profile_id            Int
+  country               String              @db.VarChar(2)
+  tranz_id              String              @db.VarChar(80)
+  trader_id             String              @db.VarChar(30)
+  sub_trader_id         Int
+  trader_alias          String              @db.VarChar(254)
+  type                  data_sales_type
+  status                data_sales_status   @default(EMPTY_ENUM_VALUE)
+  amount                Float
+  original_amount       Float
+  positionSum           Float               @default(0) @db.Float
+  freeParam             String              @db.VarChar(254)
+  freeParam2            String              @db.VarChar(150)
+  freeParam3            String              @db.VarChar(170)
+  freeParam4            String              @db.VarChar(170)
+  freeParam5            String              @db.VarChar(170)
+  merchant_id           Int
+  uid                   String              @db.VarChar(35)
+  campaign_id           String?             @default("") @db.VarChar(50)
+  currency              data_sales_currency @default(USD)
+  pendingRelationRecord Int                 @default(0) @db.TinyInt
+  created_by_admin_id   Int
+  spread                Float?
+  pnl                   Float?
+  turnover              Float?
+  dummySource           Int
+  currentDate           DateTime            @default(now()) @db.Timestamp(0)
+  isSelfDeposit         Boolean             @default(false)
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([banner_id], map: "banner_id")
+  @@index([merchant_id, trader_id], map: "mer_trader_id")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([product_id], map: "product_id")
+  @@index([rdate], map: "rdate")
+  @@index([sub_trader_id], map: "sub_trader_id")
+  @@index([trader_alias], map: "trader_alias")
+  @@index([trader_id], map: "trader_id")
+  @@index([tranz_id], map: "tranz_id")
+  @@index([type], map: "type")
+}
+
+model data_sales_pending {
+  id                    Int                         @unique(map: "id") @default(autoincrement())
+  rdate                 DateTime                    @default(now()) @db.Timestamp(0)
+  ctag                  String                      @db.Char(254)
+  affiliate_id          Int
+  group_id              Int
+  banner_id             Int
+  product_id            Int
+  profile_id            Int
+  country               String                      @db.VarChar(2)
+  tranz_id              String                      @db.VarChar(254)
+  trader_id             Int
+  sub_trader_id         Int
+  trader_alias          String                      @db.VarChar(254)
+  type                  data_sales_pending_type
+  status                data_sales_pending_status   @default(EMPTY_ENUM_VALUE)
+  amount                Float
+  original_amount       Float
+  positionSum           Float                       @default(0) @db.Float
+  freeParam             String                      @db.VarChar(254)
+  freeParam2            String                      @db.VarChar(150)
+  freeParam3            String                      @db.VarChar(170)
+  freeParam4            String                      @db.VarChar(170)
+  freeParam5            String                      @db.VarChar(170)
+  merchant_id           Int
+  uid                   String                      @default("0") @db.VarChar(35)
+  currency              data_sales_pending_currency @default(USD)
+  campaign_id           Int
+  pendingRelationRecord Int                         @default(0) @db.TinyInt
+  created_by_admin_id   Int
+  isSelfDeposit         Boolean                     @default(false)
+  spread                Float?
+  pnl                   Float?
+  turnover              Float?
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([banner_id], map: "banner_id")
+  @@index([merchant_id, trader_id], map: "mer_trader_id")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([rdate], map: "rdate")
+  @@index([trader_alias], map: "trader_alias")
+  @@index([trader_id], map: "trader_id")
+  @@index([tranz_id], map: "tranz_id")
+  @@index([type], map: "type")
+}
+
+model data_stats {
+  id            Int                  @unique(map: "id") @default(autoincrement())
+  rdate         DateTime             @default(now()) @db.Timestamp(0)
+  ctag          String               @db.Char(254)
+  affiliate_id  Int
+  group_id      Int
+  banner_id     Int
+  product_id    Int
+  profile_id    Int
+  country       String               @db.VarChar(2)
+  tranz_id      String               @db.VarChar(80)
+  trader_id     String               @db.VarChar(30)
+  sub_trader_id Int
+  trader_alias  String               @db.VarChar(254)
+  type          data_stats_type
+  amount        Float
+  freeParam     String               @db.VarChar(254)
+  freeParam2    String               @db.VarChar(150)
+  freeParam3    String               @db.VarChar(170)
+  freeParam4    String               @db.VarChar(170)
+  freeParam5    String               @db.VarChar(170)
+  merchant_id   Int
+  uid           String               @db.VarChar(35)
+  currency      data_stats_currency? @default(USD)
+  campaign_id   String?              @default("") @db.VarChar(50)
+  spread        Float?
+  pnl           Float?
+  turnover      Float?
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([banner_id], map: "banner_id")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([product_id], map: "product_id")
+  @@index([rdate], map: "rdate")
+  @@index([sub_trader_id], map: "sub_trader_id")
+  @@index([trader_alias], map: "trader_alias")
+  @@index([trader_id], map: "trader_id")
+  @@index([tranz_id], map: "tranz_id")
+  @@index([type], map: "type")
+  @@index([type], map: "type_2")
+}
+
+model documents {
+  id                        BigInt               @id @default(autoincrement())
+  rdate                     DateTime             @default(now()) @db.Timestamp(0)
+  name                      String               @db.VarChar(255)
+  path                      String               @db.VarChar(255)
+  affiliate_id              Int
+  valid                     Int                  @db.TinyInt
+  type                      documents_type
+  doc_status                documents_doc_status @default(not_reviewed)
+  general_text              String?              @db.MediumText
+  identity_document_text    String?              @db.MediumText
+  address_verification_text String?              @db.MediumText
+  company_verification_text String?              @db.MediumText
+  uploaded_by_admin_id      Int
+}
+
+model exchange_rates {
+  id         Int      @unique(map: "id") @default(autoincrement())
+  currKey    String   @id @db.VarChar(6)
+  fromCurr   String   @db.VarChar(3)
+  toCurr     String   @db.VarChar(3)
+  val        Float
+  rate       Float    @default(0)
+  lastUpdate DateTime @default(now()) @db.Timestamp(0)
+  lastCheck  DateTime @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  valid      Boolean  @default(true)
+}
+
+model fieldssortorder {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(50)
+  fieldName   String @db.VarChar(50)
+  productType String @db.VarChar(20)
+  defaultPos  Int
+  newPos      Int
+}
+
+model groups {
+  id          Int      @unique(map: "id") @default(autoincrement())
+  rdate       DateTime @db.DateTime(0)
+  valid       Int
+  title       String   @db.VarChar(254)
+  language_id String   @default("1") @db.VarChar(14)
+  makedefault Boolean  @default(false)
+
+  @@index([language_id], map: "language_id")
+  @@index([title], map: "title")
+  @@index([valid], map: "valid")
+}
+
+model ip2country {
+  ipFROM       Int    @default(0)
+  ipTO         Int    @default(0)
+  countrySHORT String @default("") @db.Char(2)
+  countryLONG  String @default(" ") @db.VarChar(255)
+
+  @@id([ipFROM, ipTO])
+}
+
+model languages {
+  id            Int      @unique(map: "id") @default(autoincrement())
+  rdate         DateTime @db.DateTime(0)
+  valid         Int
+  lngCode       String   @unique(map: "lngCode") @db.Char(3)
+  title         String   @db.VarChar(254)
+  displayText   String   @db.VarChar(35)
+  textDirection String   @default("LTR") @db.VarChar(3)
+
+  @@index([lngCode], map: "lngCode_2")
+  @@index([valid], map: "valid")
+}
+
+model leads_files {
+  id                Int      @id @default(autoincrement())
+  admin_id          Int
+  affiliate_id      Int
+  merchant_id       Int
+  create_date       DateTime @db.DateTime(0)
+  update_date       DateTime @default(now()) @db.DateTime(0)
+  status            Int
+  count             Int
+  errors            Int
+  filename          String   @db.VarChar(255)
+  filename_original String   @db.VarChar(255)
+  description       String   @db.Text
+}
+
+model loginhistory {
+  id                            Int               @id @default(autoincrement())
+  type                          loginhistory_type
+  error                         Int               @db.TinyInt
+  username                      String            @db.VarChar(40)
+  password                      Int
+  affiliate_id                  Int
+  login_as_affiliate_by_user_id Int
+  affiliate_valid               Boolean
+  admin_id_force_allow          Int               @db.TinyInt
+  failureLogin                  Boolean           @default(false)
+  ip                            String            @db.VarChar(26)
+  refe                          String            @db.VarChar(80)
+  HTTP_USER_AGENT               String            @db.VarChar(150)
+  REMOTE_ADDR                   String            @db.VarChar(26)
+  rdate                         DateTime          @default(now()) @db.Timestamp(0)
+  attempt                       String            @db.VarChar(9)
+
+  @@index([error, affiliate_id, affiliate_valid, rdate], map: "error")
+}
+
+model logs {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(50)
+  description String   @db.Text
+  var1        String   @db.VarChar(50)
+  var2        String   @db.VarChar(50)
+  var3        String   @db.VarChar(50)
+  rdate       DateTime @default(now()) @db.DateTime(0)
+  flag        String   @db.VarChar(10)
+  merchant_id Int
+  text        String   @db.Text
+  ip          String   @db.VarChar(20)
+  url         String   @db.VarChar(300)
+}
+
+model mail_sent {
+  id           Int      @id @unique(map: "id") @default(autoincrement())
+  valid        Int
+  rdate        DateTime @db.DateTime(0)
+  trackingCode String   @db.Text
+  affiliate_id Int
+  admin_id     Int
+  mail_id      Int
+  mailCode     String   @db.VarChar(254)
+  opened       Int
+  opened_time  DateTime @db.DateTime(0)
+}
+
+model mail_templates {
+  id                    Int      @id @unique(map: "id") @default(autoincrement())
+  ip                    String   @db.VarChar(15)
+  rdate                 DateTime @db.DateTime(0)
+  admin_id              Int
+  language_id           Int      @default(1)
+  is_advertiser_related Boolean  @default(false)
+  valid                 Int
+  title                 String   @db.VarChar(254)
+  mailCode              String   @db.VarChar(254)
+  text                  String   @db.Text
+  trigger_name          String   @db.VarChar(40)
+
+  @@index([language_id], map: "language_id")
+}
+
+model merchants {
+  id                         Int                     @unique(map: "id") @default(autoincrement())
+  rdate                      DateTime                @db.DateTime(0)
+  valid                      Int
+  pos                        Int
+  name                       String                  @unique(map: "name_2") @db.VarChar(254)
+  type                       merchants_type
+  website                    String                  @db.VarChar(254)
+  address                    String                  @db.VarChar(254)
+  zipCode                    String                  @db.VarChar(254)
+  manager                    String                  @db.VarChar(254)
+  country                    String                  @db.VarChar(254)
+  email                      String                  @db.VarChar(254)
+  contract                   String                  @db.VarChar(254)
+  name_1                     String                  @db.VarChar(254)
+  mail_1                     String                  @db.VarChar(254)
+  phone_1                    String                  @db.VarChar(254)
+  name_2                     String                  @db.VarChar(254)
+  mail_2                     String                  @db.VarChar(254)
+  phone_2                    String                  @db.VarChar(254)
+  name_3                     String                  @db.VarChar(254)
+  mail_3                     String                  @db.VarChar(254)
+  phone_3                    String                  @db.VarChar(254)
+  name_4                     String                  @db.VarChar(254)
+  mail_4                     String                  @db.VarChar(254)
+  phone_4                    String                  @db.VarChar(254)
+  name_5                     String                  @db.VarChar(254)
+  mail_5                     String                  @db.VarChar(254)
+  phone_5                    String                  @db.VarChar(254)
+  cpa_amount                 Float
+  dcpa_amount                Float
+  revenue_amount             Float
+  cpl_amount                 Float
+  cpi_amount                 Float
+  cpc_amount                 Float
+  pnl_amount                 Float
+  cpm_amount                 Float
+  min_cpa_amount             Float
+  tier_amount                Boolean                 @default(false)
+  default_commissions        Float                   @default(0)
+  params                     String                  @db.VarChar(254)
+  incomingParam              String                  @db.VarChar(20)
+  incomingParamAlternative   String                  @db.VarChar(20)
+  flashTag                   String                  @db.VarChar(254)
+  cron_file                  String                  @db.VarChar(254)
+  producttype                String                  @db.VarChar(50)
+  campaignparamname          String                  @default("campaignid") @db.VarChar(25)
+  campaignid                 String                  @db.VarChar(30)
+  campaignispartofparams     Boolean                 @default(false)
+  LogoURL                    String                  @db.VarChar(120)
+  StylingURL                 String                  @db.VarChar(120)
+  toAutoRelateCampToAff      Boolean                 @default(false)
+  apiType                    String                  @db.VarChar(15)
+  defaultAffiliateID         Int
+  APIurl                     String                  @db.VarChar(200)
+  APIuser                    String                  @db.VarChar(40)
+  APIpass                    String                  @db.VarChar(40)
+  api_token2                 String                  @db.VarChar(60)
+  API_whiteLabelId           String                  @db.VarChar(10)
+  apiToken                   String                  @db.VarChar(16)
+  extraMemberParamName       String                  @db.VarChar(30)
+  extraMemberParamValue      String                  @db.VarChar(50)
+  isMustField                String                  @db.VarChar(150)
+  mustFields                 String                  @db.VarChar(150)
+  showDataForAffiliateSince  DateTime                @db.DateTime(0)
+  PaymentColors              String                  @db.VarChar(40)
+  lastSaleStatusUpade        DateTime?               @db.Timestamp(0)
+  lastSaleStatusUpdate       DateTime                @default(now()) @db.Timestamp(0)
+  rev_formula                String                  @default("{deposits}-({bonus}+{withdrawals}+{chargebacks})") @db.VarChar(100)
+  wallet_id                  Int                     @db.TinyInt
+  revenue_spread_amount      Float
+  positions_rev_share        Float                   @default(0)
+  lots_amount                Float
+  qualify_amount             Float?                  @default(0) @db.Float
+  qualify_type               merchants_qualify_type?
+  subbrandof                 String                  @db.VarChar(20)
+  showLeadsNdemo             Boolean                 @default(true)
+  lowestAmountPendingDeposit Float                   @db.Float
+  postbackIPlimit            String                  @db.VarChar(90)
+  randomKey                  String                  @db.VarChar(6)
+  subbrands                  String                  @db.VarChar(20)
+  isSelfManaged              Int                     @default(0) @db.TinyInt
+  cronjoburl                 String                  @db.VarChar(100)
+
+  @@index([cpa_amount], map: "cpa_amount")
+  @@index([cpc_amount], map: "cpc_amount")
+  @@index([cpl_amount], map: "cpl_amount")
+  @@index([cron_file], map: "cron_file")
+  @@index([min_cpa_amount], map: "min_cpa_amount")
+  @@index([name], map: "name")
+  @@index([params], map: "params")
+  @@index([revenue_amount], map: "revenue_amount")
+  @@index([valid], map: "valid")
+}
+
+model merchants_affiliate_level {
+  id           Int      @id @default(autoincrement())
+  rdate        DateTime @db.DateTime(0)
+  admin_id     Int
+  merchant_id  Int
+  affiliate_id Int
+  level        Int
+  amount       Decimal  @db.Decimal(10, 4)
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([merchant_id], map: "merchant_id")
+}
+
+model merchants_creative {
+  id                     Int                     @unique(map: "id") @default(autoincrement())
+  rdate                  DateTime                @db.DateTime(0)
+  last_update            DateTime                @db.DateTime(0)
+  valid                  Int
+  admin_id               Int
+  merchant_id            Int
+  product_id             Int
+  language_id            Int
+  promotion_id           Int
+  title                  String                  @db.VarChar(254)
+  type                   merchants_creative_type
+  width                  Int
+  height                 Int
+  file                   String                  @db.VarChar(254)
+  url                    String                  @db.VarChar(254)
+  iframe_url             String                  @db.VarChar(254)
+  alt                    String                  @db.VarChar(254)
+  scriptCode             String                  @db.LongText
+  affiliate_id           Int                     @default(0)
+  category_id            Int
+  featured               Int                     @default(0) @db.TinyInt
+  affiliateReady         Int                     @default(0) @db.TinyInt
+  isOverrideTrackingLink Boolean                 @default(false)
+
+  @@index([category_id], map: "category_id")
+  @@index([language_id], map: "language_id")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([product_id], map: "product_id")
+  @@index([promotion_id], map: "promotion_id")
+  @@index([type], map: "type")
+  @@index([valid], map: "valid")
+}
+
+model merchants_creative_categories {
+  id                 Int     @id @default(autoincrement())
+  categoryname       String  @db.VarChar(25)
+  valid              Boolean @default(true)
+  merchant_id        Int
+  created_by_user_id Int
+
+  @@index([merchant_id], map: "merchant_id")
+}
+
+model merchants_creative_stats {
+  Date        DateTime @db.Date
+  AffiliateID Int
+  MerchantID  Int
+  BannerID    Int
+  Impressions Int      @default(0)
+  Clicks      Int      @default(0)
+
+  @@id([Date, AffiliateID, MerchantID, BannerID])
+}
+
+model merchants_promotions {
+  id           Int      @unique(map: "id") @default(autoincrement())
+  rdate        DateTime @db.DateTime(0)
+  valid        Int
+  merchant_id  Int
+  affiliate_id Int
+  title        String   @db.VarChar(254)
+  group_id     Int      @default(0)
+
+  @@index([merchant_id], map: "merchant_id")
+  @@index([valid], map: "valid")
+}
+
+model network_bonus {
+  id           Int      @id @unique(map: "id") @default(autoincrement())
+  valid        Int
+  title        String   @db.VarChar(254)
+  group_id     Int
+  min_ftd      Int
+  bonus_amount Float
+  merchant_id  Int
+  rdate        DateTime @default(now()) @db.DateTime(0)
+}
+
+model payments_details {
+  id           Int                     @unique(map: "id") @default(autoincrement())
+  rdate        DateTime                @db.DateTime(0)
+  status       payments_details_status
+  reportType   String                  @db.VarChar(254)
+  month        String                  @db.VarChar(2)
+  year         String                  @db.VarChar(4)
+  paymentID    String                  @db.VarChar(50)
+  merchant_id  Int
+  affiliate_id Int
+  trader_id    String                  @db.VarChar(254)
+  amount       Float
+  deposit      Float
+  withdrawal   Float
+  reason       String                  @db.VarChar(254)
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([month], map: "month_3")
+  @@index([paymentID], map: "paymentID")
+  @@index([trader_id], map: "trader_id")
+  @@index([year], map: "year")
+}
+
+model payments_paid {
+  id                             Int      @unique(map: "id") @default(autoincrement())
+  rdate                          DateTime @db.DateTime(0)
+  month                          String   @db.VarChar(2)
+  year                           String   @db.VarChar(4)
+  affiliate_id                   Int
+  paid                           Int
+  paymentID                      String   @unique(map: "paymentID") @db.VarChar(50)
+  transaction_id                 String   @db.VarChar(254)
+  notes                          String   @db.Text
+  extras                         String   @db.Text
+  total                          Float
+  sentMail                       Int
+  usedCredit                     Float
+  creditLeft                     Float
+  amount_gap_from_previous_month Float    @default(0)
+  credit_gap_from_previous_month Float    @default(0)
+
+  @@unique([month, year, affiliate_id, paymentID], map: "month_2")
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([month], map: "month")
+  @@index([paid], map: "paid")
+  @@index([year], map: "year")
+}
+
+model permissionprofile {
+  id                     Int                                      @id @default(autoincrement())
+  defaultViewForDealType permissionprofile_defaultViewForDealType @default(EMPTY_ENUM_VALUE)
+  name                   String                                   @db.VarChar(18)
+  rdate                  DateTime                                 @default(now()) @db.DateTime(0)
+  affiliate_id           Int                                      @default(0)
+  reportsPermissions     String                                   @db.VarChar(300)
+  fieldsPermissions      String                                   @db.VarChar(300)
+  valid                  Boolean                                  @default(true)
+  created_by_admin_id    Int
+}
+
+model permissionsdescription {
+  id          Int                         @id @default(autoincrement())
+  key         String                      @db.VarChar(15)
+  description String                      @db.VarChar(60)
+  type        permissionsdescription_type
+  valid       Boolean                     @default(true)
+}
+
+model pixel_logs {
+  id            Int      @id @default(autoincrement())
+  dateTime      DateTime @default(now()) @db.DateTime(0)
+  firedUrl      String   @db.VarChar(550)
+  pixelCode     Int
+  pixelResponse String   @default("") @db.VarChar(150)
+  product_id    Int
+}
+
+model pixel_monitor {
+  id           Int                  @id @unique(map: "id") @default(autoincrement())
+  type         pixel_monitor_type
+  method       pixel_monitor_method @default(post)
+  rdate        DateTime             @default(now()) @db.Timestamp(0)
+  valid        Int                  @default(1)
+  affiliate_id Int
+  merchant_id  Int
+  pixelCode    String               @db.Text
+  totalFired   Int
+  product_id   Int
+  banner_id    Int
+}
+
+model postback_logs {
+  id          Int                @id @unique(map: "id") @default(autoincrement())
+  rdate       DateTime           @db.DateTime(0)
+  flag        postback_logs_flag
+  merchant_id Int
+  text        String             @db.Text
+  ip          String             @db.VarChar(20)
+  url         String             @db.VarChar(300)
+}
+
+model products_affiliates_deals {
+  id           Int                                 @unique(map: "id") @default(autoincrement())
+  rdate        DateTime                            @db.DateTime(0)
+  admin_id     Int
+  product_id   Int
+  affiliate_id Int
+  dealType     products_affiliates_deals_dealType
+  amount       Float?
+  valid        Boolean                             @default(true)
+  tier_amount  String                              @db.VarChar(254)
+  tier_pcpa    Float
+  tier_type    products_affiliates_deals_tier_type @default(EMPTY_ENUM_VALUE)
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([dealType], map: "dealType")
+}
+
+model products_cats {
+  id        Int      @id @unique(map: "id") @default(autoincrement())
+  rdate     DateTime @db.DateTime(0)
+  valid     Int
+  title     String   @db.VarChar(254)
+  parent_id Int      @default(0) @db.TinyInt
+}
+
+model products_items {
+  id                            Int      @id @unique(map: "id") @default(autoincrement())
+  rdate                         DateTime @db.DateTime(0)
+  valid                         Int
+  cat_id                        Int
+  merchant_id                   Int      @default(0)
+  affiliate_id                  Int
+  title                         String   @db.VarChar(254)
+  text                          String   @db.Text
+  url                           String   @db.VarChar(254)
+  cplaccount                    Float
+  cpi                           Float
+  cpc                           Float
+  cpa                           Float
+  cpllead                       Float
+  languages                     String   @db.VarChar(254)
+  image                         String   @db.VarChar(254)
+  randomKey                     String   @db.VarChar(5)
+  postbackIPlimit               String   @db.VarChar(90)
+  param                         String   @db.VarChar(20)
+  productAPICode                String   @db.VarChar(30)
+  exportUniqueIdWithName        String   @db.VarChar(15)
+  min_deposit                   Float    @default(0)
+  terms                         String   @db.VarChar(40)
+  featured                      Int      @default(0) @db.TinyInt
+  countries_allowed             String   @db.VarChar(900)
+  terms_and_conditions          String   @db.VarChar(100)
+  isRTL                         Boolean  @default(false)
+  type                          String   @db.VarChar(30)
+  ignoreOtherInternalParameters Boolean  @default(false)
+}
+
+model producttitles {
+  id            Int    @id @unique(map: "id") @default(autoincrement())
+  source        String @db.VarChar(254)
+  Casino        String @db.VarChar(25)
+  SportsBetting String @db.VarChar(25)
+  BinaryOption  String @db.VarChar(25)
+  Forex         String @db.VarChar(25)
+  Download      String @db.VarChar(25)
+  Gaming        String @db.VarChar(25)
+  Mobile        String @db.VarChar(25)
+  Ecommerce     String @db.VarChar(25)
+  Dating        String @db.VarChar(25)
+  Rummy         String @db.VarChar(25)
+  Bingo         String @db.VarChar(25)
+}
+
+model reportreferral {
+  Date             DateTime @db.Date
+  ReferUrlHash     String   @db.VarChar(32)
+  ReferUrl         String   @db.VarChar(512)
+  MerchantID       Int
+  LastClickIp      String   @db.VarChar(128)
+  LastClickCountry String   @db.VarChar(2)
+  AffiliateID      Int
+  ProfileID        Int
+  AllTimeClicks    Int
+  AllTimeViews     Int
+  Leads            Int
+  Demo             Int
+  Accounts         Int
+  FTD              Int
+  FTDAmount        Decimal  @db.Decimal(10, 2)
+  RawFTD           Int
+  RawFTDAmount     Decimal  @db.Decimal(10, 2)
+  TotalDeposits    Int
+  DepositsAmount   Decimal  @db.Decimal(10, 2)
+  Volume           Decimal  @db.Decimal(10, 2)
+  BonusAmount      Decimal  @db.Decimal(10, 2)
+  WithdrawalAmount Decimal  @db.Decimal(10, 2)
+  ChargebackAmount Decimal  @db.Decimal(10, 2)
+  PNL              Decimal  @db.Decimal(10, 2)
+  Commissions      Decimal  @db.Decimal(10, 2)
+
+  @@id([Date, ReferUrlHash, MerchantID, AffiliateID])
+}
+
+model reports_fields {
+  id             Int      @id @default(autoincrement())
+  userlevel      String   @db.VarChar(10)
+  user_id        Int
+  rdate          DateTime @default(now()) @db.DateTime(0)
+  location       String   @db.VarChar(40)
+  removed_fields String   @db.VarChar(256)
+}
+
+model reporttraders {
+  Date                DateTime @db.Date
+  TraderID            String   @db.VarChar(60)
+  CampaignID          String   @db.VarChar(60)
+  TraderAlias         String   @db.VarChar(80)
+  Email               String   @db.VarChar(250)
+  RegistrationDate    String   @db.VarChar(20)
+  TraderStatus        String   @db.VarChar(30)
+  Country             String   @db.VarChar(60)
+  AffiliateID         Int
+  AffiliateUsername   String   @db.VarChar(250)
+  MerchantID          Int
+  MerchantName        String   @db.VarChar(250)
+  CreativeID          Int?
+  CreativeName        String   @db.VarChar(250)
+  Type                String   @db.VarChar(80)
+  CreativeLanguage    String   @db.VarChar(80)
+  ProfileID           String   @db.VarChar(80)
+  ProfileName         String   @db.VarChar(250)
+  Param               String?  @db.VarChar(250)
+  Param2              String?  @db.VarChar(250)
+  Param3              String   @db.VarChar(250)
+  Param4              String   @db.VarChar(250)
+  Param5              String   @db.VarChar(250)
+  TransactionID       String   @db.VarChar(250)
+  FirstDeposit        String   @db.VarChar(20)
+  FTDAmount           String   @db.VarChar(80)
+  SelfDeposit         String   @db.VarChar(80)
+  TotalNextDeposits   String   @db.VarChar(80)
+  NextDeposits        String   @db.VarChar(80)
+  TotalMicroPayments  String   @db.VarChar(80)
+  MicroPaymentsAmount String   @db.VarChar(80)
+  TotalDeposits       String   @db.VarChar(80)
+  DepositAmount       String   @db.VarChar(80)
+  Volume              String   @db.VarChar(80)
+  BonusAmount         String   @db.VarChar(80)
+  WithdrawalAmount    String   @db.VarChar(80)
+  ChargeBackAmount    String   @db.VarChar(80)
+  NetDeposit          String   @db.VarChar(80)
+  Trades              String   @db.VarChar(80)
+  QualificationDate   String   @db.VarChar(20)
+  PNL                 String   @db.VarChar(80)
+  SaleStatus          String   @db.VarChar(250)
+  LastTimeActive      String   @db.VarChar(250)
+  Commission          String   @db.VarChar(60)
+  AdminNotes          String   @db.VarChar(250)
+  ClickDetails        String   @db.VarChar(80)
+
+  @@id([TraderID, AffiliateID, MerchantID])
+  @@index([AffiliateID], map: "AffiliateID")
+  @@index([CampaignID], map: "CampaignID")
+  @@index([Country], map: "Country")
+  @@index([CreativeID], map: "CreativeID")
+  @@index([Date], map: "Date")
+  @@index([Email], map: "Email")
+  @@index([MerchantID], map: "MerchantID")
+  @@index([Param], map: "Param")
+  @@index([Param2], map: "Param2")
+  @@index([TraderAlias], map: "TraderAlias")
+  @@index([TraderID], map: "TraderID")
+}
+
+model settings {
+  id                                                 Int                   @unique(map: "id") @default(autoincrement())
+  showGroupValuesOnAffReg                            Boolean               @default(false)
+  showGroupsLanguages                                String                @db.VarChar(15)
+  qrcode                                             Boolean               @default(true)
+  facebookshare                                      Boolean               @default(true)
+  webTitle                                           String                @db.VarChar(254)
+  webMail                                            String                @db.VarChar(254)
+  mail_server                                        String                @db.VarChar(254)
+  mail_replyTo                                       String                @db.VarChar(50)
+  mail_username                                      String                @db.VarChar(254)
+  mail_password                                      String                @db.VarChar(254)
+  fromName                                           String                @db.VarChar(25)
+  pending                                            Int
+  creative_iframe                                    Int
+  creative_mobile_leader                             Int
+  creative_mobile_splash                             Int
+  creative_email                                     Int
+  creative_html5                                     Boolean               @default(true)
+  deal_cpl                                           Int
+  deal_cpm                                           Int
+  deal_pnl                                           Boolean               @default(false)
+  deal_cpc                                           Int
+  deal_tier                                          Int
+  deal_revshare_spread                               Int
+  deal_revshare                                      Int
+  export                                             Int
+  terms_link                                         String                @db.VarChar(254)
+  multi                                              Int
+  multi_languages                                    String                @db.VarChar(254)
+  sub_com                                            Int
+  show_deposit                                       Int
+  revenue_formula                                    String                @db.VarChar(254)
+  qualify_type                                       settings_qualify_type
+  qualify_amount                                     Int
+  analyticsCode                                      String                @db.Text
+  isNetwork                                          Int                   @default(0)
+  reportsToHide                                      String                @db.VarChar(100)
+  showMiminumDepositOnAffAccount                     Int                   @default(1)
+  defaultTimeFrameForAffiliate                       String                @db.VarChar(15)
+  defaultTimeFrameForAffiliateReports                String                @db.VarChar(15)
+  multiMerchantsPerTrader                            Boolean               @default(false)
+  hideNetRevenueForNonRevDeals                       Boolean               @default(false)
+  hideFTDamountForCPADeals                           Boolean               @default(false)
+  SMTPSecure                                         String                @db.VarChar(10)
+  SMTPAuth                                           Boolean               @default(true)
+  mail_Port                                          Int                   @default(25)
+  availablePayments                                  String                @db.VarChar(120)
+  availableQualifications                            String                @db.VarChar(120)
+  autoRelateSubAffiliate                             Boolean               @default(false)
+  dashBoardMainTitle                                 String                @db.VarChar(50)
+  showRealFtdToAff                                   Boolean               @default(false)
+  show_credit_as_default_for_new_affiliates          Int?                  @db.TinyInt
+  showCreditForAM                                    Boolean               @default(true)
+  blockAffiliateLogin                                Boolean?              @default(false)
+  showAllCreativesToAffiliate                        Boolean               @default(false)
+  showVolumeForAffiliate                             Boolean               @default(true)
+  showAffiliateRiskForAffiliate                      Boolean               @default(true)
+  newsletterCheckboxCaption                          String                @default("Yes, I would like to receive the Affiliate newsletter") @db.VarChar(150)
+  affiliateNewsletterCheckboxValue                   Boolean               @default(false)
+  utmtags                                            String                @db.VarChar(150)
+  showDCPAonAffiliateComStruc                        Boolean               @default(true)
+  hideWithdrawalAmountForCPADeals                    Boolean               @default(true)
+  hideBonusAmountForCPADeals                         Boolean               @default(true)
+  hideDepositAmountForCPADeals                       Boolean               @default(true)
+  hideTotalDepositForCPADeals                        Boolean               @default(true)
+  showDealTypeHistoryToAM                            Boolean               @default(true)
+  hideFrozenOnCPAdeals                               Boolean               @default(false)
+  AllowDealChangesByManager                          Boolean               @default(true)
+  autoRelateNewAffiliateToAllMerchants               Int                   @default(0) @db.TinyInt
+  emailFooterImageURL                                String                @db.VarChar(255)
+  emailHeaderImageURL                                String                @db.VarChar(255)
+  rowsNumberAfterSearch                              Int
+  emailSignature                                     String                @db.VarChar(1000)
+  hideDrillDownOnInvoiceForAffiliatesWithNonRevDeals Int                   @default(0)
+  showPositionsRevShareDeal                          Int                   @default(0)
+  dateOfMonthlyPayment                               String                @default("15th") @db.VarChar(10)
+  extraAgreement2Name                                String                @db.VarChar(30)
+  extraAgreement2Link                                String                @db.VarChar(100)
+  extraAgreement3Name                                String                @db.VarChar(30)
+  extraAgreement3Link                                String                @db.VarChar(100)
+  availableCurrencies                                String                @db.VarChar(50)
+  forceParamsForTracker                              String                @db.VarChar(50)
+  showDocumentsModule                                Boolean               @default(false)
+  showRequierdDocsOnAffiliateDash                    Boolean               @default(true)
+  AskDocTypeCompany                                  Boolean               @default(false)
+  AskDocTypeAddress                                  Boolean               @default(false)
+  AskDocTypePassport                                 Boolean               @default(false)
+  AskDocSentence                                     String                @db.VarChar(150)
+  hideMarketingSectionOnAffiliateRegPage             Boolean               @default(false)
+  hideInvoiceSectionOnAffiliateRegPage               Boolean               @default(false)
+  affiliateLoginImage                                String                @db.VarChar(100)
+  adminLoginImage                                    String                @db.VarChar(100)
+  AllowAffiliateDuplicationOnCampaignRelation        Boolean               @default(false)
+  ShowIMUserOnAffiliatesList                         Boolean               @default(false)
+  introducingBrokerInterface                         Boolean               @default(false)
+  hideCountriesOnRegistration                        String                @db.VarChar(900)
+  ShowEmailsOnTraderReportForAffiliate               Boolean               @default(false)
+  ShowEmailsOnTraderReportForAdmin                   Boolean               @default(false)
+  blockAccessForManagerAndAdmins                     Boolean               @default(false)
+  allowCapthaOnMerchantReset                         Boolean               @default(false)
+  allowCapthaOnMerchantReg                           Boolean               @default(false)
+  allowCapthaOnReg                                   Boolean               @default(false)
+  allowCapthaOnReset                                 Boolean               @default(false)
+  combinedPixelOption                                String                @default("-lead|account|sale") @db.VarChar(50)
+  CouponTrackerIsStrongerThanCtag                    Boolean               @default(true)
+  apiAccessType                                      String                @db.VarChar(40)
+  apiStaticIP                                        String                @db.VarChar(20)
+  apiToken                                           String                @db.VarChar(30)
+  ShowGraphOnDashBoards                              Boolean               @default(true)
+  affiliateRegistrationPixel                         String                @db.VarChar(800)
+  def_qualify_type_for_affiliates                    Boolean               @default(false)
+  showTitleOnLoginPage                               Boolean               @default(true)
+  secondaryPoweredByLogo                             String                @db.VarChar(90)
+  secondaryPoweredByLogoHrefUrl                      String                @db.VarChar(90)
+  hidePoweredByABLogo                                Boolean               @default(false)
+  brandsPoweredbyText                                String                @db.VarChar(220)
+  logoPath                                           String                @db.VarChar(80)
+  billingLogoPath                                    String                @db.VarChar(80)
+  faviconPath                                        String                @default("/images/favicon.ico") @db.VarChar(80)
+  exportAffiliateIDonTrackerFieldName                String                @default("") @db.VarChar(12)
+  exportProfileNameToTrackerFieldName                String                @default("") @db.VarChar(15)
+  numberOfFailureLoginsAttempts                      Int
+  sitebaseurl                                        String                @db.VarChar(80)
+  isSmtpDebugMode                                    Boolean               @default(false)
+  showParamTwoOnReports                              Boolean               @default(false)
+  isOffice365                                        Int                   @default(0) @db.TinyInt
+  chartTheme                                         String                @db.VarChar(15)
+  hideBrandsDescriptionfromAffiliateFooter           Boolean               @default(false)
+  hideCommissionOnTraderReportForRevDeal             Boolean               @default(true)
+  defaultTrackingUrl                                 String                @db.VarChar(100)
+  paidStatusBGColor                                  String                @db.VarChar(15)
+  pendingStatusBGColor                               String                @db.VarChar(15)
+  allowDeleteCRMnoteForManager                       Boolean               @default(true)
+  exportCreativeNameWithParam                        String                @db.VarChar(12)
+  isBasicVer                                         Boolean               @default(false)
+  cronUrls                                           String                @db.VarChar(200)
+  mustFields                                         String                @db.VarChar(150)
+  login_session_duration                             Int
+  exportLangCreativeNameWithParam                    Boolean               @default(true)
+  displayLastMessageFieldsOnReports                  Boolean               @default(true)
+  IBpushLeadOnRegistrationUrl                        String                @db.VarChar(180)
+  def_profilePermissionsForAffiliate                 Boolean               @default(false)
+  cronRecordsTimeDif                                 Int                   @default(0)
+  ShowAffiliateTypes                                 Boolean               @default(false)
+  lastClicksCronJobRunningDate                       DateTime?             @db.Timestamp(0)
+  qualifiedCommissionOnCPAonly                       Boolean               @default(false)
+  hidePendingProcessHighAmountDeposit                Int                   @default(1) @db.TinyInt
+  AllowManagerEditrCreative                          Boolean               @default(true)
+  showAgreementsModule                               Boolean               @default(false)
+  showInvoiceModule                                  Int                   @default(0)
+  pendingDepositsAmountLimit                         Int                   @default(0)
+  showProductsPlace                                  Boolean               @default(false)
+  BlockLoginUntillEmailVerification                  Int                   @default(0) @db.TinyInt
+  ShowNextDepositsColumn                             Boolean               @default(true)
+  showCampaignOnTraderReport                         Int                   @default(0) @db.TinyInt
+  AllowSecuredTrackingCode                           Boolean               @default(false)
+  captureAffiliatesRegistration                      Int                   @default(0) @db.TinyInt
+  affiliateStaticReportMonths                        Int                   @default(2)
+  currency                                           String                @default("$") @db.VarChar(3)
+  ShowOnlyFeaturedCreativesWhenGotSome               Int                   @default(0) @db.TinyInt
+  showProductsPlaceToManager                         Int                   @default(0) @db.TinyInt
+  hideSubAffiliation                                 Int                   @default(0) @db.TinyInt
+  showDeskNameOnAffiliateDashboard                   Boolean               @default(true)
+  writeFinalTrackingUrlToLog                         Boolean               @default(false)
+  systemCompanyDetails                               String                @db.VarChar(500)
+  merchants_terms_link                               String                @db.VarChar(254)
+  ShowPhonesOnTraderReportForAdmin                   Boolean               @default(false)
+  deal_geoLocation                                   Boolean               @default(false)
+  pnlTable                                           String                @db.VarChar(20)
+  ShowQualificationOnChart                           Boolean               @default(true)
+  ShowQualificationOnChartSince                      DateTime              @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  hasContinuousyCommissionType                       Boolean               @default(false)
+}
+
+model short_urls {
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  long_url   String   @db.VarChar(610)
+  short_code Bytes    @db.VarBinary(6)
+  short_urls DateTime @default(now()) @db.Timestamp(0)
+  counter    Int      @default(0) @db.UnsignedInt
+
+  @@index([short_code], map: "short_code")
+}
+
+model stats_banners {
+  id           Int      @unique(map: "id") @default(autoincrement())
+  rdate        DateTime @db.Date
+  ctag         String   @db.Char(15)
+  affiliate_id Int
+  group_id     Int
+  merchant_id  Int
+  banner_id    Int
+  profile_id   Int
+  views        Int
+  clicks       Int
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([banner_id], map: "banner_id")
+  @@index([banner_id], map: "creative_id")
+  @@index([ctag], map: "ctag")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([profile_id], map: "profile_id")
+}
+
+model sub_banners {
+  id           Int              @unique(map: "id") @default(autoincrement())
+  rdate        DateTime         @db.DateTime(0)
+  last_update  DateTime         @db.DateTime(0)
+  valid        Int
+  admin_id     Int
+  merchant_id  Int
+  language_id  Int
+  promotion_id Int
+  title        String           @db.VarChar(254)
+  type         sub_banners_type
+  width        Int
+  height       Int
+  file         String           @db.VarChar(254)
+  url          String           @db.VarChar(254)
+  alt          String           @db.VarChar(254)
+
+  @@index([language_id], map: "language_id")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([promotion_id], map: "promotion_id")
+  @@index([type], map: "type")
+  @@index([valid], map: "valid")
+}
+
+model sub_stats {
+  id           Int      @unique(map: "id") @default(autoincrement())
+  rdate        DateTime @db.DateTime(0)
+  ctag         String   @db.VarChar(255)
+  banner_id    Int
+  affiliate_id Int
+  profile_id   Int
+  views        Int
+  clicks       Int
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([banner_id], map: "banner_id")
+}
+
+model trackerconversion {
+  id             Int      @id @default(autoincrement())
+  affiliate_id   Int
+  uid            String   @db.VarChar(55)
+  DynamicTracker String   @db.VarChar(200)
+  rdate          DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([affiliate_id, uid], map: "affiliate_id")
+  @@index([uid], map: "uid")
+}
+
+model traders_tag {
+  id            Int                @unique(map: "id") @default(autoincrement())
+  valid         Int
+  added_by      Int
+  rdate         DateTime           @db.DateTime(0)
+  merchant_id   Int
+  trader_id     Int
+  revenue       Float
+  admin_revenue Float
+  status        traders_tag_status
+  notes         String             @db.Text
+  calReport     Int
+
+  @@unique([merchant_id, trader_id], map: "merchant_id")
+  @@index([merchant_id], map: "merchant_id_2")
+  @@index([trader_id], map: "trader_id")
+}
+
+model traffic {
+  id             Int                @id @default(autoincrement())
+  rdate          DateTime           @default(now()) @db.DateTime(0)
+  unixRdate      Int
+  ctag           String             @db.VarChar(85)
+  uid            String             @db.VarChar(35)
+  ip             String             @db.VarChar(35)
+  admin_id       Int
+  affiliate_id   Int
+  group_id       Int
+  banner_id      Int
+  merchant_id    Int
+  profile_id     Int
+  language_id    Int
+  promotion_id   Int
+  last_update    DateTime           @db.DateTime(0)
+  valid          Boolean            @default(true)
+  title          String             @db.VarChar(254)
+  bannerType     traffic_bannerType
+  type           traffic_type       @default(traffic)
+  width          Int
+  height         Int
+  file           String             @db.VarChar(100)
+  url            String             @db.VarChar(200)
+  alt            String             @db.VarChar(100)
+  platform       traffic_platform
+  os             String             @db.VarChar(100)
+  osVersion      String             @db.VarChar(50)
+  browser        String             @db.VarChar(40)
+  broswerVersion String             @db.VarChar(20)
+  userAgent      String             @db.VarChar(100)
+  country_id     String             @db.VarChar(2)
+  refer_url      String             @db.VarChar(254)
+  param          String             @db.VarChar(254)
+  param2         String             @db.VarChar(254)
+  param3         String             @db.VarChar(170)
+  param4         String             @db.VarChar(170)
+  param5         String             @db.VarChar(170)
+  views          Int
+  clicks         Int
+  product_id     Int
+
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([merchant_id, banner_id], map: "banner_merchant")
+  @@index([merchant_id], map: "merchant_id")
+  @@index([product_id], map: "product_id")
+  @@index([rdate], map: "rdate")
+  @@index([uid], map: "uid")
+  @@index([unixRdate], map: "unixRdate")
+  @@index([unixRdate], map: "unixdate")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model traffic2 {
+  id             Int                 @default(0)
+  rdate          DateTime            @default(now()) @db.DateTime(0)
+  unixRdate      Int
+  ctag           String              @db.VarChar(85)
+  uid            String              @db.VarChar(35)
+  ip             String              @db.VarChar(35)
+  admin_id       Int
+  affiliate_id   Int
+  group_id       Int
+  banner_id      Int
+  merchant_id    Int
+  profile_id     Int
+  language_id    Int
+  promotion_id   Int
+  last_update    DateTime            @db.DateTime(0)
+  valid          Boolean             @default(true)
+  title          String              @db.VarChar(254)
+  bannerType     traffic2_bannerType
+  type           traffic2_type       @default(traffic)
+  width          Int
+  height         Int
+  file           String              @db.VarChar(100)
+  url            String              @db.VarChar(200)
+  alt            String              @db.VarChar(100)
+  platform       traffic2_platform
+  os             String              @db.VarChar(100)
+  osVersion      String              @db.VarChar(50)
+  browser        String              @db.VarChar(40)
+  broswerVersion String              @db.VarChar(20)
+  userAgent      String              @db.VarChar(100)
+  country_id     String              @db.VarChar(2)
+  refer_url      String              @db.VarChar(254)
+  param          String              @db.VarChar(254)
+  param2         String              @db.VarChar(254)
+  param3         String              @db.VarChar(170)
+  param4         String              @db.VarChar(170)
+  param5         String              @db.VarChar(170)
+  views          Int
+  clicks         Int
+  product_id     Int
+
+  @@ignore
+}
+
+model translate {
+  id      Int      @id @unique(map: "id") @default(autoincrement())
+  rdate   DateTime @default(now()) @db.Timestamp(0)
+  source  String   @db.VarChar(254)
+  langENG String   @db.VarChar(254)
+  langRUS String   @db.VarChar(254)
+  langGER String   @db.VarChar(254)
+  langFRA String   @db.VarChar(254)
+  langITA String   @db.VarChar(254)
+  langESP String   @db.VarChar(254)
+  langHEB String   @db.VarChar(254)
+  langARA String   @db.VarChar(254)
+  langCHI String   @db.VarChar(254)
+  langPOR String   @db.VarChar(254)
+  langJAP String   @db.VarChar(254)
+
+  @@index([source], map: "source")
+}
+
+model users_firewall {
+  id             Int                 @id @default(autoincrement())
+  rdate          DateTime?           @default(now()) @db.DateTime(0)
+  set_by_user_id Int
+  IPs            String              @db.VarChar(254)
+  valid          Int                 @default(0) @db.TinyInt
+  type           users_firewall_type
+  comment        String              @db.VarChar(254)
+}
+
+model users_reports {
+  id          Int       @id @default(autoincrement())
+  rdate       DateTime? @default(now()) @db.DateTime(0)
+  level       String    @db.VarChar(15)
+  report_name String    @db.VarChar(50)
+  url         String    @db.Text
+  report      String    @db.VarChar(15)
+  user_id     Int
+
+  @@index([level], map: "level")
+  @@index([user_id], map: "user_id")
+}
+
+enum loginhistory_type {
+  admin
+  manager
+  affiliate
+  advertiser
+}
+
+enum permissionprofile_defaultViewForDealType {
+  EMPTY_ENUM_VALUE @map("")
+  CPA
+  DCPA
+  CPL
+  REV
+  None
+}
+
+enum pixel_monitor_type {
+  lead
+  account
+  sale
+  qftd
+}
+
+enum payments_details_status {
+  approved
+  pending
+  canceled
+}
+
+enum pixel_monitor_method {
+  post
+  get
+  client
+}
+
+enum postback_logs_flag {
+  red
+  yellow
+  green
+}
+
+enum chart_data_level {
+  admin
+  manager
+  affiliate
+  advertiser
+}
+
+enum permissionsdescription_type {
+  reports
+  fields
+}
+
+enum affiliates_deals_dealType {
+  dcpa
+  min_cpa
+  cpa
+  revenue
+  cpl
+  cpc
+  cpm
+  tier
+  positions_rev_share
+  revenue_spread
+  lots
+  pnl
+  cpi
+}
+
+enum merchants_type {
+  EMPTY_ENUM_VALUE @map("")
+  binary
+  forex
+  sportbook
+  casino
+}
+
+enum products_affiliates_deals_dealType {
+  dcpa
+  min_deposit
+  cpa
+  cplaccount
+  cpllead
+  cpc
+  cpi
+}
+
+enum users_firewall_type {
+  traffic
+  login
+  all
+  EMPTY_ENUM_VALUE @map("")
+}
+
+enum apicredentials_type {
+  spot
+  fxglobe
+  tf
+}
+
+enum documents_type {
+  Passport_Driving_Licence
+  Company_Verification
+  Address_Verification
+  Agreement
+  Invoice
+}
+
+enum admins_level {
+  admin
+  merchant
+  manager
+  advertiser
+}
+
+enum documents_doc_status {
+  not_reviewed
+  disapproved
+  approved
+}
+
+enum affiliates_tickets_status {
+  open
+  proccess
+  waiting
+  close
+}
+
+enum traders_tag_status {
+  revenue
+  pending
+  fraud
+  chargeback
+  duplicates
+  withdrawal
+  other
+}
+
+enum sub_banners_type {
+  flash
+  image
+}
+
+enum affiliates_deals_tier_type {
+  ftd_amount
+  ftd_count
+  cpl_count
+  rev_share
+  EMPTY_ENUM_VALUE @map("")
+}
+
+enum affiliates_notes_status {
+  open
+  inprocess
+  closed
+}
+
+enum merchants_creative_type {
+  flash
+  image
+  link
+  widget
+  script
+  mail
+  mobilesplash
+  mobileleader
+  content
+  coupon
+  html5
+}
+
+enum products_affiliates_deals_tier_type {
+  ftd_amount
+  ftd_count
+  cpl_count
+  rev_share
+  EMPTY_ENUM_VALUE @map("")
+}
+
+enum data_install_type {
+  install
+  uninstall
+}
+
+enum data_reg_type {
+  lead
+  demo
+  real
+  installation
+}
+
+enum data_sales_type {
+  deposit
+  positions
+  revenue
+  bonus
+  withdrawal
+  volume
+  chargeback
+  PNL
+  static
+}
+
+enum data_sales_pending_type {
+  deposit
+  positions
+  revenue
+  bonus
+  withdrawal
+  volume
+  chargeback
+  PNL
+}
+
+enum data_stats_type {
+  bets
+  wins
+  jackpot
+  bonuses
+  removed_bonuses
+  bonuses_count
+  removed_bonuses_count
+  Player_loss
+  Player_profit
+  Gross_income
+  Redeemed_bonuses
+  House_correction_revenue
+  House_correction_loss
+  sportsbookcancelledbets
+  static
+  sport_bonuses
+  position
+}
+
+enum data_sales_status {
+  won
+  lost
+  closed
+  open
+  EMPTY_ENUM_VALUE @map("")
+}
+
+enum data_sales_pending_status {
+  won
+  lost
+  closed
+  open
+  EMPTY_ENUM_VALUE @map("")
+}
+
+enum traffic_bannerType {
+  EMPTY_ENUM_VALUE @map("")
+  flash
+  image
+  text
+}
+
+enum traffic2_bannerType {
+  EMPTY_ENUM_VALUE @map("")
+  flash
+  image
+  text
+}
+
+enum traffic_type {
+  sub
+  traffic
+  product
+}
+
+enum traffic2_type {
+  sub
+  traffic
+  product
+}
+
+enum data_stats_currency {
+  USD
+  AUD
+  CAD
+  CHF
+  CNY
+  EUR
+  GBP
+  ILS
+  JPY
+  NOK
+  NZD
+  RUB
+  SEK
+  ZAR
+}
+
+enum admins_userType {
+  default
+  top
+  sys
+  restricted
+}
+
+enum affiliates_gender {
+  EMPTY_ENUM_VALUE @map("")
+  male
+  female
+}
+
+enum traffic_platform {
+  EMPTY_ENUM_VALUE @map("")
+  desktop
+  tablet
+  mobile
+}
+
+enum traffic2_platform {
+  EMPTY_ENUM_VALUE @map("")
+  desktop
+  tablet
+  mobile
+}
+
+enum data_sales_pending_currency {
+  USD
+  AUD
+  CAD
+  CHF
+  CNY
+  EUR
+  GBP
+  ILS
+  JPY
+  NOK
+  NZD
+  RUB
+  SEK
+  ZAR
+}
+
+enum data_sales_currency {
+  USD
+  AUD
+  CAD
+  CHF
+  CNY
+  EUR
+  GBP
+  ILS
+  JPY
+  NOK
+  NZD
+  RUB
+  SEK
+  ZAR
+}
+
+enum affiliates_paymentMethod {
+  bank
+  skrill
+  paypal
+  neteller
+  webmoney
+  chinaunionpay
+}
+
+enum settings_qualify_type {
+  trades
+  volume
+}
+
+enum affiliates_qualify_type {
+  trades
+  volume
+  default
+  totalmd
+  lots
+}
+
+enum affiliates_type {
+  Affiliate
+  IB
+  WhileLabel
+  PortfolioManager
+}
+
+enum merchants_qualify_type {
+  trades
+  volume
+  totalmd
+  lots
+  EMPTY_ENUM_VALUE @map("")
+}

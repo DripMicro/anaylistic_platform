@@ -1,0 +1,16 @@
+{
+  "name": "experiment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Muly Oved",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "prisma": "^4.8.1",
+    "zod-prisma": "^0.5.4"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^9.3.0",
+    "prisma-erd-generator": "^1.2.4"
+  }
+}
