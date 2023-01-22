@@ -30,7 +30,7 @@ export const merchants_creativeModel = z.object({
 })
 
 export interface Completemerchants_creative extends z.infer<typeof merchants_creativeModel> {
-  category: Completemerchants_creative_categories
+  category?: Completemerchants_creative_categories | null
   merchant: Completemerchants
   language: Completelanguages
 }
@@ -41,7 +41,7 @@ export interface Completemerchants_creative extends z.infer<typeof merchants_cre
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const Relatedmerchants_creativeModel: z.ZodSchema<Completemerchants_creative> = z.lazy(() => merchants_creativeModel.extend({
-  category: Relatedmerchants_creative_categoriesModel,
+  category: Relatedmerchants_creative_categoriesModel.nullish(),
   merchant: RelatedmerchantsModel,
   language: RelatedlanguagesModel,
 }))

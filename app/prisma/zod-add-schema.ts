@@ -1,12 +1,11 @@
 import * as z from "zod";
+import { affiliates_profilesModel } from "./zod";
+import { ZodObject, ZodRawShape, ZodType } from "zod/lib/types";
 
 // Place to define custom zod types
 // for now empty/not used
 
-export const optionalUuidSchema = z
-  .string()
-  .uuid()
-  .or(z.literal(""))
-  .nullish()
-  .optional()
-  .transform((e) => (e === "" ? undefined : e));
+export const upsertSchema = <T extends ZodRawShape>(schema: ZodObject<T>) =>
+  schema.extend({
+    id: z.number().optional(),
+  });

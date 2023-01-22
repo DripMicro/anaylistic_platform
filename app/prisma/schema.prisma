@@ -817,6 +817,7 @@ model languages {
   displayText        String               @db.VarChar(35)
   textDirection      String               @default("LTR") @db.VarChar(3)
   merchants_creative merchants_creative[]
+  sub_banners        sub_banners[]
 
   @@index([lngCode], map: "lngCode_2")
   @@index([valid], map: "valid")
@@ -1055,9 +1056,9 @@ model merchants_creative {
   affiliateReady         Int                     @default(0) @db.TinyInt
   isOverrideTrackingLink Boolean                 @default(false)
 
-  category merchants_creative_categories @relation(fields: [category_id], references: [id])
-  merchant merchants                     @relation(fields: [merchant_id], references: [id])
-  language languages                     @relation(fields: [language_id], references: [id])
+  category merchants_creative_categories? @relation(fields: [category_id], references: [id])
+  merchant merchants                      @relation(fields: [merchant_id], references: [id])
+  language languages                      @relation(fields: [language_id], references: [id])
 
   @@index([category_id], map: "category_id")
   @@index([language_id], map: "language_id")
@@ -1627,6 +1628,7 @@ model sub_banners {
   alt          String           @db.VarChar(254)
 
   merchant merchants @relation(fields: [merchant_id], references: [id])
+  language languages @relation(fields: [language_id], references: [id])
 
   @@index([language_id], map: "language_id")
   @@index([merchant_id], map: "merchant_id")
