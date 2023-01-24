@@ -7,7 +7,10 @@ import { FormEventHandler } from "react";
 
 const Schema = z.object({
   company: z.string().optional().describe("Company Name"),
-  gender: z.enum(["", "male", "female"]).optional().describe("Salutation"),
+  gender: z
+    .enum(["EMPTY_ENUM_VALUE", "male", "female"])
+    .optional()
+    .describe("Salutation"),
   first_name: z.string().optional().describe("First Name"),
   last_name: z.string().optional().describe("Last Name"),
   mail: z.string().email().optional().describe("Email"),
@@ -20,7 +23,7 @@ const Schema = z.object({
 });
 
 interface Props {
-  onSubmit: (values: z.infer<typeof Schema>) => void;
+  onSubmit: (values: z.infer<typeof Schema>) => Promise<void>;
   account: AffiliateAccountType;
 }
 
@@ -38,6 +41,7 @@ export const FormContact = ({ account, onSubmit }: Props) => {
   return (
     <Form
       schema={Schema}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={onSubmit}
       props={{
         mail: {
@@ -60,6 +64,7 @@ export const FormContact = ({ account, onSubmit }: Props) => {
           // })),
         },
       }}
+      defaultValues={account}
     ></Form>
   );
 };

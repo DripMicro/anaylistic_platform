@@ -28,7 +28,9 @@ export const TextField = (
   const { field, error } = useTsController<string>();
   const { label, placeholder } = useDescription();
 
-  console.log(`muly:TextField ${field.name}`, { choices: choices });
+  console.log(`muly:TextField ${field.name} value:${field.value || ""}`, {
+    field,
+  });
 
   let control;
   if (!choices) {

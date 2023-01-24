@@ -14,7 +14,7 @@ const Schema = z.object({
 });
 
 interface Props {
-  onSubmit: (values: z.infer<typeof Schema>) => void;
+  onSubmit: (values: z.infer<typeof Schema>) => Promise<void>;
   account: AffiliateAccountType;
   countries: ChoiceType[];
 }
@@ -23,12 +23,14 @@ export const FormInvoice = ({ account, onSubmit, countries }: Props) => {
   return (
     <Form
       schema={Schema}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={onSubmit}
       props={{
         country: {
           choices: countries,
         },
       }}
+      defaultValues={account}
     ></Form>
   );
 };

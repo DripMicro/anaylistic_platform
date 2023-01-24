@@ -26,7 +26,7 @@ const Schema = z
   );
 
 interface Props {
-  onSubmit: (values: z.infer<typeof Schema>) => void;
+  onSubmit: (values: z.infer<typeof Schema>) => Promise<void>;
   account: AffiliateAccountType;
 }
 
@@ -34,6 +34,7 @@ export const FormAccount = ({ account, onSubmit }: Props) => {
   return (
     <Form
       schema={Schema}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={onSubmit}
       props={{
         newsletter: {
@@ -41,6 +42,7 @@ export const FormAccount = ({ account, onSubmit }: Props) => {
           controlName: "Checkbox",
         },
       }}
+      defaultValues={account}
     ></Form>
   );
 };

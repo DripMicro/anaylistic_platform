@@ -6,7 +6,7 @@ import {
   affiliates_qualify_type,
   affiliates_type,
 } from "@prisma/client";
-import type {
+import {
   Completeaffiliates_deals,
   Relatedaffiliates_dealsModel,
   Completeaffiliates_msgs,
