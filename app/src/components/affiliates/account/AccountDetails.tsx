@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { api } from "../../../utils/api";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { FormAccount } from "./FormAccount";
@@ -9,17 +9,12 @@ import {
   AffiliateAccountType,
   AffiliateAccountUpdateType,
 } from "../../../server/db-types";
+import { FormMarketInfo } from "./FormMarketInfo";
 
 export const AccountDetails = () => {
   const { data: account, refetch } = api.affiliates.getAccount.useQuery();
   const { data: countries } = api.misc.getCountries.useQuery();
   const updateAccount = api.affiliates.updateAccount.useMutation();
-
-  const {
-    sales_pixel_params_replacing,
-    accounts_pixel_params_replacing,
-    ...rest
-  } = account || {};
 
   if (!account) {
     return null;
@@ -58,9 +53,14 @@ export const AccountDetails = () => {
           <TabPanel>
             <FormWebSites account={account} onSubmit={handleSubmit} />
           </TabPanel>
+          <TabPanel>
+            <FormMarketInfo account={account} onSubmit={handleSubmit} />
+          </TabPanel>
         </TabPanels>
       </Tabs>
-      <pre>{JSON.stringify(rest, null, 2)}</pre>
+      <Box maxW="100%">
+        <pre>{JSON.stringify(account, null, 2)}</pre>
+      </Box>
     </Flex>
   );
 };

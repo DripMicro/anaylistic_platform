@@ -43,6 +43,7 @@ export const FormContact = ({ account, onSubmit }: Props) => {
       schema={Schema}
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={onSubmit}
+      defaultValues={account}
       props={{
         mail: {
           type: "email",
@@ -64,7 +65,6 @@ export const FormContact = ({ account, onSubmit }: Props) => {
           // })),
         },
       }}
-      defaultValues={account}
     ></Form>
   );
 };

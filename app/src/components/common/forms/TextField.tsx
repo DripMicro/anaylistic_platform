@@ -6,8 +6,10 @@ import {
   FormLabel,
   FormErrorMessage,
   Checkbox,
+  Textarea,
 } from "@chakra-ui/react";
 import { RadioButtonGroup } from "./RadioButtonGroup";
+import { CheckboxGroup } from "./CheckboxGroup";
 
 export type ChoiceType = string | { id: number | string; title: string };
 
@@ -15,7 +17,7 @@ interface Props {
   choices?: ChoiceType[];
   type?: string;
 
-  controlName?: "RadioGroup" | "Checkbox";
+  controlName?: "Textarea" | "RadioGroup" | "Checkbox" | "CheckboxGroup";
 }
 
 export const TextField = (
@@ -28,23 +30,39 @@ export const TextField = (
   const { field, error } = useTsController<string>();
   const { label, placeholder } = useDescription();
 
-  console.log(`muly:TextField ${field.name} value:${field.value || ""}`, {
-    field,
-  });
+  // console.log(`muly:TextField ${field.name} value:${field.value || ""}`, {
+  //   field,
+  // });
 
   let control;
   if (!choices) {
-    control = (
-      <Input
-        name={field.name}
-        type={type || undefined}
-        placeholder={placeholder}
-        value={field.value ? field.value + "" : ""}
-        onChange={(e) => {
-          field.onChange(e.target.value);
-        }}
-      />
-    );
+    if (controlName === "Textarea") {
+      control = (
+        <Textarea
+          maxW="sm"
+          minH={32}
+          name={field.name}
+          placeholder={placeholder}
+          value={field.value ? field.value + "" : ""}
+          onChange={(e) => {
+            field.onChange(e.target.value);
+          }}
+        />
+      );
+    } else {
+      control = (
+        <Input
+          maxW="sm"
+          name={field.name}
+          type={type || undefined}
+          placeholder={placeholder}
+          value={field.value ? field.value + "" : ""}
+          onChange={(e) => {
+            field.onChange(e.target.value);
+          }}
+        />
+      );
+    }
   } else if (controlName === "Checkbox") {
     const [valueFalse, valueTrue] =
       typeof choices[0] === "string" ? choices : [false, true];
@@ -62,6 +80,17 @@ export const TextField = (
         {label}
       </Checkbox>
     );
+  } else if (controlName === "CheckboxGroup") {
+    control = (
+      <CheckboxGroup
+        value={(field.value || "").split(",")}
+        choices={choices}
+        onChange={(value) => {
+          console.log(`muly:onCjange`, { value });
+          field.onChange(value.join(","));
+        }}
+      />
+    );
   } else if (controlName === "RadioGroup") {
     control = (
       <RadioButtonGroup
@@ -76,6 +105,7 @@ export const TextField = (
   } else {
     control = (
       <Select
+        maxW="sm"
         name={field.name}
         placeholder={placeholder}
         value={field.value ? field.value + "" : ""}
@@ -97,8 +127,8 @@ export const TextField = (
   }
 
   return (
-    <FormControl isInvalid={!!error}>
-      {controlName !== "Checkbox" && <FormLabel>{label}</FormLabel>}
+    <FormControl isInvalid={!!error} my={5}>
+      {controlName !== "Checkbox" && <FormLabel mb={1}>{label}</FormLabel>}
       {control}
       {!error ? null : (
         // <FormHelperText>
