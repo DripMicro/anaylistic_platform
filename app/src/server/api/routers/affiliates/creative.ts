@@ -3,7 +3,6 @@ import { z } from "zod";
 import { publicProcedure } from "../../trpc";
 import { countBy, map, sortBy, uniq, uniqBy, uniqWith } from "rambda";
 import type { merchants_creative_type, Prisma } from "@prisma/client";
-import type { ZodType } from "zod/lib/types";
 import { affiliate_id, merchant_id } from "./const";
 import { SelectSchema } from "../../../db-schema-utils";
 import {

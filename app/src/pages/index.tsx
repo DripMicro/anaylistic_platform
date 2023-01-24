@@ -10,6 +10,7 @@ const Home: NextPage = () => {
   const links = [
     { href: "/affiliates/creative", title: "Creative Materials" },
     { href: "/affiliates/sub", title: "Sub Affiliate Creative Materials" },
+    { href: "/affiliates/account", title: "Account Details" },
   ];
 
   return (

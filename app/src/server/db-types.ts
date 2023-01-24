@@ -1,5 +1,5 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
-import { AppRouter } from "../src/server/api/root";
+import type { AppRouter } from "./api/root";
 
 type RouterInput = inferRouterInputs<AppRouter>;
 type RouterOutput = inferRouterOutputs<AppRouter>;
@@ -9,3 +9,5 @@ export type MerchantCreativeType =
 
 export type MerchantSubCreativeType =
   RouterOutput["affiliates"]["getMerchantSubCreative"];
+
+export type AffiliateAccountType = RouterOutput["affiliates"]["getAccount"];

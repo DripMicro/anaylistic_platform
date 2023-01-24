@@ -84,9 +84,9 @@ model affiliate_messages_approval {
 model affiliates {
   id                              Int                         @unique(map: "id") @default(autoincrement())
   rdate                           DateTime                    @default(now()) @db.DateTime(0)
-  udate                           DateTime                    @db.DateTime(0)
-  lastvisit                       DateTime                    @db.DateTime(0)
-  lastactive                      DateTime                    @db.DateTime(0)
+  udate                           DateTime?                   @db.DateTime(0) @ignore
+  lastvisit                       DateTime?                   @db.DateTime(0) @ignore
+  lastactive                      DateTime?                   @db.DateTime(0) @ignore
   valid                           Int
   lang                            String                      @db.VarChar(3)
   language_id                     Int
