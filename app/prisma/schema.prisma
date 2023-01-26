@@ -84,9 +84,9 @@ model affiliate_messages_approval {
 model affiliates {
   id                              Int                         @unique(map: "id") @default(autoincrement())
   rdate                           DateTime                    @default(now()) @db.DateTime(0)
-  udate                           DateTime?                   @db.DateTime(0) @ignore
-  lastvisit                       DateTime?                   @db.DateTime(0) @ignore
-  lastactive                      DateTime?                   @db.DateTime(0) @ignore
+  udate                           DateTime?                   @ignore @db.DateTime(0)
+  lastvisit                       DateTime?                   @ignore @db.DateTime(0)
+  lastactive                      DateTime?                   @ignore @db.DateTime(0)
   valid                           Int
   lang                            String                      @db.VarChar(3)
   language_id                     Int
@@ -1627,8 +1627,9 @@ model sub_banners {
   url          String           @db.VarChar(254)
   alt          String           @db.VarChar(254)
 
-  merchant merchants @relation(fields: [merchant_id], references: [id])
-  language languages @relation(fields: [language_id], references: [id])
+  merchant  merchants   @relation(fields: [merchant_id], references: [id])
+  language  languages   @relation(fields: [language_id], references: [id])
+  sub_stats sub_stats[]
 
   @@index([language_id], map: "language_id")
   @@index([merchant_id], map: "merchant_id")
@@ -1647,7 +1648,8 @@ model sub_stats {
   views        Int
   clicks       Int
 
-  affiliate affiliates @relation(fields: [affiliate_id], references: [id])
+  affiliate  affiliates  @relation(fields: [affiliate_id], references: [id])
+  sub_banner sub_banners @relation(fields: [banner_id], references: [id])
 
   @@index([affiliate_id], map: "affiliate_id")
   @@index([banner_id], map: "banner_id")

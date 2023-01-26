@@ -40,8 +40,8 @@ export const SubCreativeMaterial = () => {
               value: String(item.promotion_id) || "General",
             },
             { title: "Size (WxH)", value: `${item.width}x${item.height}` },
-            { title: "Impressions", value: `0` },
-            { title: "Clicks", value: `0` },
+            { title: "Impressions", value: `${String(item.views)}` },
+            { title: "Clicks", value: `${String(item.clicks)}` },
           ];
 
           return (

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { publicProcedure } from "../../trpc";
-import { countBy, map, sortBy, uniq, uniqBy, uniqWith } from "rambda";
+import { countBy, indexBy, map, sortBy, uniq, uniqBy, uniqWith } from "rambda";
 import type {
   merchants_creative_type,
   Prisma,
@@ -58,12 +58,34 @@ export const getMerchantSubCreative = publicProcedure
       ...addFreeTextSearchWhere("title", search),
     };
 
-    return addFreeTextSearchJSFilter(
-      await ctx.prisma.sub_banners.findMany({
-        where,
+    const [stats, sub] = await Promise.all([
+      ctx.prisma.sub_stats.groupBy({
+        by: ["banner_id"],
+        where: { affiliate_id },
+        _sum: {
+          clicks: true,
+          views: true,
+        },
       }),
-      "title",
-      search
+      addFreeTextSearchJSFilter(
+        await ctx.prisma.sub_banners.findMany({
+          where,
+        }),
+        "title",
+        search
+      ),
+    ]);
+
+    const statDict = indexBy("banner_id", stats);
+
+    return map(
+      ({ id, ...data }) => ({
+        id,
+        ...data,
+        clicks: statDict[id]?._sum.clicks,
+        views: statDict[id]?._sum.views,
+      }),
+      sub
     );
   });
 //

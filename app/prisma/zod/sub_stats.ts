@@ -1,6 +1,6 @@
 import * as z from "zod"
 import * as imports from "../zod-add-schema"
-import { Completeaffiliates, RelatedaffiliatesModel } from "./index"
+import { Completeaffiliates, RelatedaffiliatesModel, Completesub_banners, Relatedsub_bannersModel } from "./index"
 
 export const sub_statsModel = z.object({
   id: z.number().int(),
@@ -15,6 +15,7 @@ export const sub_statsModel = z.object({
 
 export interface Completesub_stats extends z.infer<typeof sub_statsModel> {
   affiliate: Completeaffiliates
+  sub_banner: Completesub_banners
 }
 
 /**
@@ -24,4 +25,5 @@ export interface Completesub_stats extends z.infer<typeof sub_statsModel> {
  */
 export const Relatedsub_statsModel: z.ZodSchema<Completesub_stats> = z.lazy(() => sub_statsModel.extend({
   affiliate: RelatedaffiliatesModel,
+  sub_banner: Relatedsub_bannersModel,
 }))
