@@ -15,7 +15,7 @@ const schema = z.object({
   url: z.string().url().describe("URL"),
   description: z.string().optional().describe("Description"),
   source_traffic: z.string().optional().describe("Traffic Source"),
-  valid: z.number().describe("Available"),
+  valid: z.coerce.number().min(0).max(1).default(1).describe("Available"),
 });
 
 type schemaType = z.infer<typeof schema>;
@@ -80,6 +80,12 @@ export const Profiles = () => {
             formProps={{
               title: "Add profile",
               actionName: "Add",
+            }}
+            props={{
+              valid: {
+                choices: ["0", "1"],
+                controlName: "Switch",
+              },
             }}
           />
         </ModalFormAction>

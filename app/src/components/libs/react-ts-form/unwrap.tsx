@@ -1,11 +1,5 @@
-import type {
-  ZodEnum,
-  ZodNullable,
-  ZodOptional} from "zod";
-import {
-  z,
-  ZodFirstPartyTypeKind
-} from "zod";
+import type { ZodEnum, ZodNullable, ZodOptional } from "zod";
+import { z, ZodFirstPartyTypeKind } from "zod";
 import {
   HIDDEN_ID_PROPERTY,
   isSchemaWithHiddenProperties,
@@ -16,6 +10,7 @@ const unwrappable = new Set<z.ZodFirstPartyTypeKind>([
   z.ZodFirstPartyTypeKind.ZodOptional,
   z.ZodFirstPartyTypeKind.ZodNullable,
   z.ZodFirstPartyTypeKind.ZodBranded,
+  z.ZodFirstPartyTypeKind.ZodDefault,
 ]);
 
 export function unwrap(type: RTFSupportedZodTypes): {
@@ -39,6 +34,9 @@ export function unwrap(type: RTFSupportedZodTypes): {
         r = r._def.type;
         break;
       case z.ZodFirstPartyTypeKind.ZodNullable:
+        r = r._def.innerType;
+        break;
+      case z.ZodFirstPartyTypeKind.ZodDefault:
         r = r._def.innerType;
         break;
     }

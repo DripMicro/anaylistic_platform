@@ -10,6 +10,8 @@ const Schema = z
     passwordRepeat: z.string().optional().describe("Repeat Password"),
     newsletter: z.coerce
       .number()
+      .min(0)
+      .max(1)
       .describe("Yes, I would like to receive the Affiliate newsletter"),
   })
   .refine(

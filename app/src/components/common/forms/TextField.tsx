@@ -5,6 +5,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Switch,
   Checkbox,
   Textarea,
 } from "@chakra-ui/react";
@@ -17,7 +18,12 @@ interface Props {
   choices?: ChoiceType[];
   type?: string;
 
-  controlName?: "Textarea" | "RadioGroup" | "Checkbox" | "CheckboxGroup";
+  controlName?:
+    | "Textarea"
+    | "RadioGroup"
+    | "Checkbox"
+    | "Switch"
+    | "CheckboxGroup";
 }
 
 export const TextField = (
@@ -80,6 +86,23 @@ export const TextField = (
         {label}
       </Checkbox>
     );
+  } else if (controlName === "Switch") {
+    const [valueFalse, valueTrue] =
+      typeof choices[0] === "string" ? choices : [false, true];
+
+    control = (
+      <Switch
+        name={field.name}
+        value={field.value}
+        onChange={(e) => {
+          field.onChange(
+            e.target.checked ? String(valueTrue) : String(valueFalse)
+          );
+        }}
+      >
+        {label}
+      </Switch>
+    );
   } else if (controlName === "CheckboxGroup") {
     control = (
       <CheckboxGroup
@@ -128,7 +151,9 @@ export const TextField = (
 
   return (
     <FormControl isInvalid={!!error} my={5}>
-      {controlName !== "Checkbox" && <FormLabel mb={1}>{label}</FormLabel>}
+      {controlName !== "Checkbox" && controlName !== "Switch" && (
+        <FormLabel mb={1}>{label}</FormLabel>
+      )}
       {control}
       {!error ? null : (
         // <FormHelperText>

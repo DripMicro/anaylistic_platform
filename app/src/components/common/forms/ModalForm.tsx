@@ -1,6 +1,6 @@
 import { createTsForm } from "../../libs/react-ts-form";
 import { mapping } from "./mapping";
-import type { FormEvent} from "react";
+import type { FormEvent } from "react";
 import React, { useContext } from "react";
 import {
   Button,
@@ -37,7 +37,7 @@ const CommonForm = ({
   const { handleSubmit, isLoading } = useSubmitAction({
     onSubmit: async (values: unknown) => {
       await onSubmit(values);
-      // onClose();
+      onClose();
     },
   });
 
