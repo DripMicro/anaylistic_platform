@@ -5,9 +5,10 @@ import { FormAccount } from "./FormAccount";
 import { FormContact } from "./FormContact";
 import { FormInvoice } from "./FormInvoice";
 import { FormWebSites } from "./FormWebSites";
+import type {
+  AffiliateAccountUpdateType} from "../../../server/db-types";
 import {
-  AffiliateAccountType,
-  AffiliateAccountUpdateType,
+  AffiliateAccountType
 } from "../../../server/db-types";
 import { FormMarketInfo } from "./FormMarketInfo";
 

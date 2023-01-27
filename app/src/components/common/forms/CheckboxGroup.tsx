@@ -1,10 +1,11 @@
+import type {
+  CheckboxGroupProps} from "@chakra-ui/react";
 import {
   Box,
   Checkbox,
   HStack,
   Stack,
   useRadio,
-  CheckboxGroupProps,
   CheckboxGroup as ChakraCheckboxGroup,
 } from "@chakra-ui/react";
 import React from "react";

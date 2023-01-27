@@ -17,7 +17,19 @@ export const getProfiles = publicProcedure.query(async ({ ctx }) => {
 });
 
 export const upsertProfile = publicProcedure
-  .input(upsertSchema(affiliates_profilesModel))
+  .input(
+    upsertSchema(
+      affiliates_profilesModel
+        .pick({
+          name: true,
+          url: true,
+          valid: true,
+          description: true,
+          source_traffic: true,
+        })
+        .extend({ id: affiliates_profilesModel.shape.id.optional() })
+    )
+  )
   .mutation(async ({ ctx, input: { id, ...data } }) => {
     return await (id
       ? ctx.prisma.affiliates_profiles.update({
@@ -25,6 +37,6 @@ export const upsertProfile = publicProcedure
           data,
         })
       : ctx.prisma.affiliates_profiles.create({
-          data: { id, ...data },
+          data: { id, ...data, rdate: new Date(), affiliate_id },
         }));
   });

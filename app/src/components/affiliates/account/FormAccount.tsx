@@ -1,10 +1,7 @@
 import type { AffiliateAccountType } from "../../../server/db-types";
 import { Flex } from "@chakra-ui/react";
 import { z } from "zod";
-import { createUniqueFieldSchema } from "@ts-react/form";
 import { Form } from "../../common/forms/Form";
-import { FormEventHandler } from "react";
-import { ChoiceType } from "../../common/forms/TextField";
 
 const Schema = z
   .object({
@@ -17,7 +14,7 @@ const Schema = z
   })
   .refine(
     ({ passwordRepeat, password }) => {
-      return password === passwordRepeat;
+      return (password || "") === (passwordRepeat || "");
     },
     {
       message: "Passwords do not match. Please re-enter your passwords.",

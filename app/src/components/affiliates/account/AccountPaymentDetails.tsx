@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { api } from "../../../utils/api";
-import { AffiliateAccountUpdateType } from "../../../server/db-types";
+import type { AffiliateAccountUpdateType } from "../../../server/db-types";
 import { Form } from "../../common/forms/Form";
 import { z } from "zod";
 import { affiliates_paymentMethod } from "@prisma/client";
@@ -51,12 +51,14 @@ export const AccountPaymentDetails = () => {
         onSubmit={handleSubmit}
         defaultValues={account}
         formProps={{
-          templateAreas: [
-            `"a" "b" "c"`,
-            `"a a"
-             "b c"`,
-          ],
-          gridTemplateColumns: ["1fr", "1fr 1fr"],
+          grid: {
+            templateAreas: [
+              `"a" "b" "c"`,
+              `"a a"
+               "b c"`,
+            ],
+            gridTemplateColumns: ["1fr", "1fr 1fr"],
+          },
         }}
         props={{
           pay_firstname: {

@@ -1,4 +1,4 @@
-import { useDescription, useTsController } from "@ts-react/form";
+import { useDescription, useTsController } from "../../libs/react-ts-form";
 import {
   Input,
   Select,

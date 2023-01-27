@@ -13,3 +13,7 @@ export type MerchantSubCreativeType =
 export type AffiliateAccountType = RouterOutput["affiliates"]["getAccount"];
 export type AffiliateAccountUpdateType =
   RouterInput["affiliates"]["updateAccount"];
+
+export type AffiliateProfileType = RouterOutput["affiliates"]["getProfiles"][0];
+export type AffiliateProfileUpsertType =
+  RouterInput["affiliates"]["upsertProfile"];

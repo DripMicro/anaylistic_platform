@@ -1,9 +1,7 @@
 import type { AffiliateAccountType } from "../../../server/db-types";
 import { Flex } from "@chakra-ui/react";
 import { z } from "zod";
-import { createUniqueFieldSchema } from "@ts-react/form";
 import { Form } from "../../common/forms/Form";
-import { FormEventHandler } from "react";
 
 const Schema = z.object({
   company: z.string().optional().describe("Company Name"),
