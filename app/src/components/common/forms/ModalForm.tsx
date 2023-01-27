@@ -9,12 +9,17 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  ModalOverlay,
+  Modal,
   Stack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import type { GridProps } from "@chakra-ui/layout/dist/grid";
 import { FormLayout } from "./FormLayout";
 import { useSubmitAction } from "./useSubmitAction";
 import { ModalFormActionContext } from "../modal/ModalFormActionContext";
+import { useFormContext } from "react-hook-form";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 interface CommonFormProps {
   // onClose: () => void;
@@ -22,6 +27,7 @@ interface CommonFormProps {
   title: string;
   onSubmit: (values: unknown) => Promise<void>;
   children: React.ReactNode;
+  actions?: React.ReactNode;
 
   grid?: GridProps;
 }
@@ -32,12 +38,15 @@ const CommonForm = ({
   onSubmit,
   children,
   grid,
+  actions,
 }: CommonFormProps) => {
   const onClose = useContext(ModalFormActionContext);
+  const { reset } = useFormContext();
   const { handleSubmit, isLoading } = useSubmitAction({
     onSubmit: async (values: unknown) => {
       await onSubmit(values);
       onClose();
+      reset();
     },
   });
 
@@ -56,12 +65,11 @@ const CommonForm = ({
           <FormLayout grid={grid}>{children}</FormLayout>
         </ModalBody>
 
-        <ModalFooter>
-          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <ModalFooter gap={4} justifyContent={actions ? "space-between" : "end"}>
+          {actions}
           <Button type="submit" colorScheme="blue" mr={3} isLoading={isLoading}>
             {actionName}
           </Button>
-          {/*<Button variant="ghost">Secondary Action</Button>*/}
         </ModalFooter>
       </ModalContent>
     </form>

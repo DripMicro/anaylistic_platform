@@ -36,9 +36,9 @@ export const TextField = (
   const { field, error } = useTsController<string>();
   const { label, placeholder } = useDescription();
 
-  // console.log(`muly:TextField ${field.name} value:${field.value || ""}`, {
-  //   field,
-  // });
+  console.log(`muly:TextField ${field.name} value:${field.value || ""}`, {
+    field,
+  });
 
   let control;
   if (!choices) {
@@ -76,7 +76,7 @@ export const TextField = (
     control = (
       <Checkbox
         name={field.name}
-        value={field.value}
+        isChecked={field.value == valueTrue}
         onChange={(e) => {
           field.onChange(
             e.target.checked ? String(valueTrue) : String(valueFalse)
@@ -93,7 +93,7 @@ export const TextField = (
     control = (
       <Switch
         name={field.name}
-        value={field.value}
+        isChecked={field.value == valueTrue}
         onChange={(e) => {
           field.onChange(
             e.target.checked ? String(valueTrue) : String(valueFalse)

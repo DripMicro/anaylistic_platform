@@ -1,5 +1,7 @@
+import type { z } from "zod";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "./api/root";
+import type { affiliates_profilesModel } from "../../prisma/zod";
 
 type RouterInput = inferRouterInputs<AppRouter>;
 type RouterOutput = inferRouterOutputs<AppRouter>;
@@ -17,3 +19,7 @@ export type AffiliateAccountUpdateType =
 export type AffiliateProfileType = RouterOutput["affiliates"]["getProfiles"][0];
 export type AffiliateProfileUpsertType =
   RouterInput["affiliates"]["upsertProfile"];
+
+export type affiliates_profilesModelType = z.infer<
+  typeof affiliates_profilesModel
+>;

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { affiliates_paymentMethod } from "@prisma/client";
 import { GridColumnHeader } from "../../common/forms/GridColumnHeader";
 
-const Schema = z.object({
+const schema = z.object({
   paymentMethod: z
     .nativeEnum(affiliates_paymentMethod)
     .describe("Payment Method"),
@@ -38,7 +38,7 @@ export const AccountPaymentDetails = () => {
     return null;
   }
 
-  const handleSubmit = async (values: AffiliateAccountUpdateType) => {
+  const handleSubmit = async (values: z.infer<typeof schema>) => {
     await updateAccount.mutateAsync(values);
     await refetch();
   };
@@ -46,7 +46,7 @@ export const AccountPaymentDetails = () => {
   return (
     <Flex direction="column" gap={2} maxW="4xl" width="100%" m="auto">
       <Form
-        schema={Schema}
+        schema={schema}
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit}
         defaultValues={account}

@@ -36,7 +36,9 @@ export function unwrap(type: RTFSupportedZodTypes): {
       case z.ZodFirstPartyTypeKind.ZodNullable:
         r = r._def.innerType;
         break;
+      // @ts-ignore
       case z.ZodFirstPartyTypeKind.ZodDefault:
+        // @ts-ignore
         r = r._def.innerType;
         break;
     }

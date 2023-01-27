@@ -40,3 +40,15 @@ export const upsertProfile = publicProcedure
           data: { id, ...data, rdate: new Date(), affiliate_id },
         }));
   });
+
+export const deleteProfile = publicProcedure
+  .input(
+    affiliates_profilesModel.pick({
+      id: true,
+    })
+  )
+  .mutation(async ({ ctx, input: { id } }) => {
+    return await ctx.prisma.affiliates_profiles.delete({
+      where: { id },
+    });
+  });
