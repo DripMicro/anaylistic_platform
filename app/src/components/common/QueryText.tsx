@@ -32,7 +32,7 @@ export const QueryText = ({ varName, label }: Props) => {
   );
 
   return (
-    <FormControl>
+    <FormControl maxW="2xs">
       <FormLabel>{label}</FormLabel>
       <Input
         type="search"

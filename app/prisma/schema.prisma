@@ -1135,7 +1135,8 @@ model payments_details {
   withdrawal   Float
   reason       String                  @db.VarChar(254)
 
-  affiliate affiliates @relation(fields: [affiliate_id], references: [id])
+  affiliate affiliates    @relation(fields: [affiliate_id], references: [id])
+  paid      payments_paid @relation(fields: [paymentID], references: [paymentID])
 
   @@index([affiliate_id], map: "affiliate_id")
   @@index([month], map: "month_3")
@@ -1162,7 +1163,8 @@ model payments_paid {
   amount_gap_from_previous_month Float    @default(0)
   credit_gap_from_previous_month Float    @default(0)
 
-  affiliate affiliates @relation(fields: [affiliate_id], references: [id])
+  affiliate        affiliates         @relation(fields: [affiliate_id], references: [id])
+  payments_details payments_details[]
 
   @@unique([month, year, affiliate_id, paymentID], map: "month_2")
   @@index([affiliate_id], map: "affiliate_id")

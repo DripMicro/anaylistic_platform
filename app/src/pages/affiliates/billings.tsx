@@ -2,17 +2,18 @@ import styles from "./../index.module.css";
 import { type NextPage } from "next";
 import Head from "next/head";
 
-import { Profiles } from "../../components/affiliates/profiles/Profiles";
+import { SubCreativeMaterial } from "../../components/affiliates/sub/SubCreativeMaterial";
+import { Billings } from "../../components/affiliates/billing/Billings";
 const Page: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Affiliates Profiles</title>
-        <meta name="description" content="Affiliates Profiles" />
+        <title>Billing</title>
+        <meta name="description" content="Billing" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Profiles />
+        <Billings />
       </main>
     </>
   );
