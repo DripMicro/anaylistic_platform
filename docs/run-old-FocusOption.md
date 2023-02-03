@@ -1,18 +1,33 @@
 ```
 
+FocusOption/FocusOption-main/site/func/func_debug.php
+edit to connect to external database
+
+remove mysqlaffiliatets from FocusOption/FocusOption-main/docker-compose.yml 
+
+Add SQL logs in FocusOption/FocusOption-main/site/func/func_debug.php L43
+set to true 
+
+docker build -f ./.Dockerfile -t affiliatets .
+
 docker compose -f ./docker-compose.yml up -d
 docker compose down
 
-https://affiliatets.vm/admin/?act=main
+https://affiliatets.vm/admin/
 
-10.0.0.7 affiliatets.vm
-10.0.0.7 dev
+## Add to host file
 
 C:\Windows\System32\drivers\etc\hosts
+/etc/hosts
 
+10.0.0.7 affiliatets.vm
+# 10.0.0.7 dev
 
 docker exec -it affiliatets /bin/bash
 docker exec -it affiliatets cat log.log
+
+
+
 
 # docker exec -it  affiliatetsdb /bin/bash
 

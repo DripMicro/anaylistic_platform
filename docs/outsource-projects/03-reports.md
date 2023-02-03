@@ -1,12 +1,5 @@
 # Access legacy systems
 
-#### PHP but with new design for affliate dashbaord, partially working
-```
-http://go.gamingaffiliates.co/admin/
-user: mulyoved@gmail.com
-pass: ask
-```
-
 #### PHP but with old design for affliate dashbaord, some stuff work only on this version
 
 ```
@@ -27,10 +20,6 @@ to connect to database
 create ./app/.env
 ask for the content, include env variable to connect to database
 
-### can also import locally from sql dump file 
-
-from: https://drive.google.com/file/d/1do_egfrSgnYCgpqr10b5yH6aKFM7JXUY/view?usp=share_link 
-
 ### PHP code
 
 We need to translate all the PHP code under
@@ -41,11 +30,9 @@ Some already converted, see
 
 `app/src/server/api/routers/affiliates`
 
-## Notes
+### Scope
 
-- We use prettier for code formatting, make sure to configure your IDE
-to reformat on save for best DX
-- when push to main code automaticly deploy to netlify  
-`https://affiliate-com.netlify.app/`
-- I managed to run PHP version locally and log SQL queries done using docker
-let me know if you need this and I can help (need to have docker)
+For now let's look at convert all the reports under PHP code
+
+`FocusOption/site/affiliate/reports`
+
