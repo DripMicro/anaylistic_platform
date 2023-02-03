@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { affiliates_profilesModel } from "./zod";
+import { affiliates_profilesModel, affiliates_ticketsModel } from "./zod";
 import { ZodObject, ZodRawShape, ZodType } from "zod/lib/types";
 
 // Place to define custom zod types
