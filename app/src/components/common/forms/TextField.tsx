@@ -23,7 +23,8 @@ interface Props {
     | "RadioGroup"
     | "Checkbox"
     | "Switch"
-    | "CheckboxGroup";
+    | "CheckboxGroup"
+    | "File";
 }
 
 export const TextField = (
@@ -55,6 +56,8 @@ export const TextField = (
           }}
         />
       );
+    } else if (controlName === "File") {
+      control = <input type={"file"} />;
     } else {
       control = (
         <Input

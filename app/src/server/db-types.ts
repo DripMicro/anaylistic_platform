@@ -34,3 +34,5 @@ export type AffiliateTicketUpsertType =
 export type affiliates_ticketsModelType = z.infer<
   typeof affiliates_ticketsModel
 >;
+
+export type AffiliateDocumentType = RouterOutput["affiliates"]["getDocuments"][0];
