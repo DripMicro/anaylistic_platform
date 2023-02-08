@@ -4,30 +4,31 @@ import { api } from "../../../utils/api";
 import type { AffiliateDocumentType } from "../../../server/db-types";
 import { createColumnHelper } from "@tanstack/react-table";
 import * as z from "zod";
-import { documents_type } from "@prisma/client";
+import axios from "axios";
 import { ModalForm } from "../../common/forms/ModalForm";
-import { AddIcon, CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { AddIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
 import { format } from "date-fns";
 import {
   ModalFormAction,
   ModalFormButton,
 } from "../../common/modal/ModalFormButton";
-import type { affiliates_ticketsModelType } from "../../../server/db-types";
 
 const columnHelper = createColumnHelper<AffiliateDocumentType>();
 
 const schema = z.object({
-  documentType: z.nativeEnum(documents_type).describe("Document Type"),
-  documentFile: z.string().describe("Document File"),
+  documentType: z.string().describe("Document Type // Select a Document Type"),
+  documentFile: z
+    .any()
+    // .refine((val) => val.length > 0, "File is required")
+    .describe("Document File"),
 });
 
 type NewRecType = z.infer<typeof schema>;
 
 export const Documents = () => {
   const { data, refetch } = api.affiliates.getDocuments.useQuery();
-  const upsertTicket = api.affiliates.upsertTicket.useMutation();
-  const deleteTicket = api.affiliates.deleteTicket.useMutation();
+  const uploadDocument = api.affiliates.uploadDocument.useMutation();
   const [editRec, setEditRec] = useState<null>(null);
   const toast = useToast();
 
@@ -36,12 +37,27 @@ export const Documents = () => {
   }
 
   const handleSubmit = async (values: NewRecType) => {
-    console.log(values);
-    // await upsertTicket.mutateAsync({
-    //   ...(editRec || {}),
-    //   ...values,
-    // });
-    // await refetch();
+    // let formData = new FormData();
+    // const strMonthYear = format(new Date(), "yyyy-MM-dd");
+    // formData.append("document_upload", values.documentFile);
+    // formData.append("doc_type", values.documentType);
+    // formData.append("affiliate_id", 500);
+    // formData.append("monthyear", strMonthYear);
+    // const url = "https://go.gamingaffiliates.co/ajax/UploadDocuments.php";
+    // await axios
+    //   .post(url, formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //       "Access-Control-Allow-Origin": "*",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    await refetch();
   };
 
   const columns = [
@@ -84,14 +100,7 @@ export const Documents = () => {
     }),
     columnHelper.accessor("edit-button" as any, {
       cell: (info) => {
-        return (
-          <Button
-            leftIcon={<EditIcon />}
-            onClick={() => setEditRec(info.row.original)}
-          >
-            Edit
-          </Button>
-        );
+        return <a href="#">view</a>;
       },
       header: "",
     }),
@@ -119,7 +128,7 @@ export const Documents = () => {
         },
         documentFile: {
           controlName: "File",
-        }
+        },
       }}
     />
   );
@@ -128,7 +137,7 @@ export const Documents = () => {
     <Stack m={12} gap={4}>
       <DataTable data={data} columns={columns} />
       <HStack justifyContent="end" px={6}>
-        <ModalFormButton actionName="Add" icon={<AddIcon />}>
+        <ModalFormButton actionName="Upload New Document" icon={<AddIcon />}>
           {modal}
         </ModalFormButton>
       </HStack>
