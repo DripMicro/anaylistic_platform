@@ -478,6 +478,7 @@ model dashboard {
   @@index([affiliate_id], map: "AffiliateID")
   @@index([Date], map: "Date")
   @@index([merchant_id], map: "MerchantID")
+  @@map("Dashboard")
 }
 
 model data_install {
