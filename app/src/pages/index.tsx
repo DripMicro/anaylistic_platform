@@ -15,6 +15,7 @@ const Home: NextPage = () => {
     { href: "/affiliates/profiles", title: "Profiles" },
     { href: "/affiliates/billings", title: "Billing" },
     { href: "/affiliates/tickets", title: "Tickets" },
+    { href: "/affiliates/signup", title: "Sign Up" },
   ];
 
   return (
