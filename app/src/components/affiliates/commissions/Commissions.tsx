@@ -33,19 +33,25 @@ export const Commissions = () => {
           </Thead>
           <Tbody>
             {data.map((item, index) => {
-              const pnl = item.deals.find(el => el.dealType === 'pnl') ? item.deals.find(el => el.dealType === 'pnl') : null;
-              const cpa = item.deals.find(el => el.dealType === 'cpa') ? item.deals.find(el => el.dealType === 'cpa') : null;
-              const dcpa = item.deals.find(el => el.dealType === 'dcpa') ? item.deals.find(el => el.dealType === 'dcpa') : null;
+              const pnl = item.deals.find((el) => el.dealType === "pnl")
+                ? item.deals.find((el) => el.dealType === "pnl")
+                : null;
+              const cpa = item.deals.find((el) => el.dealType === "cpa")
+                ? item.deals.find((el) => el.dealType === "cpa")
+                : null;
+              const dcpa = item.deals.find((el) => el.dealType === "dcpa")
+                ? item.deals.find((el) => el.dealType === "dcpa")
+                : null;
               return (
                 <Tr key={index}>
                   <Td>{item.id}</Td>
                   <Td>{item.name}</Td>
-                  <Td>{pnl ? pnl.amount + '%' : '-'}</Td>
+                  <Td>{pnl ? String(pnl.amount) + "%" : "-"}</Td>
                   <Td>Passport</Td>
-                  <Td>{cpa ? cpa.amount + '%' : '-'}</Td>
-                  <Td>{dcpa ? dcpa.amount + '%' : '-'}</Td>
+                  <Td>{cpa ? String(cpa.amount) + "%" : "-"}</Td>
+                  <Td>{dcpa ? String(dcpa.amount) + "%" : "-"}</Td>
                 </Tr>
-              )
+              );
             })}
           </Tbody>
         </Table>
