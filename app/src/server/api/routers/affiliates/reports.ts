@@ -57,6 +57,36 @@ export const getQuickReportSummary = publicProcedure.input(z.object({
     console.log("Data -------> ",data)
 
     return data;
+});
+
+
+export const getCommissionReport = publicProcedure.input(z.object({
+    from:z.date().optional(),
+    to:z.date().optional(),
+    merchant_id:z.string().optional(),
+    trader_id:z.string().optional(),
+    commission:z.string().optional()
+})).query(async ({ctx,input: {from,to,merchant_id,trader_id,commission}}) => {
+    let data = await ctx.prisma.commissions.findMany({
+        where: {
+            Date: {
+                gte:from,
+                lt:to
+            }
+        },
+        include: {
+            merchant: {
+                select: {
+                    name: true
+                }
+            },
+            affiliate: {
+                select:{
+                    username:true
+                }
+            }
+        }
+    })
 })
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
@@ -76,7 +106,23 @@ export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
 
 export const getAllMerchants = publicProcedure.query(async ({ctx}) => {
     const merchants = await ctx.prisma.merchants.findMany({
+        
     })
 
     return merchants;
+});
+
+
+export const getAffiliateProfile = publicProcedure.query(async ({ctx}) => {
+    const affiliates = await ctx.prisma.affiliates_profiles.findMany({
+        where: {
+            valid:1
+        },
+        select: {
+            id:true,
+            name:true
+        }
+    })
+
+    return affiliates;
 })

@@ -183,6 +183,7 @@ model affiliates {
   sub_stats                       sub_stats[]
   trackerconversion               trackerconversion[]
   traffic                         traffic[]
+  commission                       commissions[]
 
   @@index([group_id], map: "group_id")
   @@index([mail], map: "mail")
@@ -393,6 +394,8 @@ model commissions {
   subAffiliateID    Int?
   status            Int?
   updated           DateTime? @db.DateTime(0)
+  merchant          merchants @relation(fields: [merchant_id], references: [id])
+  affiliate         affiliates @relation(fields: [affiliate_id], references: [id])
 
   @@id([merchant_id, affiliate_id, traderID, transactionID, Type, Amount, Date])
   @@index([Date], map: "Date")
@@ -1004,6 +1007,7 @@ model merchants {
   traders_tag                   traders_tag[]
   traffic                       traffic[]
   dashboard                     dashboard[]
+  commissions                   commissions[]
 
   @@index([cpa_amount], map: "cpa_amount")
   @@index([cpc_amount], map: "cpc_amount")
