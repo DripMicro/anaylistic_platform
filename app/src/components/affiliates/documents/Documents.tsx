@@ -28,7 +28,6 @@ type NewRecType = z.infer<typeof schema>;
 
 export const Documents = () => {
   const { data, refetch } = api.affiliates.getDocuments.useQuery();
-  const uploadDocument = api.affiliates.uploadDocument.useMutation();
   const [editRec, setEditRec] = useState<null>(null);
   const toast = useToast();
 
@@ -77,7 +76,7 @@ export const Documents = () => {
         const arrDocType = info.getValue().split("_");
         let strDocType = "";
         arrDocType.map((item) => {
-          strDocType += item[0]?.toUpperCase() + item.substring(1) + " ";
+          strDocType += String(item[0]?.toUpperCase()) + String(item.substring(1)) + " ";
         });
         return <span>{strDocType}</span>;
       },
@@ -92,7 +91,7 @@ export const Documents = () => {
         const arrDocStatus = info.getValue().split("_");
         let strDocStatus = "";
         arrDocStatus.map((item) => {
-          strDocStatus += item[0]?.toUpperCase() + item.substring(1) + " ";
+          strDocStatus += String(item[0]?.toUpperCase()) + String(item.substring(1)) + " ";
         });
         return <span>{strDocStatus}</span>;
       },

@@ -4,7 +4,7 @@ import { publicProcedure } from "../../trpc";
 import { affiliate_id, merchant_id } from "./const";
 
 export const getCommissions = publicProcedure.query(async ({ ctx }) => {
-  let results = await ctx.prisma.merchants.findMany({
+  const results = await ctx.prisma.merchants.findMany({
     where: {
       valid: 1,
     },

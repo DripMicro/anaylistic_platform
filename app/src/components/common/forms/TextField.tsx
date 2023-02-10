@@ -12,7 +12,6 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import { RadioButtonGroup } from "./RadioButtonGroup";
 import { CheckboxGroup } from "./CheckboxGroup";
-import { FileUpload } from "./FileUpload";
 
 export type ChoiceType = string | { id: number | string; title: string };
 
@@ -68,16 +67,6 @@ export const TextField = (
           }}
         />
       );
-      // control = (
-      //   <FileUpload
-      //     name={field.name}
-      //     accept={"image/*"}
-      //     multiple
-      //     onChange={(e) => {
-      //       field.onChange(e.target.value);
-      //     }}
-      //   ></FileUpload>
-      // );
     } else {
       control = (
         <Input
