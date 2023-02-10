@@ -7,7 +7,7 @@ import * as z from "zod";
 import { ModalForm } from "../../common/forms/ModalForm";
 import { AddIcon, CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
-import moment from "moment";
+import { format } from 'date-fns'
 import {
   ModalFormAction,
   ModalFormButton,
@@ -74,7 +74,6 @@ export const Tickets = () => {
   };
 
   const handleSubmit = async (values: NewRecType) => {
-    console.log(`muly:handleSubmit`, { values });
     await upsertTicket.mutateAsync({
       ...(editRec || {}),
       ...values,
@@ -92,7 +91,7 @@ export const Tickets = () => {
       header: "Ticket ID",
     }),
     columnHelper.accessor("rdate", {
-      cell: (info) => moment(info.getValue()).format("YYYY-MM-DD hh:mm:ss"),
+      cell: (info) => format(new Date(info.getValue()), "MM/dd/yyyy hh:mm:ss"),
       header: "Date",
     }),
     columnHelper.accessor("subject", {
@@ -100,7 +99,7 @@ export const Tickets = () => {
       header: "Ticket Subject",
     }),
     columnHelper.accessor("last_update", {
-      cell: (info) => moment(info.getValue()).format("YYYY-MM-DD hh:mm:ss"),
+      cell: (info) => format(new Date(info.getValue()), "MM/dd/yyyy hh:mm:ss"),
       header: "Last Response",
     }),
     columnHelper.accessor("status", {

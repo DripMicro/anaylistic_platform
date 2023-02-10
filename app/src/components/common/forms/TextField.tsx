@@ -9,8 +9,10 @@ import {
   Checkbox,
   Textarea,
 } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import { RadioButtonGroup } from "./RadioButtonGroup";
 import { CheckboxGroup } from "./CheckboxGroup";
+import { FileUpload } from "./FileUpload";
 
 export type ChoiceType = string | { id: number | string; title: string };
 
@@ -23,7 +25,8 @@ interface Props {
     | "RadioGroup"
     | "Checkbox"
     | "Switch"
-    | "CheckboxGroup";
+    | "CheckboxGroup"
+    | "File";
 }
 
 export const TextField = (
@@ -55,6 +58,26 @@ export const TextField = (
           }}
         />
       );
+    } else if (controlName === "File") {
+      control = (
+        <input
+          type={"file"}
+          name={field.name}
+          onChange={(e) => {
+            field.onChange(e.target.value);
+          }}
+        />
+      );
+      // control = (
+      //   <FileUpload
+      //     name={field.name}
+      //     accept={"image/*"}
+      //     multiple
+      //     onChange={(e) => {
+      //       field.onChange(e.target.value);
+      //     }}
+      //   ></FileUpload>
+      // );
     } else {
       control = (
         <Input
