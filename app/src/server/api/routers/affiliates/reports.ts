@@ -65,9 +65,18 @@ export const getCommissionReport = publicProcedure.input(z.object({
     to:z.date().optional(),
     merchant_id:z.string().optional(),
     trader_id:z.string().optional(),
-    commission:z.string().optional()
-})).query(async ({ctx,input: {from,to,merchant_id,trader_id,commission}}) => {
-    let data = await ctx.prisma.commissions.findMany({
+    commission:z.string().optional(),
+    page:z.number().int().optional(),
+    items_per_page:z.number().int().optional()
+})).query(async ({ctx,input: {from,to, page,items_per_page=10}}) => {
+    let offset;
+    if(page && items_per_page ) {
+        offset = (page-1) * items_per_page
+    }
+    let data:any = await ctx.prisma.commissions.findMany({
+        orderBy: {
+            Date:'asc'
+        },
         where: {
             Date: {
                 gte:from,
@@ -85,8 +94,81 @@ export const getCommissionReport = publicProcedure.input(z.object({
                     username:true
                 }
             }
+        },
+        take:items_per_page ? items_per_page:10,
+        skip:offset
+    })
+
+    console.log("page -------->", page, "offset ----->", offset)
+
+    return data;
+});
+
+
+export const getClicksReport = publicProcedure.input(z.object({
+    from:z.string().optional(),
+    to: z.string().optional(),
+    merchant_id:z.number().optional()
+})).query(async ({ctx, input: {from,to, merchant_id}}) => {
+
+    const listProfiles = ctx.prisma.affiliates_profiles.findMany({
+        where: {
+            valid: 1
+        },
+        select: {
+            name: true,
+            id:true
+        }
+    });
+
+    const unique_id = ctx.prisma.data_reg.findMany({
+        where: {
+            merchant_id:merchant_id
+        },
+        take:1
+    });
+    
+    let totalRecords = ctx.prisma.traffic.aggregate({
+        where: {
+            clicks: {
+                gt:0
+            },
+            uid: {
+                gt:0
+            },
+            merchant_id: {
+                gt:0
+            }
+        },
+        _sum: {
+            id:true,
+        },
+    });
+
+    const clickww = ctx.prisma.traffic.findMany({
+        where: {
+            uid:{
+                gt:0
+            },
+            merchant_id: {
+                gt:0
+            }
+        },
+        include: {
+            merchant: {
+                select: {
+                    name:true
+                }
+            },
+            affiliate: {
+                select: {
+                    username:true
+                }
+            }
         }
     })
+
+    return totalRecords;
 })
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
