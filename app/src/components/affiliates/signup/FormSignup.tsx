@@ -6,7 +6,7 @@ const Schema = z.object({
   username: z.string().optional().describe("User Name"),
   first_name: z.string().optional().describe("First Name"),
   last_name: z.string().optional().describe("Last Name"),
-  email: z.string().email().optional().describe("Email"),
+  mail: z.string().email().optional().describe("Email"),
   password: z.string().optional().describe("Password"),
   phone: z.string().optional().describe("Phone Number"),
   IMUserType: z
@@ -21,7 +21,7 @@ const Schema = z.object({
 
 export const FormSignup = () => {
   const createaccount = api.affiliates.createaccount.useMutation();
-  const handleSubmit = async (values: z.infer<typeof schema>) => {
+  const handleSubmit = async (values: z.infer<typeof Schema>) => {
     await createaccount.mutateAsync(values);
   };
   const imUserTypes = [
@@ -33,21 +33,30 @@ export const FormSignup = () => {
     "Yahoo",
     "AIM",
   ];
+   const language = [
+    "English",
+    "Hindi",
+    "Arabic",
+    "Turkish",
+  ];
   
   return (
-    <Flex direction="column" gap={2} maxW="4xl"  width="100%">
+    
     <Form
       schema={Schema}
       onSubmit={handleSubmit}
       props={{
-        email: {
+        mail: {
           type: "email",
         },
         IMUserType: {
           choices: imUserTypes,
+        },
+        lang: {
+          choices: language,
         }
       }}
     ></Form>
-    </Flex>
+ 
   );
 };
