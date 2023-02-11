@@ -6,6 +6,8 @@ import { getAccount, updateAccount } from "./account";
 import { getPaymentDetails, getPaymentsPaid } from "./billing";
 import { getTickets, upsertTicket, deleteTicket } from "./ticket";
 import { getQuickReportSummary, getDataInstall, getAllMerchants,getCommissionReport } from "./reports";
+import { getDocuments } from "./document";
+import { getCommissions } from "./commission";
 
 export const affiliatesRouter = createTRPCRouter({
   getMerchantCreativeMeta,
@@ -32,4 +34,7 @@ export const affiliatesRouter = createTRPCRouter({
   getDataInstall,
   getAllMerchants,
   getCommissionReport
+
+  getDocuments,
+  getCommissions,
 });
