@@ -4,7 +4,6 @@ import {  z } from "zod";
 import {publicProcedure} from '../../trpc'
 import { groupBy } from "rambda";
 import type { dashboard } from "@prisma/client";
-import {  merchant_id } from "./const";
 import { SelectSchema } from "../../../db-schema-utils";
 import {
   addFreeTextSearchJSFilter,
@@ -108,8 +107,9 @@ export const getCommissionReport = publicProcedure.input(z.object({
 export const getClicksReport = publicProcedure.input(z.object({
     from:z.string().optional(),
     to: z.string().optional(),
-    merchant_id:z.number().optional()
-})).query(async ({ctx, input: {from,to, merchant_id}}) => {
+    merchant_id:z.number().optional(),
+
+})).query(async ({ctx, input: {merchant_id}}) => {
 
     const listProfiles = ctx.prisma.affiliates_profiles.findMany({
         where: {
@@ -121,13 +121,18 @@ export const getClicksReport = publicProcedure.input(z.object({
         }
     });
 
-    const unique_id = ctx.prisma.data_reg.findMany({
+    console.log("merchant id ------>",merchant_id)
+    let unique_id ;
+     unique_id = ctx.prisma.data_reg.findMany({
+        select: {
+            uid:true
+        },
         where: {
-            merchant_id:merchant_id
+            merchant_id: merchant_id ? merchant_id:1
         },
         take:1
     });
-    
+
     let totalRecords = ctx.prisma.traffic.aggregate({
         where: {
             clicks: {
@@ -168,7 +173,7 @@ export const getClicksReport = publicProcedure.input(z.object({
         }
     })
 
-    return totalRecords;
+    return unique_id;
 })
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
