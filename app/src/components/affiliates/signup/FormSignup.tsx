@@ -1,8 +1,7 @@
-import type { AffiliateAccountCreate } from "../../../server/db-types";
 import { Flex } from "@chakra-ui/react";
-import { z } from "zod";
+import { api } from "../../../utils/api";
 import { Form } from "../../common/forms/Form";
-
+import { z } from "zod";
 const Schema = z.object({
   username: z.string().optional().describe("User Name"),
   first_name: z.string().optional().describe("First Name"),
@@ -20,26 +19,26 @@ const Schema = z.object({
     website: z.string().optional().describe("Website"),
   });
 
-interface Props {
-  onSubmit: (values: z.infer<typeof Schema>) => Promise<void>;
-  Register: AffiliateAccountCreate;
-}
-
-const imUserTypes = [
-  "Skype",
-  "MSN",
-  "Google Talk",
-  "QQ",
-  "ICQ",
-  "Yahoo",
-  "AIM",
-];
-
-export const FormSignup = ({ Register, onSubmit }: Props) => {
+export const FormSignup = () => {
+  const createaccount = api.affiliates.createaccount.useMutation();
+  const handleSubmit = async (values: z.infer<typeof schema>) => {
+    await createaccount.mutateAsync(values);
+  };
+  const imUserTypes = [
+    "Skype",
+    "MSN",
+    "Google Talk",
+    "QQ",
+    "ICQ",
+    "Yahoo",
+    "AIM",
+  ];
+  
   return (
+    <Flex direction="column" gap={2} maxW="4xl"  width="100%">
     <Form
       schema={Schema}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
       props={{
         email: {
           type: "email",
@@ -48,8 +47,7 @@ export const FormSignup = ({ Register, onSubmit }: Props) => {
           choices: imUserTypes,
         }
       }}
-      defaultValues={Register}
-
     ></Form>
+    </Flex>
   );
 };
