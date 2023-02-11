@@ -1,14 +1,12 @@
-import styles from "./../../index.module.css";
-import { api } from "../../../utils/api";
-import { Flex } from "@chakra-ui/react";
-import '@etchteam/next-pagination/dist/index.css'
-import { type NextPage } from "next";
-import Head  from "next/head";
-import {useRouter} from "next/router";
-import {useState} from 'react'
-import { RangeDatepicker } from "chakra-dayzed-datepicker";
-import { Select, Container } from '@chakra-ui/react'
+import { Container, Flex, Select } from "@chakra-ui/react";
 import Pagination from "@etchteam/next-pagination";
+import '@etchteam/next-pagination/dist/index.css';
+import { RangeDatepicker } from "chakra-dayzed-datepicker";
+import { type NextPage } from "next";
+import Head from "next/head";
+import { useState } from 'react';
+import { api } from "../../../utils/api";
+import styles from "./../../index.module.css";
 
 const Page: NextPage = () => {
     const [displayType, setDisplayType] = useState("");
@@ -19,7 +17,7 @@ const Page: NextPage = () => {
 
 
   
-  console.log("data ----->", data[0]['uid'].length)
+  console.log("data ----->", data)
   console.log("merchants ----->",merchantId);
   
 
@@ -43,8 +41,8 @@ const Page: NextPage = () => {
       <option value='daily'>daily</option>
     </Select>
         <Select placeholder='Select option' onChange={(event) => setMerchantId(event.target.value)}>
-        {merchants?.map(merchant => {
-            return <option value={merchant.id}>{merchant.name}</option>
+        {merchants?.map((merchant,i) => {
+            return <option key={i} value={merchant.id}>{merchant.name}</option>
 
         })}
         </Select>

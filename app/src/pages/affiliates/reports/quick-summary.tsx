@@ -1,12 +1,10 @@
-import styles from "./../../index.module.css";
-import { api } from "../../../utils/api";
-import { Flex } from "@chakra-ui/react";
-import {QuerySelect} from '../../../components/common/QuerySelect'
+import { Flex, Select } from "@chakra-ui/react";
+import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import { type NextPage } from "next";
 import Head from "next/head";
-import {useState} from 'react'
-import { RangeDatepicker } from "chakra-dayzed-datepicker";
-import { Select } from '@chakra-ui/react'
+import { useState } from 'react';
+import { api } from "../../../utils/api";
+import styles from "./../../index.module.css";
 
 const Page: NextPage = () => {
   const [displayType, setDisplayType] = useState("");
@@ -40,8 +38,8 @@ const Page: NextPage = () => {
       <option value='daily'>daily</option>
     </Select>
     <Select placeholder='Select option' onChange={(event) => setDisplayType(event.target.value)}>
-      {merchants?.map(merchant => {
-        return <option value={merchant.name}>{merchant.name}</option>
+      {merchants?.map((merchant,i) => {
+        return <option key={i} value={merchant.name}>{merchant.name}</option>
 
       })}
     </Select>

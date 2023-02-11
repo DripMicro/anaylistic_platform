@@ -1,28 +1,22 @@
-import {  z } from "zod";
-
-
-import {publicProcedure} from '../../trpc'
-import { groupBy } from "rambda";
-import type { dashboard } from "@prisma/client";
-import { SelectSchema } from "../../../db-schema-utils";
-import {
-  addFreeTextSearchJSFilter,
-  addFreeTextSearchWhere,
-} from "../../../../../prisma/prisma-utils";
 import moment from "moment-mini";
+import { z } from "zod";
+
+
+import { publicProcedure } from '../../trpc';
+import { merchant_id } from "./const";
 
 
 export const getQuickReportSummary = publicProcedure.input(z.object({
     from:z.date().optional(),
     to: z.date().optional(),
-    display:z.string().optional()
+    display:z.string().optional(),
 })).query(async ({ctx,input: {from, to,display}}) => {
     console.log(display)
 
-    let data:any = await ctx.prisma.dashboard.groupBy({
+    const data = await ctx.prisma.dashboard.groupBy({
         by:['merchant_id','Date'],
         where: {
-            ...(merchant_id ?{merchant_id}: {}),
+            merchant_id: merchant_id ? merchant_id: 1,
             Date:{
                 gte:from,
                 lt:to
@@ -72,7 +66,7 @@ export const getCommissionReport = publicProcedure.input(z.object({
     if(page && items_per_page ) {
         offset = (page-1) * items_per_page
     }
-    let data:any = await ctx.prisma.commissions.findMany({
+    const data = await ctx.prisma.commissions.findMany({
         orderBy: {
             Date:'asc'
         },
@@ -108,10 +102,12 @@ export const getClicksReport = publicProcedure.input(z.object({
     from:z.string().optional(),
     to: z.string().optional(),
     merchant_id:z.number().optional(),
+    unique_id: z.string().optional(),
+    trader_id:z.string().optional(),
+    type:z.string().optional()
+})).query(async ({ctx, input: {from,to,merchant_id,unique_id,trader_id,type,}}) => {
 
-})).query(async ({ctx, input: {merchant_id}}) => {
-
-    const listProfiles = ctx.prisma.affiliates_profiles.findMany({
+    const listProfiles = await ctx.prisma.affiliates_profiles.findMany({
         where: {
             valid: 1
         },
@@ -122,27 +118,31 @@ export const getClicksReport = publicProcedure.input(z.object({
     });
 
     console.log("merchant id ------>",merchant_id)
-    let unique_id ;
-     unique_id = ctx.prisma.data_reg.findMany({
+    const distinct_id = await ctx.prisma.data_reg.findMany({
         select: {
             uid:true
         },
         where: {
-            merchant_id: merchant_id ? merchant_id:1
+            merchant_id: merchant_id ? merchant_id:1,
+            trader_id:trader_id?trader_id:''
         },
         take:1
     });
 
-    let totalRecords = ctx.prisma.traffic.aggregate({
+    const totalRecords = await ctx.prisma.traffic.aggregate({
         where: {
             clicks: {
                 gt:0
             },
             uid: {
-                gt:0
+                gt:'0',
             },
             merchant_id: {
                 gt:0
+            },
+            unixRdate: {
+                gte: moment(from).unix(),
+                lt: moment(to).unix()
             }
         },
         _sum: {
@@ -150,10 +150,10 @@ export const getClicksReport = publicProcedure.input(z.object({
         },
     });
 
-    const clickww = ctx.prisma.traffic.findMany({
+    const clickww = await ctx.prisma.traffic.findMany({
         where: {
             uid:{
-                gt:0
+                gt:'0'
             },
             merchant_id: {
                 gt:0
