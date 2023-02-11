@@ -36,3 +36,5 @@ export type affiliates_ticketsModelType = z.infer<
 >;
 
 export type AffiliateDocumentType = RouterOutput["affiliates"]["getDocuments"][0];
+export type AffiliateAccountLogin =
+RouterInput["affiliates"]["loginaccount"];

@@ -20,6 +20,7 @@ const Home: NextPage = () => {
     { href: "/affiliates/commissions", title: "Commission Structure" },
     { href: "/affiliates/reports/quick-summary", title: "Reports -> Quick Summary" },
     { href: "/affiliates/reports/commission-report", title: "Reports -> Commission Report" },
+    { href: "/affiliates/signin", title: "Sign In" },
   ];
 
   return (
