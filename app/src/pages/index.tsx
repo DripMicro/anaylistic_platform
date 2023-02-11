@@ -1,10 +1,7 @@
-import styles from "./index.module.css";
+import { Link, Stack, Text } from "@chakra-ui/react";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
 import NextLink from "next/link";
-import { Link, Stack, Text } from "@chakra-ui/react";
-import { api } from "../utils/api";
 
 const Home: NextPage = () => {
   const links = [
@@ -15,9 +12,11 @@ const Home: NextPage = () => {
     { href: "/affiliates/profiles", title: "Profiles" },
     { href: "/affiliates/billings", title: "Billing" },
     { href: "/affiliates/tickets", title: "Tickets" }, 
-    { href: "/affiliates/reports/quick-summary", title: "Quick Summary" },
-    { href: "/affiliates/reports/commission-report", title: "Commission Report" },
-    { href: "/affiliates/reports/click-reports", title: "Clicks Report" },
+    { href: "/affiliates/tickets", title: "Tickets" },
+    { href: "/affiliates/documents", title: "Documents" },
+    { href: "/affiliates/commissions", title: "Commission Structure" },
+    { href: "/affiliates/reports/quick-summary", title: "Reports -> Quick Summary" },
+    { href: "/affiliates/reports/commission-report", title: "Reports -> Commission Report" },
   ];
 
   return (

@@ -1,11 +1,13 @@
 import { createTRPCRouter } from "../../trpc";
-import { getMerchantCreative, getMerchantCreativeMeta } from "./creative";
-import { deleteProfile, getProfiles, upsertProfile } from "./profile";
-import { getMerchantSubCreative, getMerchantSubCreativeMeta } from "./sub";
 import { getAccount, updateAccount } from "./account";
 import { getPaymentDetails, getPaymentsPaid } from "./billing";
-import { getTickets, upsertTicket, deleteTicket } from "./ticket";
-import { getQuickReportSummary, getDataInstall, getAllMerchants,getCommissionReport,getClicksReport } from "./reports";
+import { getCommissions } from "./commission";
+import { getMerchantCreative, getMerchantCreativeMeta } from "./creative";
+import { getDocuments } from "./document";
+import { deleteProfile, getProfiles, upsertProfile } from "./profile";
+import { getAllMerchants, getClicksReport, getCommissionReport, getDataInstall, getQuickReportSummary } from "./reports";
+import { getMerchantSubCreative, getMerchantSubCreativeMeta } from "./sub";
+import { deleteTicket, getTickets, upsertTicket } from "./ticket";
 
 export const affiliatesRouter = createTRPCRouter({
   getMerchantCreativeMeta,
@@ -32,6 +34,7 @@ export const affiliatesRouter = createTRPCRouter({
   getDataInstall,
   getAllMerchants,
   getCommissionReport,
-  getClicksReport
-  
+  getClicksReport,
+  getDocuments,
+  getCommissions,
 });

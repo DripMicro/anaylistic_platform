@@ -1,5 +1,6 @@
 import type {
   ZodArray,
+  ZodAny,
   ZodBoolean,
   ZodBranded,
   ZodDate,
@@ -24,6 +25,7 @@ export type RTFBaseZodType =
   | ZodString
   | ZodNumber
   | ZodBoolean
+  | ZodAny
   | ZodDate
   | ZodArray<any, any>
   | ZodObject<any, any, any, any, any>
