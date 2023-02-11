@@ -41,3 +41,8 @@ RouterInput["affiliates"]["createaccount"];
 
 export type AffiliateDocumentType = RouterOutput["affiliates"]["getDocuments"][0];
 
+export type AffiliateAccountLogin =
+RouterInput["affiliates"]["loginaccount"];
+
+
+
