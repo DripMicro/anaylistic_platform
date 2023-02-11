@@ -16,6 +16,9 @@ import {
 import { getDocuments } from "./document";
 import { getCommissions } from "./commission";
 
+import { createaccount } from "./signup";
+
+
 export const affiliatesRouter = createTRPCRouter({
   getMerchantCreativeMeta,
   getMerchantCreative,
@@ -37,6 +40,8 @@ export const affiliatesRouter = createTRPCRouter({
   upsertTicket,
   deleteTicket,
 
+
+  createaccount,
   getQuickReportSummary,
   getDataInstall,
   getAllMerchants,
@@ -45,5 +50,7 @@ export const affiliatesRouter = createTRPCRouter({
   getDocuments,
   getCommissions,
 
+
   loginaccount,
+
 });
