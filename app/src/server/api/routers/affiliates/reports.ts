@@ -99,13 +99,31 @@ export const getCommissionReport = publicProcedure.input(z.object({
 
 
 export const getClicksReport = publicProcedure.input(z.object({
-    from:z.string().optional(),
-    to: z.string().optional(),
+    from:z.date().optional(),
+    to: z.date().optional(),
     merchant_id:z.number().optional(),
     unique_id: z.string().optional(),
     trader_id:z.string().optional(),
     type:z.string().optional()
 })).query(async ({ctx, input: {from,to,merchant_id,unique_id,trader_id,type,}}) => {
+
+    let type_filter = {}
+
+    if(type ==="clicks") {
+        type_filter = {
+                clicks: {
+                    gt:0
+                }  
+        }
+    } 
+
+    if (type === 'views') {
+        type_filter = {
+                views: {
+                    gt:0
+                }
+        }
+    }
 
     const listProfiles = await ctx.prisma.affiliates_profiles.findMany({
         where: {
@@ -117,7 +135,7 @@ export const getClicksReport = publicProcedure.input(z.object({
         }
     });
 
-    console.log("merchant id ------>",merchant_id)
+    console.log("merchant id ------>",merchant_id);
     const distinct_id = await ctx.prisma.data_reg.findMany({
         select: {
             uid:true
@@ -129,13 +147,19 @@ export const getClicksReport = publicProcedure.input(z.object({
         take:1
     });
 
+    console.log("dates", {
+        gte: moment(from).unix(),
+        lt: moment(to).unix()
+    });
+
     const totalRecords = await ctx.prisma.traffic.aggregate({
         where: {
-            clicks: {
-                gt:0
-            },
-            uid: {
-                gt:'0',
+            // uid: {
+            //     gt:0,
+            // },
+            ...type_filter,
+            AND: {
+                uid:unique_id ? unique_id:''
             },
             merchant_id: {
                 gt:0
@@ -143,37 +167,78 @@ export const getClicksReport = publicProcedure.input(z.object({
             unixRdate: {
                 gte: moment(from).unix(),
                 lt: moment(to).unix()
-            }
+            },
         },
         _sum: {
             id:true,
         },
     });
 
-    const clickww = await ctx.prisma.traffic.findMany({
+    // const clickww = await ctx.prisma.traffic.findMany({
+    //     ...type_filter,
+    //     where: {
+    //         uid:{
+    //             gt:'0'
+    //         },
+    //         merchant_id: {
+    //             gt:0
+    //         }
+    //     },
+    //     include: {
+    //         merchant: {
+    //             select: {
+    //                 name:true
+    //             }
+    //         },
+    //         affiliate: {
+    //             select: {
+    //                 username:true
+    //             }
+    //         }
+    //     }
+    // })
+
+    console.log("distinct id -------->", totalRecords)
+
+    return totalRecords;
+});
+
+
+export const getInstallReport = publicProcedure.input(z.object({
+    from:z.date().optional(),
+    to:z.date().optional()
+})).query(async ({ctx,input: {from,to}}) => {
+    const ww = await ctx.prisma.data_install.findMany({
+        orderBy:{
+            type:'asc'
+        },
         where: {
-            uid:{
-                gt:'0'
+            merchant_id:{
+                gt:0
+            }
+        },
+        select:{
+            type:true
+        },
+        take:1
+    });
+    console.log("weeeee -->",ww)
+    const data = await ctx.prisma.data_install.findMany({
+        orderBy:{
+            rdate: 'asc'
+        },
+        where: {
+            rdate: {
+                gte:from,
+                lt: to
             },
             merchant_id: {
                 gt:0
             }
-        },
-        include: {
-            merchant: {
-                select: {
-                    name:true
-                }
-            },
-            affiliate: {
-                select: {
-                    username:true
-                }
-            }
         }
     })
 
-    return unique_id;
+    return data
 })
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {

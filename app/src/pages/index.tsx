@@ -12,11 +12,12 @@ const Home: NextPage = () => {
     { href: "/affiliates/profiles", title: "Profiles" },
     { href: "/affiliates/billings", title: "Billing" },
     { href: "/affiliates/tickets", title: "Tickets" }, 
-    { href: "/affiliates/tickets", title: "Tickets" },
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
     { href: "/affiliates/reports/quick-summary", title: "Reports -> Quick Summary" },
     { href: "/affiliates/reports/commission-report", title: "Reports -> Commission Report" },
+    { href: "/affiliates/reports/clicks-report", title: "Reports -> Clicks Report" },
+    { href: "/affiliates/reports/install-reports", title: "Reports -> Installs Report" },
   ];
 
   return (

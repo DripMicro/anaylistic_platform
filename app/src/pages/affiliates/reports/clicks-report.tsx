@@ -10,9 +10,10 @@ import styles from "./../../index.module.css";
 
 const Page: NextPage = () => {
     const [displayType, setDisplayType] = useState("");
+    const [type,setType] = useState("");
     const [merchantId, setMerchantId] = useState("");
     const [selectedDates, setSelectedDates] = useState<Date[]>([new Date(), new Date()]);
-    const { data } = api.affiliates.getClicksReport.useQuery({merchant_id:parseInt(merchantId)})
+    const { data } = api.affiliates.getClicksReport.useQuery({from:selectedDates[0],to:selectedDates[1],merchant_id:parseInt(merchantId),unique_id:"",trader_id:"",type})
     const {data: merchants} = api.affiliates.getAllMerchants.useQuery();
 
 
@@ -35,11 +36,16 @@ const Page: NextPage = () => {
         selectedDates={selectedDates}
         onDateChange={setSelectedDates}
       />
-      <Select placeholder='Select option' onChange={(event) => setDisplayType(event.target.value)}>
-      <option value='monthly'>monthly</option>
-      <option value='weekly'>weekly</option>
-      <option value='daily'>daily</option>
-    </Select>
+        <Select placeholder='Select option' onChange={(event) => setDisplayType(event.target.value)}>
+          <option value='monthly'>monthly</option>
+          <option value='weekly'>weekly</option>
+          <option value='daily'>daily</option>
+        </Select>
+        
+        <Select placeholder='Select option' onChange={(event) => setType(event.target.value)}>
+          <option value='clicks'>clicks</option>
+          <option value='views'>views</option>
+        </Select>
         <Select placeholder='Select option' onChange={(event) => setMerchantId(event.target.value)}>
         {merchants?.map((merchant,i) => {
             return <option key={i} value={merchant.id}>{merchant.name}</option>
