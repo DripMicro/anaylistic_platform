@@ -5,12 +5,16 @@ import { affiliate_id } from "./const";
 import { affiliatesModel } from "../../../../../prisma/zod";
 import { TRPCError } from "@trpc/server";
 import { schema as schemaRegister } from "../../../../shared-types/forms/register";
+import { schema as schemaLostPassword } from "../../../../shared-types/forms/lost-password";
 import md5 from "md5";
 import type { queryRawId } from "../../../db-utils";
 import { getConfig } from "../../../config";
 import type { PrismaClient } from "@prisma/client";
 import { Awaitable, User } from "next-auth";
 import type { AuthUser } from "../../../auth";
+import type { affiliates } from ".prisma/client";
+import { sentEmailTemplate } from "../../../email";
+import { Prisma } from "@prisma/client";
 
 export const getAccount = publicProcedure.query(async ({ ctx }) => {
   const data = await ctx.prisma.affiliates.findUnique({
@@ -72,6 +76,7 @@ export const registerAccount = publicProcedure
         mail: mail.toLowerCase(),
         password: String(md5(password)),
         rdate: new Date(),
+        type: "Affiliate",
 
         valid: 1,
         language_id: 0,
@@ -124,58 +129,38 @@ export const registerAccount = publicProcedure
     return data;
   });
 
-export const loginAccount = async (
-  prisma: PrismaClient,
-  username: string,
-  password: string
-): Promise<AuthUser | null> => {
-  //C:\aff\FocusOption\FocusOption-main\site\index.php L175
-  //$strSql = "SELECT id, username, password,valid,emailVerification
-  // FROM affiliates
-  // WHERE LOWER(username) = LOWER('" . strtolower($username) . "') AND
-  // (password) = '" . (($admin>0 || $manager>0) ? strtolower($password):  strtolower(md5($password))) . "' ";
+export const recoverPassword = publicProcedure
+  .input(schemaLostPassword)
+  .mutation(async ({ ctx, input }) => {
+    console.log(`muly:recoverPassword`, { input });
+    const { username, mail } = input;
 
-  const user = await prisma.$queryRaw<
-    {
-      id: number;
-      mail: string;
-      first_name: string;
-      last_name: string;
-      password: string;
-      valid: number;
-      emailVerification: number;
-    }[]
-  >`SELECT id,mail,password,valid,emailVerification FROM affiliates WHERE lower(username)=${username.toLowerCase()}`;
+    // FocusOption/FocusOption-main/site/index.php L1565
 
-  if (!user.length || user[0]?.password !== md5(password)) {
-    throw new TRPCError({
-      code: "BAD_REQUEST",
-      message: "Login incorrect",
-    });
-  }
+    // ${username.toLowerCase()}
 
-  const { id, first_name, last_name, mail, emailVerification, valid } = user[0];
+    let affiliates: affiliates[] = [];
+    if (username) {
+      affiliates = await ctx.prisma.$queryRaw<
+        affiliates[]
+      >`SELECT id,mail,first_name,last_name FROM affiliates WHERE lower(username)=${username.toLowerCase()}`;
+    } else if (mail) {
+      affiliates = await ctx.prisma.$queryRaw<
+        affiliates[]
+      >`SELECT id,mail,first_name,last_name FROM affiliates WHERE lower(mail)=${mail.toLowerCase()}`;
+    }
 
-  const config = await getConfig(prisma);
-  if (config.BlockLoginUntillEmailVerification && !emailVerification) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "Please verify your email before you login",
-    });
-  }
+    console.log(`muly:affiliates:answer`, { affiliates });
 
-  if (!valid) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "User Not validated",
-    });
-  }
+    if (affiliates?.length && affiliates[0]) {
+      const affiliate = affiliates[0];
+      const { id, mail } = affiliate;
+      const password = Math.random().toString(36).slice(-8);
 
-  return {
-    id: String(id),
-    email: mail,
-    name: `${first_name || ""} ${last_name || ""}`.trim() || mail,
-    image: null,
-    type: "affiliate",
-  };
-};
+      await ctx.prisma.affiliates.update({ where: { id }, data: { password } });
+
+      await sentEmailTemplate("ResetPassword", { affiliate, password });
+    }
+
+    return true;
+  });

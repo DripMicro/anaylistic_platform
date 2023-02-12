@@ -27,6 +27,8 @@ type CreateContextOptions = {
   session: Session | null;
 };
 
+console.log(`muly:TRPC init `, { t: typeof prisma });
+
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use
  * it, you can export it from here

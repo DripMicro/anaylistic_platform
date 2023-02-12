@@ -4,7 +4,7 @@ import { deleteProfile, getProfiles, upsertProfile } from "./profile";
 import { getMerchantSubCreative, getMerchantSubCreativeMeta } from "./sub";
 import {
   getAccount,
-  loginAccount,
+  recoverPassword,
   registerAccount,
   updateAccount,
 } from "./account";
@@ -34,6 +34,7 @@ export const affiliatesRouter = createTRPCRouter({
   getAccount,
   updateAccount,
   registerAccount,
+  recoverPassword,
 
   getPaymentsPaid,
   getPaymentDetails,

@@ -5,9 +5,8 @@ import {
   type DefaultSession,
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./db";
-import { loginAccount } from "./api/routers/affiliates/account";
+import { loginAccount } from "./auth-affiliates-login";
 import { castError } from "../utils/errors";
 
 export type AuthUser = {
@@ -43,15 +42,15 @@ declare module "next-auth" {
  **/
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    jwt({ token, account, profile }) {
-      console.log(`muly:jwt`, { token, account, profile });
-      // Persist the OAuth access_token and or the user id to the token right after signin
-      // if (account) {
-      //   token.accessToken = account.access_token;
-      //   token.id = profile.id;
-      // }
-      return token;
-    },
+    // jwt({ token, account, profile }) {
+    //   console.log(`muly:jwt`, { token, account, profile });
+    //   // Persist the OAuth access_token and or the user id to the token right after signin
+    //   // if (account) {
+    //   //   token.accessToken = account.access_token;
+    //   //   token.id = profile.id;
+    //   // }
+    //   return token;
+    // },
     session({ session, user, token }) {
       console.log(`muly:session`, { session, user, token });
       if (session.user && token.sub) {
@@ -107,8 +106,8 @@ export const authOptions: NextAuthOptions = {
             return user;
           } catch (_err) {
             const err = castError(_err);
-            console.error(`muly:authorize ${err.message}`);
-            return null;
+            console.error(`authorize ERROR: ${err.message}`);
+            throw err;
           }
         }
 

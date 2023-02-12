@@ -2219,6 +2219,7 @@ enum affiliates_type {
   IB
   WhileLabel
   PortfolioManager
+  EMPTY_ENUM_VALUE @map("")
 }
 
 enum merchants_qualify_type {

@@ -10,6 +10,10 @@ const Home: NextPage = () => {
   const { data: session } = useSession();
 
   const links = [
+    { href: "/affiliates/signup", title: "Auth -> Sign Up" },
+    { href: "/affiliates/signin", title: "Auth -> Sign In" },
+    { href: "/affiliates/lost-password", title: "Auth -> Lost Password" },
+
     { href: "/affiliates/creative", title: "Creative Materials" },
     { href: "/affiliates/sub", title: "Sub Affiliate Creative Materials" },
     { href: "/affiliates/account", title: "Account Details" },
@@ -17,8 +21,6 @@ const Home: NextPage = () => {
     { href: "/affiliates/profiles", title: "Profiles" },
     { href: "/affiliates/billings", title: "Billing" },
     { href: "/affiliates/tickets", title: "Tickets" },
-    { href: "/affiliates/signup", title: "Sign Up" },
-    { href: "/affiliates/signin", title: "Sign In" },
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
     {
