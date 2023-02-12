@@ -1,10 +1,8 @@
-import styles from "./index.module.css";
-import { type NextPage } from "next";
-import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
-import NextLink from "next/link";
 import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
-import { api } from "../utils/api";
+import { type NextPage } from "next";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import NextLink from "next/link";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -20,17 +18,13 @@ const Home: NextPage = () => {
     { href: "/affiliates/account-payment", title: "Account Payment Details" },
     { href: "/affiliates/profiles", title: "Profiles" },
     { href: "/affiliates/billings", title: "Billing" },
-    { href: "/affiliates/tickets", title: "Tickets" },
+    { href: "/affiliates/tickets", title: "Tickets" }, 
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
-    {
-      href: "/affiliates/reports/quick-summary",
-      title: "Reports -> Quick Summary",
-    },
-    {
-      href: "/affiliates/reports/commission-report",
-      title: "Reports -> Commission Report",
-    },
+    { href: "/affiliates/reports/quick-summary", title: "Reports -> Quick Summary" },
+    { href: "/affiliates/reports/commission-report", title: "Reports -> Commission Report" },
+    { href: "/affiliates/reports/clicks-report", title: "Reports -> Clicks Report" },
+    { href: "/affiliates/reports/install-reports", title: "Reports -> Installs Report" },
   ];
 
   return (
