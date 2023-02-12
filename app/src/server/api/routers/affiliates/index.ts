@@ -34,7 +34,6 @@ export const affiliatesRouter = createTRPCRouter({
   getAccount,
   updateAccount,
   registerAccount,
-  loginAccount,
 
   getPaymentsPaid,
   getPaymentDetails,

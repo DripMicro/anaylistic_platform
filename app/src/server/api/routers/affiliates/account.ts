@@ -5,10 +5,12 @@ import { affiliate_id } from "./const";
 import { affiliatesModel } from "../../../../../prisma/zod";
 import { TRPCError } from "@trpc/server";
 import { schema as schemaRegister } from "../../../../shared-types/forms/register";
-import { schema as schemaLogin } from "../../../../shared-types/forms/login";
 import md5 from "md5";
 import type { queryRawId } from "../../../db-utils";
 import { getConfig } from "../../../config";
+import type { PrismaClient } from "@prisma/client";
+import { Awaitable, User } from "next-auth";
+import type { AuthUser } from "../../../auth";
 
 export const getAccount = publicProcedure.query(async ({ ctx }) => {
   const data = await ctx.prisma.affiliates.findUnique({
@@ -43,9 +45,9 @@ export const registerAccount = publicProcedure
 
     const [idUserName, idEmail] = await Promise.all([
       ctx.prisma
-        .$queryRaw<queryRawId>`SELECT id FROM affiliate WHERE lower(username)=${username.toLowerCase()}`,
+        .$queryRaw<queryRawId>`SELECT id FROM affiliates WHERE lower(username)=${username.toLowerCase()}`,
       ctx.prisma
-        .$queryRaw<queryRawId>`SELECT id FROM affiliate WHERE lower(mail)=${mail.toLowerCase()}`,
+        .$queryRaw<queryRawId>`SELECT id FROM affiliates WHERE lower(mail)=${mail.toLowerCase()}`,
     ]);
 
     console.log(`muly:idUserName`, { idUserName, idEmail });
@@ -122,46 +124,58 @@ export const registerAccount = publicProcedure
     return data;
   });
 
-export const loginAccount = publicProcedure
-  .input(schemaLogin)
-  .mutation(async ({ ctx, input: { username, password } }) => {
-    //C:\aff\FocusOption\FocusOption-main\site\index.php L175
-    //$strSql = "SELECT id, username, password,valid,emailVerification
-    // FROM affiliates
-    // WHERE LOWER(username) = LOWER('" . strtolower($username) . "') AND
-    // (password) = '" . (($admin>0 || $manager>0) ? strtolower($password):  strtolower(md5($password))) . "' ";
+export const loginAccount = async (
+  prisma: PrismaClient,
+  username: string,
+  password: string
+): Promise<AuthUser | null> => {
+  //C:\aff\FocusOption\FocusOption-main\site\index.php L175
+  //$strSql = "SELECT id, username, password,valid,emailVerification
+  // FROM affiliates
+  // WHERE LOWER(username) = LOWER('" . strtolower($username) . "') AND
+  // (password) = '" . (($admin>0 || $manager>0) ? strtolower($password):  strtolower(md5($password))) . "' ";
 
-    const user = await ctx.prisma.$queryRaw<
-      {
-        id: number;
-        password: string;
-        valid: number;
-        emailVerification: number;
-      }[]
-    >`SELECT id,password,valid,emailVerification FROM affiliate WHERE lower(username)=${username.toLowerCase()}`;
+  const user = await prisma.$queryRaw<
+    {
+      id: number;
+      mail: string;
+      first_name: string;
+      last_name: string;
+      password: string;
+      valid: number;
+      emailVerification: number;
+    }[]
+  >`SELECT id,mail,password,valid,emailVerification FROM affiliates WHERE lower(username)=${username.toLowerCase()}`;
 
-    if (!user.length || user[0]?.password !== md5(password)) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "Login incorrect",
-      });
-    }
+  if (!user.length || user[0]?.password !== md5(password)) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Login incorrect",
+    });
+  }
 
-    const { emailVerification, valid } = user[0];
+  const { id, first_name, last_name, mail, emailVerification, valid } = user[0];
 
-    if (ctx.config.BlockLoginUntillEmailVerification && !emailVerification) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "Please verify your email before you login",
-      });
-    }
+  const config = await getConfig(prisma);
+  if (config.BlockLoginUntillEmailVerification && !emailVerification) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Please verify your email before you login",
+    });
+  }
 
-    if (!valid) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User Not validated",
-      });
-    }
+  if (!valid) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "User Not validated",
+    });
+  }
 
-    return "ok";
-  });
+  return {
+    id: String(id),
+    email: mail,
+    name: `${first_name || ""} ${last_name || ""}`.trim() || mail,
+    image: null,
+    type: "affiliate",
+  };
+};

@@ -3,10 +3,12 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 import NextLink from "next/link";
-import { Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
 import { api } from "../utils/api";
 
 const Home: NextPage = () => {
+  const { data: session } = useSession();
+
   const links = [
     { href: "/affiliates/creative", title: "Creative Materials" },
     { href: "/affiliates/sub", title: "Sub Affiliate Creative Materials" },
@@ -38,6 +40,19 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <Stack gap={2} m={12}>
+          {!session?.user && <p>Not login</p>}
+          {!!session?.user && (
+            <Box>
+              <p>Welcome {session.user.name}</p>
+              <Button
+                onClick={() => {
+                  void signOut();
+                }}
+              >
+                Logout
+              </Button>
+            </Box>
+          )}
           {links.map(({ href, title }) => (
             <Link key={href} as={NextLink} href={href}>
               <Text as="b">{title}</Text>
