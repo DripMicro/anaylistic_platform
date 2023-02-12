@@ -8,15 +8,19 @@ import styles from "./../../index.module.css";
 
 const Page: NextPage = () => {
   const [displayType, setDisplayType] = useState("");
-  const [selectedDates, setSelectedDates] = useState<Date[]>([new Date(), new Date()]);
-  const { data } = api.affiliates.getQuickReportSummary.useQuery({from:selectedDates[0],to:selectedDates[1], display: displayType})
-  const {data: merchants} = api.affiliates.getAllMerchants.useQuery();
+  const [selectedDates, setSelectedDates] = useState<Date[]>([
+    new Date(),
+    new Date(),
+  ]);
+  const { data } = api.affiliates.getQuickReportSummary.useQuery({
+    from: selectedDates[0],
+    to: selectedDates[1],
+    display: displayType,
+  });
+  const { data: merchants } = api.affiliates.getAllMerchants.useQuery();
 
-
-  
-  console.log("data ----->", data)
-  console.log("merchants ----->",merchants);
-  
+  console.log("data ----->", data);
+  console.log("merchants ----->", merchants);
 
   return (
     <>

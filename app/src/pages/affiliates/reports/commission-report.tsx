@@ -18,12 +18,9 @@ const Page: NextPage = () => {
     const { data } = api.affiliates.getCommissionReport.useQuery({from:selectedDates[0],to:selectedDates[1],page:page,items_per_page:items_per_page})
     const {data: merchants} = api.affiliates.getAllMerchants.useQuery();
 
-
-  
-  console.log("data ----->", data)
-  console.log("merchants ----->",merchants);
-  console.log("route params", router.query)
-  
+  console.log("data ----->", data);
+  console.log("merchants ----->", merchants);
+  console.log("route params", router.query);
 
   return (
     <>

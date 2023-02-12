@@ -7,7 +7,7 @@ import * as z from "zod";
 import { ModalForm } from "../../common/forms/ModalForm";
 import { AddIcon, CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
-import { format } from 'date-fns'
+import { format } from "date-fns";
 import {
   ModalFormAction,
   ModalFormButton,
@@ -18,8 +18,8 @@ const columnHelper = createColumnHelper<AffiliateTicketType>();
 
 const schema = z.object({
   subject: z.string().describe("Ticket Subject"),
-  reply_email: z.string().email().optional().describe("Your Email"),
-  text: z.string().optional().describe("Ticket Content"),
+  reply_email: z.string().email().describe("Your Email"),
+  text: z.string().describe("Ticket Content"),
 });
 
 const addProps = {
@@ -148,7 +148,7 @@ export const Tickets = () => {
               actionName: "Add",
             }
       }
-      defaultValues={editRec ? editRec : null}
+      defaultValues={editRec ? editRec : undefined}
       props={{
         text: {
           controlName: "Textarea",
