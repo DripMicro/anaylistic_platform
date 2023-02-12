@@ -2,7 +2,7 @@ import styles from "./../index.module.css";
 import { type NextPage } from "next";
 import Head from "next/head";
 
-import { FormSignin } from "../../components/affiliates/signin/FormSignin";
+import { FormSignin } from "../../components/affiliates/account/FormSignin";
 const Page: NextPage = () => {
   return (
     <>

@@ -2,32 +2,10 @@ import { Flex } from "@chakra-ui/react";
 import { api } from "../../../utils/api";
 import type { AffiliateAccountUpdateType } from "../../../server/db-types";
 import { Form } from "../../common/forms/Form";
-import { z } from "zod";
+import type { z } from "zod";
 import { affiliates_paymentMethod } from "@prisma/client";
 import { GridColumnHeader } from "../../common/forms/GridColumnHeader";
-
-const schema = z.object({
-  paymentMethod: z
-    .nativeEnum(affiliates_paymentMethod)
-    .describe("Payment Method"),
-
-  // Basic Information
-  pay_firstname: z.string().optional().describe("First Name"),
-  pay_lastname: z.string().optional().describe("Last Name"),
-  pay_address1: z.string().optional().describe("Address 1"),
-  pay_address2: z.string().optional().describe("Address 2"),
-  pay_city: z.string().optional().describe("City"),
-  pay_zip: z.string().optional().describe("Zip Code"),
-  pay_country: z.coerce.number().optional().describe("Country"),
-
-  // Transfer Details
-
-  // availableCurrencies
-  preferredCurrency: z.string().optional().describe("Preferred Currency"),
-  pay_info: z.string().optional().describe("More Information"),
-  pay_email: z.string().email().optional().describe("Payment Email"),
-  pay_account: z.string().optional().describe("Account"),
-});
+import { schema } from "../../../shared-types/forms/payment-details";
 
 export const AccountPaymentDetails = () => {
   const { data: account, refetch } = api.affiliates.getAccount.useQuery();

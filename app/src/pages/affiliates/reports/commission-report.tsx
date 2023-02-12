@@ -12,8 +12,8 @@ import Pagination from "@etchteam/next-pagination";
 
 const Page: NextPage = () => {
   const router = useRouter();
-  const page = parseInt(String(router?.query?.page));
-  const items_per_page = parseInt(String(router?.query?.size));
+  const page = parseInt(String(router?.query?.page)) || 1;
+  const items_per_page = parseInt(String(router?.query?.size)) || 50;
   const [displayType, setDisplayType] = useState("");
   const [selectedDates, setSelectedDates] = useState<Date[]>([
     new Date(),
