@@ -239,6 +239,64 @@ export const getInstallReport = publicProcedure.input(z.object({
     })
 
     return data
+});
+
+
+export const getCreativeReport = publicProcedure.input(z.object({
+    from:z.date().optional(),
+    to:z.date().optional(),
+    merchant_id:z.string().optional(),
+    banner_id: z.string().optional(),
+    creative_type:z.string().optional()
+})).query(async ({ctx,input: {from,to,merchant_id,banner_id,creative_type}}) => {
+    let type_filter = {}
+
+    if(merchant_id) {
+        type_filter = {
+                merchant_id: merchant_id
+        }
+    } 
+
+    if (banner_id) {
+        type_filter = {
+                banner_id:banner_id
+        }
+    }
+
+    const merchant_ids = await ctx.prisma.merchants_creative_stats.groupBy({
+        by:['BannerID','affiliate_id','Date','merchant_id'],
+        ...type_filter,
+        where: {
+            Date: {
+                gte:from,
+                lt:to
+            }
+        },
+        _sum: {
+            Clicks:true,
+            Impressions:true
+        },
+    })
+    let i = 0;
+    while (i < merchant_ids.length) {
+
+        console.log(merchant_ids[i])
+
+        const banner_info = await ctx.prisma.merchants_creative.findMany({
+            select: {
+                id:true,
+                title:true,
+                type:true
+            },
+            where: {
+                id: merchant_ids[i]? merchant_ids[i]?.BannerID:1
+            }
+        })
+        i++;
+
+    }
+    
+    return merchant_ids;
 })
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
@@ -258,7 +316,9 @@ export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
 
 export const getAllMerchants = publicProcedure.query(async ({ctx}) => {
     const merchants = await ctx.prisma.merchants.findMany({
-        
+        where: {
+            valid: 1
+        }
     })
 
     return merchants;
@@ -277,4 +337,8 @@ export const getAffiliateProfile = publicProcedure.query(async ({ctx}) => {
     })
 
     return affiliates;
-})
+});
+
+function getAffiliateDealType() {
+
+}
