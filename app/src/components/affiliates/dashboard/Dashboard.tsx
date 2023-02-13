@@ -94,9 +94,9 @@ export const Dashboard = () => {
   const { data } = api.affiliates.getDashboard.useQuery();
   const { data: creative } = api.affiliates.getTopMerchantCreative.useQuery();
 
-  console.log("data:", data);
-  console.log("creative:", creative);
-
+  if (!creative) {
+    return null;
+  }
   const columns = [
     columnHelper.accessor("merchant.name", {
       cell: (info) => info.getValue(),
