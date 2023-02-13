@@ -1,4 +1,5 @@
 import { createTRPCRouter } from "../../trpc";
+import { getDashboard, getTopMerchantCreative } from "./dashboard";
 import { getMerchantCreative, getMerchantCreativeMeta } from "./creative";
 import { deleteProfile, getProfiles, upsertProfile } from "./profile";
 import { getMerchantSubCreative, getMerchantSubCreativeMeta } from "./sub";
@@ -18,8 +19,10 @@ import { getCommissions } from "./commission";
 
 import { createaccount } from "./signup";
 
-
 export const affiliatesRouter = createTRPCRouter({
+  getDashboard,
+  getTopMerchantCreative,
+
   getMerchantCreativeMeta,
   getMerchantCreative,
 

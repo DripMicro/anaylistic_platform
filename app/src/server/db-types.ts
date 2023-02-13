@@ -44,5 +44,7 @@ export type AffiliateDocumentType = RouterOutput["affiliates"]["getDocuments"][0
 export type AffiliateAccountLogin =
 RouterInput["affiliates"]["loginaccount"];
 
+export type TopMerchantCreativeType = RouterOutput["affiliates"]["getTopMerchantCreative"][0];
+
 
 

@@ -1406,10 +1406,10 @@
   dependencies:
     tippy.js "^6.3.1"
 
-"@tremor/react@^1.6.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@tremor/react/-/react-1.7.0.tgz#661b6c20d3369e7facba24367ea855927c17544c"
-  integrity sha512-PlER8rLiF1Id9Gy9FpO4Z9GSkzqQpts9lY5/4tiedHFoEUvgWH3uOGHwPPWiI91WbQlz+1jJRSctdW2KUcCEBw==
+"@tremor/react@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@tremor/react/-/react-1.8.0.tgz#2370eee5b106833a468a175fb2f268e10fcd37a5"
+  integrity sha512-LUAzKOX7aIGc3UkuQuuZPb+Lz88cqJOZGOx+vBLKLtptIhG+On0MyySqBhJo8tpJhVLHFXbzBP1cPDlpezhIzg==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     date-fns "^2.28.0"
@@ -1871,6 +1871,11 @@ balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
+
+bcryptjs@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/bcryptjs/-/bcryptjs-2.4.3.tgz#9ab5627b93e60621ff7cdac5da9733027df1d0cb"
+  integrity sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==
 
 brace-expansion@^1.1.7:
   version "1.1.11"

@@ -8,6 +8,7 @@ import { api } from "../utils/api";
 
 const Home: NextPage = () => {
   const links = [
+    { href: "/affiliates/dashboard", title: "Dashboard" },
     { href: "/affiliates/creative", title: "Creative Materials" },
     { href: "/affiliates/sub", title: "Sub Affiliate Creative Materials" },
     { href: "/affiliates/account", title: "Account Details" },
@@ -15,7 +16,6 @@ const Home: NextPage = () => {
     { href: "/affiliates/profiles", title: "Profiles" },
     { href: "/affiliates/billings", title: "Billing" },
     { href: "/affiliates/tickets", title: "Tickets" }, 
-    { href: "/affiliates/tickets", title: "Tickets" },
     { href: "/affiliates/signup", title: "Sign Up" },
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
