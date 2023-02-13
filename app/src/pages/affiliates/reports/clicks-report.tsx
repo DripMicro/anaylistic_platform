@@ -4,23 +4,23 @@ import '@etchteam/next-pagination/dist/index.css';
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useState } from 'react';
 import { api } from "../../../utils/api";
 import styles from "./../../index.module.css";
 
 const Page: NextPage = () => {
-    const router = useRouter();
-    const page = parseInt(router?.query?.page as string);
-    const items_per_page =parseInt(router?.query?.size as string);
     const [displayType, setDisplayType] = useState("");
+    const [type,setType] = useState("");
+    const [merchantId, setMerchantId] = useState("");
     const [selectedDates, setSelectedDates] = useState<Date[]>([new Date(), new Date()]);
-    const { data } = api.affiliates.getCommissionReport.useQuery({from:selectedDates[0],to:selectedDates[1],page:page,items_per_page:items_per_page})
+    const { data } = api.affiliates.getClicksReport.useQuery({from:selectedDates[0],to:selectedDates[1],merchant_id:parseInt(merchantId),unique_id:"",trader_id:"",type})
     const {data: merchants} = api.affiliates.getAllMerchants.useQuery();
 
-  console.log("data ----->", data);
-  console.log("merchants ----->", merchants);
-  console.log("route params", router.query);
+
+  
+  console.log("data ----->", data)
+  console.log("merchants ----->",merchantId);
+  
 
   return (
     <>
@@ -36,14 +36,19 @@ const Page: NextPage = () => {
         selectedDates={selectedDates}
         onDateChange={setSelectedDates}
       />
-      <Select placeholder='Select option' onChange={(event) => setDisplayType(event.target.value)}>
-      <option value='monthly'>monthly</option>
-      <option value='weekly'>weekly</option>
-      <option value='daily'>daily</option>
-    </Select>
         <Select placeholder='Select option' onChange={(event) => setDisplayType(event.target.value)}>
+          <option value='monthly'>monthly</option>
+          <option value='weekly'>weekly</option>
+          <option value='daily'>daily</option>
+        </Select>
+        
+        <Select placeholder='Select option' onChange={(event) => setType(event.target.value)}>
+          <option value='clicks'>clicks</option>
+          <option value='views'>views</option>
+        </Select>
+        <Select placeholder='Select option' onChange={(event) => setMerchantId(event.target.value)}>
         {merchants?.map((merchant,i) => {
-            return <option key={i} value={merchant.name}>{merchant.name}</option>
+            return <option key={i} value={merchant.id}>{merchant.name}</option>
 
         })}
         </Select>

@@ -1,23 +1,22 @@
 import { createTRPCRouter } from "../../trpc";
 import { getDashboard, getTopMerchantCreative } from "./dashboard";
+import {
+  getAccount,
+  recoverPassword,
+  registerAccount,
+  updateAccount
+} from "./account";
+import { getPaymentDetails, getPaymentsPaid } from "./billing";
 import { getMerchantCreative, getMerchantCreativeMeta } from "./creative";
 import { deleteProfile, getProfiles, upsertProfile } from "./profile";
 import { getMerchantSubCreative, getMerchantSubCreativeMeta } from "./sub";
-import { getAccount, updateAccount } from "./account";
-import { getPaymentDetails, getPaymentsPaid } from "./billing";
-import { getTickets, upsertTicket, deleteTicket } from "./ticket";
-import { loginaccount } from "./signin";
+import { deleteTicket, getTickets, upsertTicket } from "./ticket";
 
-import {
-  getQuickReportSummary,
-  getDataInstall,
-  getAllMerchants,
-  getCommissionReport,
-} from "./reports";
-import { getDocuments } from "./document";
 import { getCommissions } from "./commission";
-
-import { createaccount } from "./signup";
+import { getDocuments } from "./document";
+import {
+  getAllMerchants, getClicksReport, getCommissionReport, getInstallReport, getQuickReportSummary
+} from "./reports";
 
 export const affiliatesRouter = createTRPCRouter({
   getDashboard,
@@ -35,6 +34,8 @@ export const affiliatesRouter = createTRPCRouter({
 
   getAccount,
   updateAccount,
+  registerAccount,
+  recoverPassword,
 
   getPaymentsPaid,
   getPaymentDetails,
@@ -43,17 +44,11 @@ export const affiliatesRouter = createTRPCRouter({
   upsertTicket,
   deleteTicket,
 
-
-  createaccount,
   getQuickReportSummary,
-  getDataInstall,
+  getInstallReport,
   getAllMerchants,
   getCommissionReport,
-
+  getClicksReport,
   getDocuments,
   getCommissions,
-
-
-  loginaccount,
-
 });

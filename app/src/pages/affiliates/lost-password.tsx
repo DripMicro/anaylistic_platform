@@ -1,18 +1,18 @@
-import styles from "./../index.module.css";
+import styles from "../index.module.css";
 import { type NextPage } from "next";
 import Head from "next/head";
+import { RecoverLostPassword } from "../../components/affiliates/account/RecoverLostPassword";
 
-import { FormSignup } from "../../components/affiliates/account/FormSignup";
 const Page: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Affiliates create account</title>
-        <meta name="description" content="Affiliates Creative Materials" />
+        <title>Affiliates Tickets</title>
+        <meta name="description" content="Affiliates Tickets" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <FormSignup />
+        <RecoverLostPassword />
       </main>
     </>
   );

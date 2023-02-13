@@ -12,10 +12,22 @@ export interface CommonFormProps {
   children: React.ReactNode;
 
   grid?: GridProps;
+
+  submitButtonText?: string;
+  submitNotification?: boolean;
 }
 
-const CommonForm = ({ onSubmit, children, grid }: CommonFormProps) => {
-  const { handleSubmit, isLoading } = useSubmitAction({ onSubmit });
+const CommonForm = ({
+  onSubmit,
+  children,
+  grid,
+  submitButtonText,
+  submitNotification = true,
+}: CommonFormProps) => {
+  const { handleSubmit, isLoading } = useSubmitAction({
+    onSubmit,
+    submitNotification,
+  });
 
   return (
     <form
@@ -34,7 +46,7 @@ const CommonForm = ({ onSubmit, children, grid }: CommonFormProps) => {
           isLoading={isLoading}
           alignSelf="start"
         >
-          SAVE
+          {submitButtonText ? submitButtonText : "SAVE"}
         </Button>
       </Stack>
     </form>
