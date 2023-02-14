@@ -33,6 +33,7 @@
     "chakra-dayzed-datepicker": "^0.2.7",
     "date-fns": "^2.29.3",
     "dayzed": "^3.2.3",
+    "formidable": "^2.1.1",
     "framer-motion": "^8.5.0",
     "md5": "^2.3.0",
     "moment": "^2.29.4",
@@ -49,6 +50,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@types/formidable": "^2.0.5",
     "@types/md5": "^2.3.2",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
