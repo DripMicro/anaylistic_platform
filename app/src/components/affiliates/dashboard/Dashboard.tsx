@@ -13,46 +13,16 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { AreaChart, DonutChart } from "@tremor/react";
-import type { TopMerchantCreativeType } from "../../../server/db-types";
+import { AreaChart, LineChart, DonutChart } from "@tremor/react";
+import type {
+  TopMerchantCreativeType,
+  CountryReportType,
+} from "../../../server/db-types";
 import { DataTable } from "../../common/data-table/DataTable";
 import { createColumnHelper } from "@tanstack/react-table";
 import React, { useState, useEffect } from "react";
 import { api } from "../../../utils/api";
 import { serverStoragePath } from "../../utils";
-
-const chartdata = [
-  {
-    date: "Jan 22",
-    SemiAnalysis: 2890,
-    "The Pragmatic Engineer": 2338,
-  },
-  {
-    date: "Feb 22",
-    SemiAnalysis: 2756,
-    "The Pragmatic Engineer": 2103,
-  },
-  {
-    date: "Mar 22",
-    SemiAnalysis: 3322,
-    "The Pragmatic Engineer": 2194,
-  },
-  {
-    date: "Apr 22",
-    SemiAnalysis: 3470,
-    "The Pragmatic Engineer": 2108,
-  },
-  {
-    date: "May 22",
-    SemiAnalysis: 3475,
-    "The Pragmatic Engineer": 1812,
-  },
-  {
-    date: "Jun 22",
-    SemiAnalysis: 3129,
-    "The Pragmatic Engineer": 1726,
-  },
-];
 
 const cities = [
   {
@@ -82,19 +52,35 @@ const cities = [
 ];
 
 const dataFormatter = (number: number) => {
-  return "$ " + Intl.NumberFormat("us").format(number).toString();
+  return Intl.NumberFormat("us").format(number).toString();
 };
+
+const conversionFormatter = (number: number) =>
+  `${Intl.NumberFormat("us").format(number).toString()}%`;
 
 const valueFormatter = (number: number) =>
   `$ ${Intl.NumberFormat("us").format(number).toString()}`;
 
 const columnHelper = createColumnHelper<TopMerchantCreativeType>();
+const reportColumnHelper = createColumnHelper<CountryReportType>();
 
 export const Dashboard = () => {
   const { data } = api.affiliates.getDashboard.useQuery();
+
+  const { data: performanceChart } =
+    api.affiliates.getPerformanceChart.useQuery();
+
+  const { data: conversionChart } =
+    api.affiliates.getConversionChart.useQuery();
+
   const { data: creative } = api.affiliates.getTopMerchantCreative.useQuery();
 
-  if (!creative) {
+  const { data: report } = api.affiliates.getCountryReport.useQuery();
+
+  console.log("data:", data);
+  console.log("report:", report);
+
+  if (!creative && !performanceChart && !conversionChart && !report) {
     return null;
   }
   const columns = [
@@ -119,17 +105,36 @@ export const Dashboard = () => {
             src={serverStoragePath(row.original.file)}
             alt={row.original.alt}
           />
-        )
+        );
       },
       header: "Preview",
     }),
     columnHelper.accessor("width", {
-      cell: ({ row }) =>  {
+      cell: ({ row }) => {
         return (
-          <span>{row.original.width}x{row.original.height}</span>
-        )
+          <span>
+            {row.original.width}x{row.original.height}
+          </span>
+        );
       },
       header: "LP Preview",
+    }),
+  ];
+
+  const reportColumns = [
+    reportColumnHelper.accessor("merchant_id", {
+      cell: (info) => info.getValue(),
+      header: "#",
+    }),
+    reportColumnHelper.accessor("country", {
+      cell: (info) => info.getValue(),
+      header: "Country",
+    }),
+    reportColumnHelper.accessor("_sum.Commission", {
+      cell: (info) => {
+        return <span>{parseFloat(info.getValue()).toFixed(2)}</span>;
+      },
+      header: "Report",
     }),
   ];
 
@@ -207,7 +212,7 @@ export const Dashboard = () => {
                 Clicks
               </Text>
               <Text fontSize="lg" fontWeight="bold">
-                2
+                {data[0]?._sum.Clicks}
               </Text>
             </Box>
           </Box>
@@ -254,7 +259,7 @@ export const Dashboard = () => {
                 Signups
               </Text>
               <Text fontSize="lg" fontWeight="bold">
-                15
+                {data[0]?._sum.RealAccount}
               </Text>
             </Box>
           </Box>
@@ -355,8 +360,8 @@ export const Dashboard = () => {
           <TabPanels>
             <TabPanel>
               <AreaChart
-                data={chartdata}
-                categories={["SemiAnalysis", "The Pragmatic Engineer"]}
+                data={performanceChart}
+                categories={["Accounts", "Active Traders"]}
                 dataKey="date"
                 height="h-72"
                 colors={["indigo", "cyan"]}
@@ -365,243 +370,25 @@ export const Dashboard = () => {
               />
             </TabPanel>
             <TabPanel>
-              <AreaChart
-                data={chartdata}
-                categories={["SemiAnalysis", "The Pragmatic Engineer"]}
+              <LineChart
+                data={conversionChart}
                 dataKey="date"
-                height="h-72"
-                colors={["indigo", "cyan"]}
-                valueFormatter={dataFormatter}
-                marginTop="mt-4"
+                categories={["Conversions"]}
+                colors={["blue"]}
+                valueFormatter={conversionFormatter}
+                marginTop="mt-6"
+                yAxisWidth="w-10"
               />
             </TabPanel>
           </TabPanels>
         </Tabs>
       </Stack>
-      <Grid templateColumns="repeat(3, 1fr)" gap={6} mt="3">
-        <GridItem w="100%" display="flex" flexDirection="column">
-          <Heading as="h6" size="xs" mb="2">
-            Device Report
-          </Heading>
-          <Box
-            border="1px solid gray"
-            borderRadius="5"
-            py="5"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexGrow="1"
-          >
-            <DonutChart
-              data={cities}
-              category="sales"
-              dataKey="name"
-              valueFormatter={valueFormatter}
-              colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
-            />
-          </Box>
-        </GridItem>
-        <GridItem w="100%" display="flex" flexDirection="column">
-          <Heading as="h6" size="xs" mb="2">
-            Country Report
-          </Heading>
-          <Box
-            border="1px solid gray"
-            borderRadius="5"
-            py="5"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexGrow="1"
-          >
-            <DonutChart
-              data={cities}
-              category="sales"
-              dataKey="name"
-              valueFormatter={valueFormatter}
-              colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
-            />
-          </Box>
-        </GridItem>
-        <GridItem w="100%" display="flex" flexDirection="column">
-          <Heading as="h6" size="xs" mb="2">
-            Your Account Manager
-          </Heading>
-          <Box
-            border="1px solid gray"
-            borderRadius="5"
-            p="5"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            flexGrow="1"
-          >
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="flex-start"
-              w="100%"
-              columnGap="5"
-              mb="2"
-            >
-              <Text
-                as="span"
-                color="#8f8f8f"
-                align="left"
-                fontWeight="normal"
-                width="100px"
-                flex="0 0  120px"
-              >
-                Name:
-              </Text>
-              <Text
-                color="#0e132b"
-                align="left"
-                fontWeight="semibold"
-                wordBreak="break-word"
-              >
-                Daniel Gilbert
-              </Text>
-            </Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="flex-start"
-              w="100%"
-              columnGap="5"
-              mb="2"
-            >
-              <Text
-                as="span"
-                color="#8f8f8f"
-                align="left"
-                fontWeight="normal"
-                width="100px"
-                flex="0 0  120px"
-              >
-                Email:
-              </Text>
-              <Text
-                color="#0e132b"
-                align="left"
-                fontWeight="semibold"
-                wordBreak="break-word"
-              >
-                marketing@gamingaffiliates.co
-              </Text>
-            </Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="flex-start"
-              w="100%"
-              columnGap="5"
-              mb="2"
-            >
-              <Text
-                as="span"
-                color="#8f8f8f"
-                align="left"
-                fontWeight="normal"
-                width="100px"
-                flex="0 0  120px"
-              >
-                Skype:
-              </Text>
-              <Text
-                color="#0e132b"
-                align="left"
-                fontWeight="semibold"
-                wordBreak="break-word"
-              >
-                marketing@gamingaffiliates.co
-              </Text>
-            </Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="flex-start"
-              w="100%"
-              columnGap="5"
-              mb="2"
-            >
-              <Text
-                as="span"
-                color="#8f8f8f"
-                align="left"
-                fontWeight="normal"
-                width="100px"
-                flex="0 0  120px"
-              >
-                Desk:
-              </Text>
-              <Text
-                color="#0e132b"
-                align="left"
-                fontWeight="semibold"
-                wordBreak="break-word"
-              >
-                VIP01
-              </Text>
-            </Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="flex-start"
-              w="100%"
-              columnGap="5"
-              mb="2"
-            >
-              <Text
-                as="span"
-                color="#8f8f8f"
-                align="left"
-                fontWeight="normal"
-                width="100px"
-                flex="0 0  120px"
-              >
-                Sub Affiliates Link:
-              </Text>
-              <Text
-                color="#f1792f"
-                align="left"
-                fontWeight="semibold"
-                wordBreak="break-word"
-              >
-                https://go.gamingaffiliates.co/?ctag=a500-b0-p
-              </Text>
-            </Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="flex-start"
-              w="100%"
-              columnGap="5"
-              mb="2"
-            >
-              <Text
-                as="span"
-                color="#8f8f8f"
-                align="left"
-                fontWeight="normal"
-                width="100px"
-                flex="0 0  120px"
-              >
-                Commission:
-              </Text>
-              <Text
-                color="#069731"
-                align="left"
-                fontWeight="bold"
-                wordBreak="break-word"
-              >
-                $13,857.00
-              </Text>
-            </Box>
-          </Box>
-        </GridItem>
-      </Grid>
+      <Stack mt="5">
+        <Heading as="h6" size="xs" mb="2">
+          Country Report
+        </Heading>
+        <DataTable data={report} columns={reportColumns} />
+      </Stack>
       <Stack mt="5">
         <Heading as="h6" size="xs" mb="2">
           Top Performing Creative

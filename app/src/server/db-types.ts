@@ -43,3 +43,6 @@ export type AffiliateDocumentType =
 
 export type TopMerchantCreativeType =
   RouterOutput["affiliates"]["getTopMerchantCreative"][0];
+
+export type CountryReportType =
+  RouterOutput["affiliates"]["getCountryReport"][0];
