@@ -71,34 +71,49 @@ export const getTopMerchantCreative = publicProcedure.query(async ({ ctx }) => {
   return data;
 });
 
-export const getPerformanceChart = publicProcedure.query(async ({ ctx }) => {
+const dateList = () => {
   const date = new Date();
-  let dateList = [];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  let data = [];
   for (let i = 0; i < 5; i++) {
     const temp = {
-      year: `${date.getFullYear()}`,
-      month:
-        date.getMonth() + 1 > 9
-          ? `${date.getMonth() + 1}`
-          : `0${date.getMonth() + 1}`,
-      label: date.toLocaleString("en-US", { month: "short" }),
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      label: months[date.getMonth()],
     };
-    dateList[i] = temp;
+    data[i] = temp;
     date.setMonth(date.getMonth() - 1);
   }
-  dateList = dateList.reverse();
-  console.log("date list:", dateList);
+  return data.reverse();
+};
 
+export const getPerformanceChart = publicProcedure.query(async ({ ctx }) => {
   return await Promise.all(
-    dateList.map(async (item) => {
+    dateList().map(async (item) => {
+      const from = new Date(item.year, item.month, 1);
+      const to = new Date(item.year, item.month + 1, 0);
+
       const data = await ctx.prisma.dashboard.groupBy({
         by: ["merchant_id"],
         where: {
           affiliate_id,
           merchant_id: merchant_id ? merchant_id : 1,
           Date: {
-            gte: new Date(`${item.year}-${item.month}-01`),
-            lte: new Date(`${item.year}-${item.month}-31`),
+            gt: from,
+            lte: to,
           },
         },
         _sum: {
@@ -106,7 +121,7 @@ export const getPerformanceChart = publicProcedure.query(async ({ ctx }) => {
           RealAccount: true,
         },
       });
-      console.log("data->>>>>>>>>>>>", data);
+
       return {
         date: `${item.label}, ${item.year}`,
         Accounts: data[0] ? data[0]._sum.RealAccount : 0,
@@ -117,33 +132,19 @@ export const getPerformanceChart = publicProcedure.query(async ({ ctx }) => {
 });
 
 export const getConversionChart = publicProcedure.query(async ({ ctx }) => {
-  const date = new Date();
-  let dateList = [];
-  for (let i = 0; i < 6; i++) {
-    const temp = {
-      year: `${date.getFullYear()}`,
-      month:
-        date.getMonth() + 1 > 9
-          ? `${date.getMonth() + 1}`
-          : `0${date.getMonth() + 1}`,
-      label: date.toLocaleString("en-US", { month: "short" }),
-    };
-    dateList[i] = temp;
-    date.setMonth(date.getMonth() - 1);
-  }
-  dateList = dateList.reverse();
-  console.log("date list:", dateList);
-
   return await Promise.all(
-    dateList.map(async (item) => {
+    dateList().map(async (item) => {
+      const from = new Date(item.year, item.month, 1);
+      const to = new Date(item.year, item.month + 1, 0);
+
       const data = await ctx.prisma.dashboard.groupBy({
         by: ["merchant_id"],
         where: {
           affiliate_id,
           merchant_id: merchant_id ? merchant_id : 1,
           Date: {
-            gte: new Date(`${item.year}-${item.month}-01`),
-            lte: new Date(`${item.year}-${item.month}-31`),
+            gt: from,
+            lte: to,
           },
         },
         _sum: {
@@ -151,13 +152,13 @@ export const getConversionChart = publicProcedure.query(async ({ ctx }) => {
           RealAccount: true,
         },
       });
+
       let conversions = 0;
       if (data) {
         if (data[0]?._sum.RealAccount && data[0]?._sum.FTD) {
           conversions = (data[0]?._sum.FTD / data[0]?._sum.RealAccount) * 100;
         }
       }
-      console.log("data->>>>>>>>>>>>", data);
       return {
         date: `${item.label}, ${item.year}`,
         Conversions: conversions,
@@ -178,11 +179,21 @@ export const getCountryReport = publicProcedure.query(async ({ ctx }) => {
     },
   });
 
+  const ids = data.map((item) => {
+    return item.merchant_id;
+  });
+
+  const merchants = await ctx.prisma.merchants.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+  });
+
   return await Promise.all(
     data.map(async (item) => {
-      const merchant = await ctx.prisma.merchants.findFirst({
-        where: { id: item.merchant_id },
-      });
+      const merchant = merchants.find((d) => d.id === item.merchant_id);
       return {
         ...item,
         country: merchant?.country,
