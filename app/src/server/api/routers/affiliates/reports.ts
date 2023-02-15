@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import moment from "moment-mini";
 import { z } from "zod";
 
@@ -247,8 +248,8 @@ export const getCreativeReport = publicProcedure.input(z.object({
     to:z.date().optional(),
     merchant_id:z.string().optional(),
     banner_id: z.string().optional(),
-    creative_type:z.string().optional()
-})).query(async ({ctx,input: {from,to,merchant_id,banner_id,creative_type}}) => {
+    type:z.string().optional()
+})).query(async ({ctx,input: {from,to,merchant_id,banner_id,type}}) => {
     let type_filter = {}
 
     if(merchant_id) {
@@ -265,8 +266,8 @@ export const getCreativeReport = publicProcedure.input(z.object({
 
     const merchant_ids = await ctx.prisma.merchants_creative_stats.groupBy({
         by:['BannerID','affiliate_id','Date','merchant_id'],
-        ...type_filter,
         where: {
+            ...type_filter,
             Date: {
                 gte:from,
                 lt:to
@@ -276,12 +277,46 @@ export const getCreativeReport = publicProcedure.input(z.object({
             Clicks:true,
             Impressions:true
         },
-    })
+        take:10
+    });
     let i = 0;
+    let totalLeads=0;
+    let totalDemo=0;
+    let totalReal=0;
+    let ftd=0;
+    let totalCPI=0;
+    let ftd_amount=0;
+    let depositingAccounts=0;
+    let sumDeposits=0;
+    let bonus=0;
+    let cpaAmount=0;
+    let withdrawal=0;
+    let chargeback=0;
+    let volume=0;
+    let lots=0;
+    let totalCom=0;
+    let real_ftd = 0;
+    let real_ftd_amount = 0;
+    let totalImpresssions = 0;
+    let totalClicks = 0;
+    let totalLeadAccounts = 0;
+    let totalRealAccounts =0;
+    let totalDemoAccounts = 0; 
+    let totalCPIM = 0; 
+    let totalFTD = 0; 
+    let totalFTDAmount=0;
+    let totalRealFTD = 0; 
+    let totalRealFTDAmount = 0; 
+    let totalDeposits = 0; 
+    let totalSumPNL = 0; 
+    let totalDepositAmount = 0; 
+    let totalVolume = 0; 
+    let totalBonusAmount = 0; 
+    let totalWithdrawalAmount = 0; 
+    let totalChargeBackAmount = 0; 
+    let totalPNL = 0;
+
     while (i < merchant_ids.length) {
-
-        console.log(merchant_ids[i])
-
         const banner_info = await ctx.prisma.merchants_creative.findMany({
             select: {
                 id:true,
@@ -292,11 +327,77 @@ export const getCreativeReport = publicProcedure.input(z.object({
                 id: merchant_ids[i]? merchant_ids[i]?.BannerID:1
             }
         })
+
+
+        if (type && banner_info[0]?.type !== type) {
+            continue;
+        }
+
+        const regww = await ctx.prisma.$queryRaw(
+            Prisma.sql `SELECT 
+            dr.banner_id,
+        SUM(cm.Commission) as comms, 
+        SUM(IF(dr.type='lead', 1, 0)) AS total_leads, 
+        SUM(IF(dr.type='demo', 1, 0)) AS total_demo, 
+        SUM(IF(dr.type='real', 1, 0)) AS total_real 
+        FROM 445094_devsite.data_reg dr 
+        LEFT JOIN 445094_devsite.commissions cm ON dr.trader_id = cm.traderID AND cm.Date BETWEEN ${from} AND ${to}
+        WHERE dr.merchant_id =  ${merchant_ids[i]?.merchant_id}  AND  dr.banner_id=${banner_info[0]?.id} AND dr.rdate BETWEEN ${from} AND ${to} GROUP BY dr.banner_id`)
+
+
+
+        if (Object.keys(regww).length > 0) {
+            totalDemo = regww[0].total_demo;
+            totalReal = regww[0].total_real;
+            totalLeads = regww[0].total_leads;
+
+        }
+        // console.log("regestrations -------->", totalDemo, totalLeads, totalReal)
+
+
+
+        totalImpresssions += merchant_ids[i]._sum.Impressions;
+        totalClicks += merchant_ids[i]._sum.Clicks;
+        totalDemoAccounts+=totalDemo;
+        totalRealAccounts+=totalReal;
+        totalLeadAccounts+=totalLeads;
+        totalFTD+=ftd;
+        totalCPIM+=totalCPI;
+        totalRealFTD+=real_ftd;
+        totalRealFTDAmount+=real_ftd_amount;
+        totalDeposits += depositingAccounts;
+        totalFTDAmount+=ftd_amount;
+        totalSumPNL+=totalPNL;
+        totalDepositAmount+=sumDeposits;
+        totalVolume+=volume;
+        totalBonusAmount+=bonus;
+        totalWithdrawalAmount+=withdrawal;
+        totalChargeBackAmount+chargeback
         i++;
 
+
     }
+
     
-    return merchant_ids;
+    return {
+        totalImpresssions,
+        totalClicks ,
+        totalDemoAccounts,
+        totalRealAccounts,
+        totalLeadAccounts,
+        totalFTD,
+        totalCPIM,
+        totalRealFTD,
+        totalRealFTDAmount,
+        totalDeposits,
+        totalFTDAmount,
+        totalSumPNL,
+        totalDepositAmount,
+        totalVolume,
+        totalBonusAmount,
+        totalWithdrawalAmount,
+        totalChargeBackAmount
+    };
 })
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
