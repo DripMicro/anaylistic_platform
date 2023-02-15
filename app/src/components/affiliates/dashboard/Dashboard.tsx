@@ -22,44 +22,8 @@ import { DataTable } from "../../common/data-table/DataTable";
 import { createColumnHelper } from "@tanstack/react-table";
 import React, { useState, useEffect } from "react";
 import { api } from "../../../utils/api";
+import { performanceFormatter, conversionFormatter } from "../../../utils/format";
 import { serverStoragePath } from "../../utils";
-
-const cities = [
-  {
-    name: "New York",
-    sales: 9800,
-  },
-  {
-    name: "London",
-    sales: 4567,
-  },
-  {
-    name: "Hong Kong",
-    sales: 3908,
-  },
-  {
-    name: "San Francisco",
-    sales: 2400,
-  },
-  {
-    name: "Singapore",
-    sales: 1908,
-  },
-  {
-    name: "Zurich",
-    sales: 1398,
-  },
-];
-
-const dataFormatter = (number: number) => {
-  return Intl.NumberFormat("us").format(number).toString();
-};
-
-const conversionFormatter = (number: number) =>
-  `${Intl.NumberFormat("us").format(number).toString()}%`;
-
-const valueFormatter = (number: number) =>
-  `$ ${Intl.NumberFormat("us").format(number).toString()}`;
 
 const columnHelper = createColumnHelper<TopMerchantCreativeType>();
 const reportColumnHelper = createColumnHelper<CountryReportType>();
@@ -76,9 +40,6 @@ export const Dashboard = () => {
   const { data: creative } = api.affiliates.getTopMerchantCreative.useQuery();
 
   const { data: report } = api.affiliates.getCountryReport.useQuery();
-
-  console.log("data:", data);
-  console.log("report:", report);
 
   if (!creative && !performanceChart && !conversionChart && !report) {
     return null;
@@ -365,7 +326,7 @@ export const Dashboard = () => {
                 dataKey="date"
                 height="h-72"
                 colors={["indigo", "cyan"]}
-                valueFormatter={dataFormatter}
+                valueFormatter={performanceFormatter}
                 marginTop="mt-4"
               />
             </TabPanel>
