@@ -1,9 +1,5 @@
-import { z } from "zod";
-
 import { publicProcedure } from "../../trpc";
-import type { merchants_creative_type, Prisma } from "@prisma/client";
 import { affiliate_id, merchant_id } from "./const";
-import type { queryRawId } from "../../../db-utils";
 
 export const getDashboard = publicProcedure.query(async ({ ctx }) => {
   const data = await ctx.prisma.dashboard.groupBy({
@@ -71,7 +67,7 @@ export const getTopMerchantCreative = publicProcedure.query(async ({ ctx }) => {
   return data;
 });
 
-const dateList = () => {
+const dateList = (): { year: number; month: number; label: string }[] => {
   const date = new Date();
   const months = [
     "Jan",
@@ -87,12 +83,12 @@ const dateList = () => {
     "Nov",
     "Dec",
   ];
-  let data = [];
+  const data = [];
   for (let i = 0; i < 5; i++) {
     const temp = {
       year: date.getFullYear(),
       month: date.getMonth(),
-      label: months[date.getMonth()],
+      label: months[date.getMonth()] || "ERROR",
     };
     data[i] = temp;
     date.setMonth(date.getMonth() - 1);
@@ -179,25 +175,19 @@ export const getCountryReport = publicProcedure.query(async ({ ctx }) => {
     },
   });
 
-  const ids = data.map((item) => {
-    return item.merchant_id;
-  });
-
   const merchants = await ctx.prisma.merchants.findMany({
     where: {
       id: {
-        in: ids,
+        in: data.map(({ merchant_id }) => merchant_id),
       },
     },
   });
 
-  return await Promise.all(
-    data.map(async (item) => {
-      const merchant = merchants.find((d) => d.id === item.merchant_id);
-      return {
-        ...item,
-        country: merchant?.country,
-      };
-    })
-  );
+  return data.map((item) => {
+    const merchant = merchants.find((d) => d.id === item.merchant_id);
+    return {
+      ...item,
+      country: merchant?.country,
+    };
+  });
 });
