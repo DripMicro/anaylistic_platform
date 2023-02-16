@@ -45,7 +45,7 @@ const fileConsumer = <T = unknown>(acc: T[]) => {
 };
 
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log(`muly:handler:document-upload`, {});
+  console.log(`muly:handler:document-upload-just-log`, {});
 
   if (req.method !== "POST") return res.status(404).end();
 
@@ -58,7 +58,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       fileWriteStreamHandler: () => fileConsumer(chunks),
     });
 
-    console.log(`document-upload API`, { fields, files });
+    console.log(`muly:handler:document-upload-just-log`, { fields, files });
     return res.status(204).end();
   } catch (_err) {
     const err = castError(_err);

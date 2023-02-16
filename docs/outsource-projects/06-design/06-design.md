@@ -8,7 +8,7 @@ We already have XD design
 
 https://xd.adobe.com/view/f9a10637-2acd-4f86-83ef-62643f9c2c9d-acf2/
 
-As can see system is rather basic, around 20 screens, should have clean simple look
+As can see the system is rather basic, with around 20 screens, and should have a clean simple look
 
 We want to convert the design to Figma, modernize and improve it
 

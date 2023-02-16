@@ -59,40 +59,32 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
 
     console.log(`document-upload API`, { fields, files });
-    const { file } = files;
+    // const { file } = files;
 
     const fileData = Buffer.concat(chunks); // or is it from? I always mix these up
 
     const form = new FormData();
-    // form.append("my_field", "my value");
-    form.append("file", fileData);
-
-    const pt = new PassThrough();
-    form.pipe(pt);
-
-    // const apiRes = await axios.post(`${String(env.LEGACY_PHP_API_URL)}`, form, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    // });
-
-    const apiRes = await fetch(`${String(env.LEGACY_PHP_API_URL)}`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
-        // Authorization: `Bearer ${String(env.LEGACY_PHP_ACCESS_TOKEN)}`,
-      },
-      duplex: "half",
+    Object.keys(fields).forEach((key: string) => {
+      form.append(key, fields[key]);
+    });
+    form.append(
+      "document_upload",
+      fileData,
       // @ts-ignore
-      body: pt,
+      String(files?.document_upload?.originalFilename)
+    );
+
+    const apiRes = await axios.post(`${String(env.LEGACY_PHP_API_URL)}`, form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Access-Control-Allow-Origin": "*",
+      },
     });
 
     console.log(`muly:handler fetch:POST answer`, {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      answer: await apiRes.json(),
+      apiRes,
     });
+
     return res.status(204).end();
   } catch (_err) {
     const err = castError(_err);
