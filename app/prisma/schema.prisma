@@ -1008,6 +1008,7 @@ model merchants {
   traffic                       traffic[]
   dashboard                     dashboard[]
   commissions                   commissions[]
+  pixel_monitor                 pixel_monitor[]
 
   @@index([cpa_amount], map: "cpa_amount")
   @@index([cpc_amount], map: "cpc_amount")
@@ -1219,6 +1220,14 @@ model pixel_monitor {
   totalFired   Int
   product_id   Int
   banner_id    Int
+
+  merchant merchants                      @relation(fields: [merchant_id], references: [id])
+  
+  @@index([merchant_id], map: "merchant_id")
+  @@index([affiliate_id], map: "affiliate_id")
+  @@index([product_id], map: "product_id")
+  @@index([type], map: "type")
+  @@index([valid], map: "valid")
 }
 
 model postback_logs {

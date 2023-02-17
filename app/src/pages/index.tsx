@@ -37,6 +37,7 @@ const Home: NextPage = () => {
       href: "/affiliates/reports/install-reports",
       title: "Reports -> Installs Report",
     },
+    { href: "/affiliates/pixel-monitor", title: "Pixel Monitor" },
   ];
 
   return (
