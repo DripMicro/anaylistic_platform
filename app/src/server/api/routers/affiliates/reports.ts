@@ -4,7 +4,6 @@ import { z } from "zod";
 
 
 import { publicProcedure } from '../../trpc';
-import { merchant_id } from "./const";
 
 
 export const getQuickReportSummary = publicProcedure.input(z.object({
@@ -398,6 +397,226 @@ export const getCreativeReport = publicProcedure.input(z.object({
         totalWithdrawalAmount,
         totalChargeBackAmount
     };
+});
+
+
+export const getLandingPageData = publicProcedure.input(z.object({
+    from: z.date().optional(),
+    to: z.date().optional(),
+    merchant_id: z.string().optional(),
+    url:z.string().optional(),
+    creative_type:z.string().optional()
+})).query(async ({ctx,input: {from, to, merchant_id,url,creative_type}}) => {
+    const bannersww  = await ctx.prisma.merchants_creative.findMany({
+        where: {
+            merchant_id: merchant_id,
+            valid: 1,
+        },
+        include: {
+            language:{
+                select:{
+                    title:true
+                }
+            },
+            merchant: {
+                select: {
+                    name:true
+                }
+            }
+        },
+        take: 2
+    });
+    let creativeArray:any = new Object();
+    creativeArray['banner_ww'] = bannersww;
+    creativeArray['banner_type'] = 'Non LP Related';
+
+    //clicks and impressions
+    const trafficRow = await ctx.prisma.traffic.groupBy({
+        by:['banner_id', 'id'],
+        _sum: {
+            clicks:true,
+            views:true
+        },
+        where: {
+            merchant_id: {
+                gt:0
+            },
+            rdate: {
+                gte:from,
+                lt:to
+            }
+        },
+        take:2
+    });
+
+    creativeArray['trafficRow'] = trafficRow;
+
+    // const regww = await ctx.prisma.data_reg.findMany({
+    //     include: {
+    //         merchant:{
+    //             select: {
+    //                 name:true
+    //             }
+    //         }
+    //     },
+    //     where: {
+    //         merchant_id:{
+    //             gt:0
+    //         },
+    //         rdate: {
+    //             gte: from,
+    //             lt: to
+    //         },
+    //     }
+    // })
+
+
+    //Qualified
+    console.log("creative array ------>", trafficRow)
+
+    return creativeArray;
+})
+
+
+export const getTraderReport = publicProcedure.input(z.object({
+    from:z.string().optional(),
+    to:z.string().optional(),
+    merchant_id:z.string().optional(),
+    country:z.string().optional(),
+    banner_id:z.string().optional(),
+    trader_id:z.string().optional(),
+    parameter:z.string().optional(),
+    parameter_2:z.string().optional(),
+    filter:z.string().optional()
+})).query(async ({ctx,input: {from,to,merchant_id,country,banner_id,trader_id,parameter,parameter_2,filter}}) => {
+    const profileNames = await ctx.prisma.affiliates_profiles.findMany({
+        where: {
+            valid:1
+        },
+        select: {
+            id:true,
+            name:true
+        },
+        take:5
+    });
+
+
+    // profile names
+    let listProfiles = {};
+
+    listProfiles['wwProfiles'] = profileNames;
+
+
+    // list of wallets
+    let resourceWallet = await ctx.prisma.merchants.findMany({
+        where: {
+            valid:1
+        },
+        select: {
+            wallet_id:true,
+            id:true
+        }
+    })
+
+
+    // type filter
+    let type_filter = {};
+    if (filter === "real") {
+        type_filter = {
+            TraderStatus:'real'
+        }
+    } else if(filter ==='lead'){
+        type_filter = {
+            TraderStatus:'lead'
+        }
+    }else if(filter ==='demo') {
+        type_filter = {
+            TraderStatus:'demo'
+        }
+    } else if (filter === 'frozen') {
+        type_filter = {
+            TraderStatus:'frozen'
+        }
+    } else if (filter ==='ftd' || filter ==='totalftd') {
+        type_filter = {
+            AND:[
+                {TraderStatus:'frozen'},
+                {TraderStatus:'demo'}
+            ],
+            FirstDeposit:{
+                gte:from,
+                lt: to
+            }
+        }
+    } else if (filter ==='activeTrader') {
+        type_filter = {
+            QualificationDate: {
+                gte:from,
+                lt:to
+            },
+            AND:[
+                {TraderStatus:'frozen'},
+                {TraderStatus:'demo'}
+            ]
+        }
+    }
+
+    //trader resource 
+    let trader_report_resource;
+    if (filter ==='ftd' || filter ==='totalftd') {
+        trader_report_resource = await ctx.prisma.reporttraders.findMany({
+            orderBy:{
+                RegistrationDate:'desc',
+                TraderID:'asc'
+            },
+            where: {
+                ...type_filter
+            },
+            include: {
+                data_reg:{
+                    select: {
+                        saleStatus:true,
+                        freeParam5:true
+                    }
+                },
+                affiliate:{
+                    select: {
+                        group_id:true
+                    }
+                }
+            }
+        })
+    } else {
+        trader_report_resource = await ctx.prisma.reporttraders.findMany({
+            orderBy:{
+                TraderID:'asc'
+            },
+            where: {
+                ...type_filter,
+                RegistrationDate: {
+                    gte:from,
+                    lt:to
+                }
+            },
+            include: {
+                data_reg:{
+                    select: {
+                        saleStatus:true,
+                        freeParam5:true
+                    }
+                },
+                affiliate:{
+                    select: {
+                        group_id:true
+                    }
+                }
+            }
+        })
+    }
+    console.log("profile names ------>", listProfiles)
+
+    return listProfiles;
+    
 })
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
@@ -406,7 +625,7 @@ export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
             type:true
         },
       where: {
-        merchant_id
+        merchant_id,
         // valid: 1,
       },
     });
@@ -440,6 +659,29 @@ export const getAffiliateProfile = publicProcedure.query(async ({ctx}) => {
     return affiliates;
 });
 
-function getAffiliateDealType() {
 
-}
+export const getLongCountries = publicProcedure.input(z.object({
+    table_type:z.string().optional()
+})).query(async ({ctx,input:{table_type}}) =>{
+    let countryArr  = {}
+    let ww  = await ctx.prisma.countries.findMany({
+        where: {
+            id: {
+                gt:1
+            }
+        },
+        select: {
+            id:true,
+            title:true,
+            code:true
+        }
+    })
+    if (table_type === 'stats') {
+        countryArr['id'] = ww;
+    } else {
+        countryArr['countrySHORT'] = ww;
+    }
+
+    return countryArr;
+})
+

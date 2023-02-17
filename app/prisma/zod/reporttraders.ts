@@ -1,6 +1,6 @@
 import * as z from "zod"
 import * as imports from "../zod-add-schema"
-import { Completeaffiliates, RelatedaffiliatesModel } from "./index"
+import { Completedata_reg, Relateddata_regModel, Completeaffiliates, RelatedaffiliatesModel } from "./index"
 
 export const reporttradersModel = z.object({
   Date: z.date(),
@@ -52,6 +52,7 @@ export const reporttradersModel = z.object({
 })
 
 export interface Completereporttraders extends z.infer<typeof reporttradersModel> {
+  data_reg: Completedata_reg[]
   affiliate: Completeaffiliates
 }
 
@@ -61,5 +62,6 @@ export interface Completereporttraders extends z.infer<typeof reporttradersModel
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedreporttradersModel: z.ZodSchema<Completereporttraders> = z.lazy(() => reporttradersModel.extend({
+  data_reg: Relateddata_regModel.array(),
   affiliate: RelatedaffiliatesModel,
 }))

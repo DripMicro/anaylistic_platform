@@ -26,6 +26,8 @@ const Home: NextPage = () => {
     { href: "/affiliates/reports/clicks-report", title: "Reports -> Clicks Report" },
     { href: "/affiliates/reports/install-reports", title: "Reports -> Installs Report" },
     { href: "/affiliates/reports/creative-report", title: "Reports -> Creative Report" },
+    { href: "/affiliates/reports/landing-page", title: "Reports -> Landing Page Report" },
+    { href: "/affiliates/reports/trader_report", title: "Reports -> Trader Report" },
   ];
 
   return (
