@@ -5,12 +5,31 @@ import { z } from "zod";
 
 import { publicProcedure } from '../../trpc';
 
+type ResultType = {
+    [key: string]: any
+  };
+
+type RegType = {
+    totalDemo:number,
+    totalReal:number,
+    total_leads: number
+}
+
+
+type merchantResponse = {
+    _sum: object,
+    BannerID: number,
+    affiliate_id: number,
+    Date: Date
+    merchant_id: number
+}
 
 export const getQuickReportSummary = publicProcedure.input(z.object({
     from:z.date().optional(),
     to: z.date().optional(),
     display:z.string().optional(),
-})).query(async ({ctx,input: {from, to,display}}) => {
+    merchant_id:z.number().optional()
+})).query(async ({ctx,input: {from, to,merchant_id, display}}) => {
     console.log(display)
 
     const data = await ctx.prisma.dashboard.groupBy({
@@ -263,7 +282,8 @@ export const getCreativeReport = publicProcedure.input(z.object({
         }
     }
 
-    const merchant_ids = await ctx.prisma.merchants_creative_stats.groupBy({
+  
+     const merchant_ids = await ctx.prisma.merchants_creative_stats.groupBy({
         by:['BannerID','affiliate_id','Date','merchant_id'],
         where: {
             ...type_filter,
@@ -276,26 +296,25 @@ export const getCreativeReport = publicProcedure.input(z.object({
             Clicks:true,
             Impressions:true
         },
-        take:10
     });
     let i = 0;
     let totalLeads=0;
     let totalDemo=0;
     let totalReal=0;
-    let ftd=0;
-    let totalCPI=0;
-    let ftd_amount=0;
-    let depositingAccounts=0;
-    let sumDeposits=0;
-    let bonus=0;
-    let cpaAmount=0;
-    let withdrawal=0;
-    let chargeback=0;
-    let volume=0;
-    let lots=0;
-    let totalCom=0;
-    let real_ftd = 0;
-    let real_ftd_amount = 0;
+    const ftd=0;
+    const totalCPI=0;
+    const ftd_amount=0;
+    const depositingAccounts=0;
+    const sumDeposits=0;
+    const bonus=0;
+    const cpaAmount=0;
+    const withdrawal=0;
+    const chargeback=0;
+    const volume=0;
+    const lots=0;
+    const totalCom=0;
+    const real_ftd = 0;
+    const real_ftd_amount = 0;
     let totalImpresssions = 0;
     let totalClicks = 0;
     let totalLeadAccounts = 0;
@@ -312,9 +331,9 @@ export const getCreativeReport = publicProcedure.input(z.object({
     let totalVolume = 0; 
     let totalBonusAmount = 0; 
     let totalWithdrawalAmount = 0; 
-    let totalChargeBackAmount = 0; 
-    let totalPNL = 0;
-
+    const totalChargeBackAmount = 0; 
+    const totalPNL = 0;
+    console.log("merchant ids --------->", merchant_ids)
     while (i < merchant_ids.length) {
         const banner_info = await ctx.prisma.merchants_creative.findMany({
             select: {
@@ -341,17 +360,24 @@ export const getCreativeReport = publicProcedure.input(z.object({
         SUM(IF(dr.type='real', 1, 0)) AS total_real 
         FROM 445094_devsite.data_reg dr 
         LEFT JOIN 445094_devsite.commissions cm ON dr.trader_id = cm.traderID AND cm.Date BETWEEN ${from} AND ${to}
-        WHERE dr.merchant_id =  ${merchant_ids[i]?.merchant_id}  AND  dr.banner_id=${banner_info[0]?.id} AND dr.rdate BETWEEN ${from} AND ${to} GROUP BY dr.banner_id`)
+        WHERE dr.merchant_id =  ${merchant_ids[i]?.merchant_id}  AND  dr.banner_id=${banner_info[0]?.id} AND dr.rdate BETWEEN ${from} AND ${to} GROUP BY dr.banner_id`)  ;
 
+     
+        const result:ResultType[] = regww as RegType[] ;
 
-
-        if (Object.keys(regww).length > 0) {
-            totalDemo = regww[0].total_demo;
-            totalReal = regww[0].total_real;
-            totalLeads = regww[0].total_leads;
-
+        if (result && Object.keys(result).length > 0) {
+            
+            let _index = 0;
+            while (_index <= Object.keys(result).length) {
+            totalDemo = result[_index]?.total_demo;
+            totalReal = result[_index]?.total_real;
+            totalLeads = result[_index]?.total_leads;
+            _index++;
+            }
         }
-        // console.log("regestrations -------->", totalDemo, totalLeads, totalReal)
+       
+        console.log("regwww ----->", regww)
+        console.log("regestrations -------->", totalDemo, totalLeads, totalReal)
 
 
 
@@ -371,7 +397,9 @@ export const getCreativeReport = publicProcedure.input(z.object({
         totalVolume+=volume;
         totalBonusAmount+=bonus;
         totalWithdrawalAmount+=withdrawal;
-        totalChargeBackAmount+chargeback
+        totalChargeBackAmount+chargeback;
+
+        
         i++;
 
 
@@ -403,7 +431,7 @@ export const getCreativeReport = publicProcedure.input(z.object({
 export const getLandingPageData = publicProcedure.input(z.object({
     from: z.date().optional(),
     to: z.date().optional(),
-    merchant_id: z.string().optional(),
+    merchant_id: z.number().optional(),
     url:z.string().optional(),
     creative_type:z.string().optional()
 })).query(async ({ctx,input: {from, to, merchant_id,url,creative_type}}) => {
@@ -426,7 +454,9 @@ export const getLandingPageData = publicProcedure.input(z.object({
         },
         take: 2
     });
-    let creativeArray:any = new Object();
+
+
+    const creativeArray:ResultType = {}
     creativeArray['banner_ww'] = bannersww;
     creativeArray['banner_type'] = 'Non LP Related';
 
@@ -446,29 +476,28 @@ export const getLandingPageData = publicProcedure.input(z.object({
                 lt:to
             }
         },
-        take:2
     });
 
     creativeArray['trafficRow'] = trafficRow;
 
-    // const regww = await ctx.prisma.data_reg.findMany({
-    //     include: {
-    //         merchant:{
-    //             select: {
-    //                 name:true
-    //             }
-    //         }
-    //     },
-    //     where: {
-    //         merchant_id:{
-    //             gt:0
-    //         },
-    //         rdate: {
-    //             gte: from,
-    //             lt: to
-    //         },
-    //     }
-    // })
+    const regww = await ctx.prisma.data_reg.findMany({
+        include: {
+            merchant:{
+                select: {
+                    name:true
+                }
+            }
+        },
+        where: {
+            merchant_id:{
+                gt:0
+            },
+            rdate: {
+                gte: from,
+                lt: to
+            },
+        }
+    })
 
 
     //Qualified
@@ -502,13 +531,13 @@ export const getTraderReport = publicProcedure.input(z.object({
 
 
     // profile names
-    let listProfiles = {};
+    const listProfiles:ResultType = {};
 
     listProfiles['wwProfiles'] = profileNames;
 
 
     // list of wallets
-    let resourceWallet = await ctx.prisma.merchants.findMany({
+    const resourceWallet = await ctx.prisma.merchants.findMany({
         where: {
             valid:1
         },
@@ -625,7 +654,9 @@ export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
             type:true
         },
       where: {
-        merchant_id,
+        merchant_id: {
+            gt: 1
+        },
         // valid: 1,
       },
     });
@@ -663,8 +694,8 @@ export const getAffiliateProfile = publicProcedure.query(async ({ctx}) => {
 export const getLongCountries = publicProcedure.input(z.object({
     table_type:z.string().optional()
 })).query(async ({ctx,input:{table_type}}) =>{
-    let countryArr  = {}
-    let ww  = await ctx.prisma.countries.findMany({
+    const countryArr:ResultType  = {}
+    const ww  = await ctx.prisma.countries.findMany({
         where: {
             id: {
                 gt:1

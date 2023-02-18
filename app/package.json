@@ -8,7 +8,7 @@
     "x_postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "confirm": "yarn lint --fix && tsc && env-cmd -f .env next build"
+    "confirm": "yarn lint --fix --no-cache && tsc && env-cmd -f .env next build"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",

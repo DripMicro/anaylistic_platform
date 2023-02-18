@@ -45,7 +45,7 @@ const Home: NextPage = () => {
               <p>Welcome {session.user.name}</p>
               <Button
                 onClick={() => {
-                  void signOut();
+                  // void signOut();
                 }}
               >
                 Logout
