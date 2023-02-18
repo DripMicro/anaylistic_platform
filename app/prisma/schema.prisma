@@ -184,6 +184,9 @@ model affiliates {
   trackerconversion               trackerconversion[]
   traffic                         traffic[]
   commission                      commissions[]
+  pixel_logs                      pixel_logs[]
+  pixel_monitor                   pixel_monitor?              @relation(fields: [pixel_monitorId], references: [id])
+  pixel_monitorId                 Int?
 
   @@index([group_id], map: "group_id")
   @@index([mail], map: "mail")
@@ -1016,6 +1019,8 @@ model merchants {
   traffic                       traffic[]
   dashboard                     dashboard[]
   commissions                   commissions[]
+  pixel_monitor                 pixel_monitor?
+  pixel_logs                    pixel_logs[]
 
   @@index([cpa_amount], map: "cpa_amount")
   @@index([cpc_amount], map: "cpc_amount")
@@ -1207,12 +1212,19 @@ model permissionsdescription {
 }
 
 model pixel_logs {
-  id            Int      @id @default(autoincrement())
-  dateTime      DateTime @default(now()) @db.DateTime(0)
-  firedUrl      String   @db.VarChar(550)
+  id            Int           @id @default(autoincrement())
+  dateTime      DateTime      @default(now()) @db.DateTime(0)
+  firedUrl      String        @db.VarChar(550)
   pixelCode     Int
-  pixelResponse String   @default("") @db.VarChar(150)
+  pixelResponse String        @default("") @db.VarChar(150)
   product_id    Int
+  pixel_monitor pixel_monitor @relation(fields: [pixelCode], references: [id])
+  affiliates    affiliates    @relation(fields: [id], references: [id])
+  merchant      merchants     @relation(fields: [product_id], references: [id])
+
+  @@index([id], map: "affiliate_id")
+  @@index([pixelCode], map: "pixelCode")
+  @@index([product_id], map: "merchant_id")
 }
 
 model pixel_monitor {
@@ -1227,6 +1239,9 @@ model pixel_monitor {
   totalFired   Int
   product_id   Int
   banner_id    Int
+  pixel_logs   pixel_logs[]
+  merchants    merchants            @relation(fields: [id], references: [id])
+  affiliates   affiliates[]
 }
 
 model postback_logs {

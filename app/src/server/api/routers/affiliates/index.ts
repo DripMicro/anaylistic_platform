@@ -14,7 +14,9 @@ import { deleteTicket, getTickets, upsertTicket } from "./ticket";
 import { getCommissions } from "./commission";
 import { getDocuments } from "./document";
 import {
-  getAllMerchants, getClicksReport, getCommissionReport, getCreativeReport, getInstallReport, getLandingPageData, getLongCountries, getQuickReportSummary, getTraderReport
+  getAllMerchants, getClicksReport, getCommissionReport,
+  getCreativeReport, getInstallReport, getLandingPageData,
+  getLongCountries, getpixelLogReport, getQuickReportSummary, getTraderReport
 } from "./reports";
 
 export const affiliatesRouter = createTRPCRouter({
@@ -43,12 +45,16 @@ export const affiliatesRouter = createTRPCRouter({
   getQuickReportSummary,
   getInstallReport,
   getAllMerchants,
+
   getCommissionReport,
   getClicksReport,
   getDocuments,
+
   getCommissions,
   getCreativeReport,
   getLandingPageData,
+
   getTraderReport,
-  getLongCountries
+  getLongCountries,
+  getpixelLogReport
 });

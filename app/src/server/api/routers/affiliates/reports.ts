@@ -225,13 +225,59 @@ export const getClicksReport = publicProcedure.input(z.object({
 
 export const getInstallReport = publicProcedure.input(z.object({
     from:z.date().optional(),
-    to:z.date().optional()
-})).query(async ({ctx,input: {from,to}}) => {
+    to:z.date().optional(),
+    merchant_id: z.string().optional(),
+    country:z.string().optional(),
+    banner_id: z.string().optional(),
+    trader_id: z.string().optional(),
+    param: z.string().optional(),
+    param2: z.string().optional(),
+    filter:z.string().optional()
+})).query(async ({ctx,input: {from,to,merchant_id,country,banner_id,trader_id,param, param2, filter}}) => {
+
+        // type filter
+        let type_filter = {};
+        if (merchant_id) {
+            type_filter = {
+                merchant_id:merchant_id
+            }
+        }
+    
+        if (trader_id) {
+            type_filter = {
+                TraderID :trader_id
+            }
+        }
+    
+        if (banner_id) {
+            type_filter = {
+                CreativeID: banner_id
+            }
+        }
+    
+        if (param) {
+            type_filter =  {
+                Param: param
+            }
+        }
+    
+        if (country) {
+            type_filter = {
+                Country: country
+            }
+        }
+    
+        if (param2) {
+            type_filter ={
+                Param2: param2
+            }
+        }
     const ww = await ctx.prisma.data_install.findMany({
         orderBy:{
             type:'asc'
         },
         where: {
+            ...type_filter,
             merchant_id:{
                 gt:0
             }
@@ -550,6 +596,41 @@ export const getTraderReport = publicProcedure.input(z.object({
 
     // type filter
     let type_filter = {};
+    if (merchant_id) {
+        type_filter = {
+            merchant_id:merchant_id
+        }
+    }
+
+    if (trader_id) {
+        type_filter = {
+            TraderID :trader_id
+        }
+    }
+
+    if (banner_id) {
+        type_filter = {
+            CreativeID: banner_id
+        }
+    }
+
+    if (parameter) {
+        type_filter =  {
+            Param: parameter
+        }
+    }
+
+    if (country) {
+        type_filter = {
+            Country: country
+        }
+    }
+
+    if (parameter_2) {
+        type_filter ={
+            Param2: parameter_2
+        }
+    }
     if (filter === "real") {
         type_filter = {
             TraderStatus:'real'
@@ -599,7 +680,7 @@ export const getTraderReport = publicProcedure.input(z.object({
                 TraderID:'asc'
             },
             where: {
-                ...type_filter
+                ...type_filter,
             },
             include: {
                 data_reg:{
@@ -625,7 +706,7 @@ export const getTraderReport = publicProcedure.input(z.object({
                 RegistrationDate: {
                     gte:from,
                     lt:to
-                }
+                },
             },
             include: {
                 data_reg:{
@@ -644,8 +725,73 @@ export const getTraderReport = publicProcedure.input(z.object({
     }
     console.log("profile names ------>", listProfiles)
 
-    return listProfiles;
+    return trader_report_resource;
     
+});
+
+
+export const getpixelLogReport = publicProcedure.input(z.object({
+    from:z.date().optional(),
+    to:z.date().optional(),
+    merchant_id:z.string().optional(),
+    country:z.string().optional(),
+    banner_id:z.string().optional(),
+    group_id:z.string().optional()
+})).query(async ({ctx, input: {from,to,merchant_id,country,banner_id,group_id}}) => {
+    let type_filter = {};
+    if (banner_id) {
+        type_filter = {
+            banner_id: banner_id
+        }
+    }
+
+    if (group_id) {
+        type_filter = {
+            group_id:group_id
+        }
+    }
+
+    if (country) {
+        type_filter = {
+            country: country
+        }
+    }
+
+    if (merchant_id) {
+        type_filter = {
+            merchant_id: merchant_id
+        }
+    }
+
+    const pixelReport = await ctx.prisma.pixel_logs.findMany({
+        orderBy:{
+            dateTime:'asc'
+        },
+       where: {
+        ...type_filter,
+        dateTime: {
+            gte: from,
+            lt:to
+        }
+        
+       },
+       include: {
+        affiliates: {
+            select: {
+                username: true,
+                group_id:true,
+                id:true
+            }
+        },
+        merchant: {
+            select: {
+                id:true
+            }
+        }
+       }
+    });
+    
+    return pixelReport;
 })
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
