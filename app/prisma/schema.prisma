@@ -568,7 +568,7 @@ model data_reg {
   freeParam5            String        @db.VarChar(170)
   merchant_id           Int
   status                String        @db.VarChar(20)
-  lastUpdate            DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  lastUpdate            DateTime?     @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
   platform              String        @db.VarChar(30)
   uid                   String        @db.VarChar(35)
   saleStatus            String        @db.VarChar(50)
