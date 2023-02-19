@@ -8,19 +8,30 @@ type ResultType = {
   [key: string]: number;
 };
 
+type CreativeType = {
+    [key: string] :any,
+}
+
+type MerchantIds = {
+    _sum?: {
+        Impressions?:number,
+        Clicks?: number
+    }
+}
+
 type RegType = {
   totalDemo: number;
   totalReal: number;
   total_leads: number;
 };
 
-type merchantResponse = {
-  _sum: object;
-  BannerID: number;
-  affiliate_id: number;
-  Date: Date;
-  merchant_id: number;
-};
+type listProfile = {
+    [key:string]:object
+}
+
+type Country  = {
+    [key: string]: object
+}
 
 export const getQuickReportSummary = publicProcedure
   .input(
@@ -411,7 +422,7 @@ export const getCreativeReport = publicProcedure
     const totalChargeBackAmount = 0;
     const totalPNL = 0;
     console.log("merchant ids --------->", merchant_ids);
-    while (i < merchant_ids.length) {
+    while (i < Object.keys(merchant_ids).length) {
       const banner_info = await ctx.prisma.merchants_creative.findMany({
         select: {
           id: true,
@@ -453,9 +464,13 @@ export const getCreativeReport = publicProcedure
 
       console.log("regwww ----->", regww);
       console.log("regestrations -------->", totalDemo, totalLeads, totalReal);
+      
 
-      totalImpresssions += merchant_ids[i]._sum.Impressions;
-      totalClicks += merchant_ids[i]._sum.Clicks;
+
+      const ids: MerchantIds[] = merchant_ids as MerchantIds[]
+
+      totalImpresssions += ids[i]?._sum?.Impressions ?? 0;
+      totalClicks += ids[i]?._sum?.Clicks ?? 0;
       totalDemoAccounts += totalDemo;
       totalRealAccounts += totalReal;
       totalLeadAccounts += totalLeads;
@@ -528,7 +543,7 @@ export const getLandingPageData = publicProcedure
         take: 2,
       });
 
-      const creativeArray: ResultType = {};
+      const creativeArray: CreativeType = {};
       creativeArray["banner_ww"] = bannersww;
       creativeArray["banner_type"] = "Non LP Related";
 
@@ -619,7 +634,7 @@ export const getTraderReport = publicProcedure
       });
 
       // profile names
-      const listProfiles: ResultType = {};
+      const listProfiles: listProfile = {};
 
       listProfiles["wwProfiles"] = profileNames;
 
@@ -882,7 +897,7 @@ export const getLongCountries = publicProcedure
     })
   )
   .query(async ({ ctx, input: { table_type } }) => {
-    const countryArr: ResultType = {};
+    const countryArr: Country = {};
     const ww = await ctx.prisma.countries.findMany({
       where: {
         id: {
