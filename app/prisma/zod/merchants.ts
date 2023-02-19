@@ -107,8 +107,7 @@ export interface Completemerchants extends z.infer<typeof merchantsModel> {
   traffic: Completetraffic[]
   dashboard: Completedashboard[]
   commissions: Completecommissions[]
-  pixel_monitor?: Completepixel_monitor | null
-  pixel_logs: Completepixel_logs[]
+  pixel_monitor: Completepixel_monitor[]
 }
 
 /**
@@ -135,6 +134,5 @@ export const RelatedmerchantsModel: z.ZodSchema<Completemerchants> = z.lazy(() =
   traffic: RelatedtrafficModel.array(),
   dashboard: RelateddashboardModel.array(),
   commissions: RelatedcommissionsModel.array(),
-  pixel_monitor: Relatedpixel_monitorModel.nullish(),
-  pixel_logs: Relatedpixel_logsModel.array(),
+  pixel_monitor: Relatedpixel_monitorModel.array(),
 }))

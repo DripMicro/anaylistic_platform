@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { publicProcedure } from "../../trpc";
-import {
+import type {
   pixel_monitor_type,
   pixel_monitor_method,
   Prisma,

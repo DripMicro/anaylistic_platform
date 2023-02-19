@@ -5,10 +5,8 @@ import { DataTable } from "../../common/data-table/DataTable";
 import { QuerySelect } from "../../common/QuerySelect";
 import { QueryText } from "../../common/QueryText";
 import { api } from "../../../utils/api";
-import type {
-  PixelMonitorType,
-  pixel_monitorModelType,
-} from "../../../server/db-types";
+import type { pixel_monitorModelType } from "../../../server/db-types";
+import type { PixelMonitorType } from "../../../server/db-types";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useRouter } from "next/router";
 import * as z from "zod";
@@ -17,14 +15,15 @@ import {
   ModalFormAction,
   ModalFormButton,
 } from "../../common/modal/ModalFormButton";
+import { pixel_monitorModel } from "../../../../prisma/zod";
 
 const columnHelper = createColumnHelper<PixelMonitorType>();
 
 const schema = z.object({
-  merchant_id: z.any().describe("Merchant // Select Merchant"),
-  type: z.string().describe("Trigger // Select Trigger"),
+  merchant_id: z.number().describe("Merchant // Select Merchant"),
+  type: pixel_monitorModel.shape.type.describe("Trigger // Select Trigger"),
   pixelCode: z.string().describe("Pixel Code"),
-  method: z.string().describe("Method // Select Method"),
+  method: pixel_monitorModel.shape.method.describe("Method // Select Method"),
 });
 
 type NewRecType = z.infer<typeof schema>;
@@ -57,7 +56,7 @@ export const PixelMonitor = () => {
   }
 
   const handleSubmit = async (values: NewRecType) => {
-    values.merchant_id = parseInt(values.merchant_id);
+    values.merchant_id = values.merchant_id;
     await upsertPixelMonitor.mutateAsync({
       ...(editRec || {}),
       ...values,

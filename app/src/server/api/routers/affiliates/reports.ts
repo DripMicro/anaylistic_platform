@@ -9,15 +9,15 @@ type ResultType = {
 };
 
 type CreativeType = {
-    [key: string] :any,
-}
+  [key: string]: any;
+};
 
 type MerchantIds = {
-    _sum?: {
-        Impressions?:number,
-        Clicks?: number
-    }
-}
+  _sum?: {
+    Impressions?: number;
+    Clicks?: number;
+  };
+};
 
 type RegType = {
   totalDemo: number;
@@ -26,12 +26,12 @@ type RegType = {
 };
 
 type listProfile = {
-    [key:string]:object
-}
+  [key: string]: object;
+};
 
-type Country  = {
-    [key: string]: object
-}
+type Country = {
+  [key: string]: object;
+};
 
 export const getQuickReportSummary = publicProcedure
   .input(
@@ -464,10 +464,8 @@ export const getCreativeReport = publicProcedure
 
       console.log("regwww ----->", regww);
       console.log("regestrations -------->", totalDemo, totalLeads, totalReal);
-      
 
-
-      const ids: MerchantIds[] = merchant_ids as MerchantIds[]
+      const ids: MerchantIds[] = merchant_ids as MerchantIds[];
 
       totalImpresssions += ids[i]?._sum?.Impressions ?? 0;
       totalClicks += ids[i]?._sum?.Clicks ?? 0;
@@ -746,6 +744,16 @@ export const getTraderReport = publicProcedure
           },
         });
       } else {
+        // "SELECT rt.*,
+        //    dr.saleStatus as SaleStatusOriginal,
+        //    dr.freeParam5 as freeParam5,
+        //    aff.group_id as GroupID
+        //    FROM ReportTraders rt
+        //      INNER JOIN affiliates aff ON rt.AffiliateID = aff.id
+        //      INNER JOIN data_reg dr ON dr.trader_id = rt.TraderID
+        //    WHERE 1=1 ".$where."
+        //    ORDER BY RegistrationDate DESC, rt.TraderID ASC";
+
         trader_report_resource = await ctx.prisma.reporttraders.findMany({
           orderBy: {
             TraderID: "asc",
@@ -819,6 +827,30 @@ export const getpixelLogReport = publicProcedure
         };
       }
 
+      /*
+        SELECT pl.id as plid,
+          pm.* ,
+          pl.*,
+          af.username, mr.name, af.group_id, mr.id, af.id as affiliate_id
+        FROM pixel_logs AS pl
+          left join pixel_monitor pm on
+		    pm.id = pl.pixelCode
+          left join merchants mr on
+            pm.merchant_id = mr.id
+          left join affiliates af on
+		    pm.affiliate_id = af.id
+                                    WHERE 2=2 and " . $globalWhere
+                                            . " pl.dateTime BETWEEN '" . $from . "' AND '" . $to . "' "
+                                            . " AND pm.merchant_id >0 "
+
+                                            .$whereType
+
+                                            . $where
+
+                                    . " ORDER BY pl.dateTime ASC;";
+
+          //}
+       */
       const pixelReport = await ctx.prisma.pixel_logs.findMany({
         orderBy: {
           dateTime: "asc",
@@ -831,16 +863,20 @@ export const getpixelLogReport = publicProcedure
           },
         },
         include: {
-          affiliates: {
+          pixel_monitor: {
             select: {
-              username: true,
-              group_id: true,
-              id: true,
-            },
-          },
-          merchant: {
-            select: {
-              id: true,
+              affiliate: {
+                select: {
+                  username: true,
+                  group_id: true,
+                  id: true,
+                },
+              },
+              merchant: {
+                select: {
+                  id: true,
+                },
+              },
             },
           },
         },
