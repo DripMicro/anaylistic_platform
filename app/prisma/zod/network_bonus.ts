@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const network_bonusModel = z.object({
   id: z.number().int(),
@@ -10,4 +10,4 @@ export const network_bonusModel = z.object({
   bonus_amount: z.number(),
   merchant_id: z.number().int(),
   rdate: z.date(),
-});
+})

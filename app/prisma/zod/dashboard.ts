@@ -1,11 +1,6 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
-import {
-  Completemerchants,
-  RelatedmerchantsModel,
-  Completeaffiliates,
-  RelatedaffiliatesModel,
-} from "./index";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
+import { Completemerchants, RelatedmerchantsModel, Completeaffiliates, RelatedaffiliatesModel } from "./index"
 
 export const dashboardModel = z.object({
   Date: z.date(),
@@ -35,11 +30,11 @@ export const dashboardModel = z.object({
   TotalMicroPayments: z.number().int(),
   MicroPaymentsAmount: z.number(),
   Volume: z.number(),
-});
+})
 
 export interface Completedashboard extends z.infer<typeof dashboardModel> {
-  merchant: Completemerchants;
-  affiliate: Completeaffiliates;
+  merchant: Completemerchants
+  affiliate: Completeaffiliates
 }
 
 /**
@@ -47,10 +42,7 @@ export interface Completedashboard extends z.infer<typeof dashboardModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelateddashboardModel: z.ZodSchema<Completedashboard> = z.lazy(
-  () =>
-    dashboardModel.extend({
-      merchant: RelatedmerchantsModel,
-      affiliate: RelatedaffiliatesModel,
-    })
-);
+export const RelateddashboardModel: z.ZodSchema<Completedashboard> = z.lazy(() => dashboardModel.extend({
+  merchant: RelatedmerchantsModel,
+  affiliate: RelatedaffiliatesModel,
+}))

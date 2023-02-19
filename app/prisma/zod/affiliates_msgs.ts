@@ -1,6 +1,6 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
-import { Completeaffiliates, RelatedaffiliatesModel } from "./index";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
+import { Completeaffiliates, RelatedaffiliatesModel } from "./index"
 
 export const affiliates_msgsModel = z.object({
   id: z.number().int(),
@@ -14,11 +14,10 @@ export const affiliates_msgsModel = z.object({
   text: z.string(),
   status_id: z.number().int(),
   display_approval_popup: z.number().int(),
-});
+})
 
-export interface Completeaffiliates_msgs
-  extends z.infer<typeof affiliates_msgsModel> {
-  affiliate: Completeaffiliates;
+export interface Completeaffiliates_msgs extends z.infer<typeof affiliates_msgsModel> {
+  affiliate: Completeaffiliates
 }
 
 /**
@@ -26,9 +25,6 @@ export interface Completeaffiliates_msgs
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedaffiliates_msgsModel: z.ZodSchema<Completeaffiliates_msgs> =
-  z.lazy(() =>
-    affiliates_msgsModel.extend({
-      affiliate: RelatedaffiliatesModel,
-    })
-  );
+export const Relatedaffiliates_msgsModel: z.ZodSchema<Completeaffiliates_msgs> = z.lazy(() => affiliates_msgsModel.extend({
+  affiliate: RelatedaffiliatesModel,
+}))

@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const reports_fieldsModel = z.object({
   id: z.number().int(),
@@ -8,4 +8,4 @@ export const reports_fieldsModel = z.object({
   rdate: z.date(),
   location: z.string(),
   removed_fields: z.string(),
-});
+})

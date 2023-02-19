@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const leads_filesModel = z.object({
   id: z.number().int(),
@@ -14,4 +14,4 @@ export const leads_filesModel = z.object({
   filename: z.string(),
   filename_original: z.string(),
   description: z.string(),
-});
+})
