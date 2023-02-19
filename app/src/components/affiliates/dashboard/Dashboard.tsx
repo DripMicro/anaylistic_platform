@@ -50,11 +50,11 @@ export const Dashboard = () => {
   const { data: creative } = api.affiliates.getTopMerchantCreative.useQuery();
 
   const { data: report } = api.affiliates.getCountryReport.useQuery();
-  
+
   if (!data || !creative || !report || !performanceChart || !conversionChart) {
     return null;
   }
-  
+
   const columns = [
     columnHelper.accessor("merchant.name", {
       cell: (info) => info.getValue(),

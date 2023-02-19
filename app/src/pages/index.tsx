@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   const links = [
     { href: "/affiliates/signup", title: "Auth -> Sign Up" },
     { href: "/affiliates/signin", title: "Auth -> Sign In" },
-    
+
     { href: "/affiliates/lost-password", title: "Auth -> Lost Password" },
 
     { href: "/affiliates/dashboard", title: "Dashboard" },
