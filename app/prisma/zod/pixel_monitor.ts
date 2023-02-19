@@ -1,7 +1,7 @@
 import * as z from "zod"
 import * as imports from "../zod-add-schema"
 import { pixel_monitor_type, pixel_monitor_method } from "@prisma/client"
-import { Completepixel_logs, Relatedpixel_logsModel, Completemerchants, RelatedmerchantsModel, Completeaffiliates, RelatedaffiliatesModel } from "./index"
+import { Completemerchants, RelatedmerchantsModel } from "./index"
 
 export const pixel_monitorModel = z.object({
   id: z.number().int(),

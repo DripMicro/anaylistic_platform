@@ -1,6 +1,6 @@
 import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
 import { type NextPage } from "next";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import NextLink from "next/link";
 
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
     { href: "/affiliates/account-payment", title: "Account Payment Details" },
     { href: "/affiliates/profiles", title: "Profiles" },
     { href: "/affiliates/billings", title: "Billing" },
-    { href: "/affiliates/tickets", title: "Tickets" }, 
+    { href: "/affiliates/tickets", title: "Tickets" },
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
     { href: "/affiliates/reports/quick-summary", title: "Reports -> Quick Summary" },
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
               <p>Welcome {session.user.name}</p>
               <Button
                 onClick={() => {
-                  // void signOut();
+                  void signOut();
                 }}
               >
                 Logout

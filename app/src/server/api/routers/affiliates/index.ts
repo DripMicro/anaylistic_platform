@@ -3,7 +3,7 @@ import {
   getAccount,
   recoverPassword,
   registerAccount,
-  updateAccount
+  updateAccount,
 } from "./account";
 import { getPaymentDetails, getPaymentsPaid } from "./billing";
 import { getMerchantCreative, getMerchantCreativeMeta } from "./creative";
@@ -18,6 +18,13 @@ import {
   getCreativeReport, getInstallReport, getLandingPageData,
   getLongCountries, getpixelLogReport, getQuickReportSummary, getTraderReport
 } from "./reports";
+import {
+  getPixelMonitorMeta,
+  getPixelMonitor,
+  getMerchants,
+  upsertPixelMonitor,
+  deletePixelMonitor,
+} from "./pixel";
 
 export const affiliatesRouter = createTRPCRouter({
   getMerchantCreativeMeta,
