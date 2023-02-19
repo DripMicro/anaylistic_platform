@@ -42,11 +42,8 @@ export type affiliates_ticketsModelType = z.infer<
 export type AffiliateDocumentType =
   RouterOutput["affiliates"]["getDocuments"][0];
 
-export type PixelMonitorType =
-  RouterOutput["affiliates"]["getPixelMonitor"][0];
+export type PixelMonitorType = RouterOutput["affiliates"]["getPixelMonitor"][0];
 export type PixelMonitorUpsertType =
   RouterInput["affiliates"]["upsertPixelMonitor"];
 
-export type pixel_monitorModelType = z.infer<
-  typeof pixel_monitorModel
->;
+export type pixel_monitorModelType = z.infer<typeof pixel_monitorModel>;

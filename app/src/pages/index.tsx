@@ -21,14 +21,38 @@ const Home: NextPage = () => {
     { href: "/affiliates/tickets", title: "Tickets" },
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
-    { href: "/affiliates/reports/quick-summary", title: "Reports -> Quick Summary" },
-    { href: "/affiliates/reports/commission-report", title: "Reports -> Commission Report" },
-    { href: "/affiliates/reports/clicks-report", title: "Reports -> Clicks Report" },
-    { href: "/affiliates/reports/install-reports", title: "Reports -> Installs Report" },
-    { href: "/affiliates/reports/creative-report", title: "Reports -> Creative Report" },
-    { href: "/affiliates/reports/landing-page", title: "Reports -> Landing Page Report" },
-    { href: "/affiliates/reports/trader_report", title: "Reports -> Trader Report" },
-    { href: "/affiliates/reports/pixel_log_report", title: "Reports -> pixels Logs Report" },
+    {
+      href: "/affiliates/reports/quick-summary",
+      title: "Reports -> Quick Summary",
+    },
+    {
+      href: "/affiliates/reports/commission-report",
+      title: "Reports -> Commission Report",
+    },
+    {
+      href: "/affiliates/reports/clicks-report",
+      title: "Reports -> Clicks Report",
+    },
+    {
+      href: "/affiliates/reports/install-reports",
+      title: "Reports -> Installs Report",
+    },
+    {
+      href: "/affiliates/reports/creative-report",
+      title: "Reports -> Creative Report",
+    },
+    {
+      href: "/affiliates/reports/landing-page",
+      title: "Reports -> Landing Page Report",
+    },
+    {
+      href: "/affiliates/reports/trader_report",
+      title: "Reports -> Trader Report",
+    },
+    {
+      href: "/affiliates/reports/pixel_log_report",
+      title: "Reports -> pixels Logs Report",
+    },
   ];
 
   return (

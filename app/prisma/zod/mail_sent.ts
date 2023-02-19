@@ -1,5 +1,5 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
 
 export const mail_sentModel = z.object({
   id: z.number().int(),
@@ -12,4 +12,4 @@ export const mail_sentModel = z.object({
   mailCode: z.string(),
   opened: z.number().int(),
   opened_time: z.date(),
-})
+});

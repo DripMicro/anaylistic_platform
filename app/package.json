@@ -8,7 +8,7 @@
     "x_postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "confirm": "yarn lint --fix --no-cache && tsc && env-cmd -f .env next build"
+    "confirm": "yarn prettier --write . && yarn lint --fix --no-cache && tsc && env-cmd -f .env next build"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",
@@ -31,6 +31,7 @@
     "chakra-dayzed-datepicker": "^0.2.7",
     "date-fns": "^2.29.3",
     "dayzed": "^3.2.3",
+    "formidable": "^2.1.1",
     "framer-motion": "^8.5.0",
     "md5": "^2.3.0",
     "moment-mini": "^2.29.4",

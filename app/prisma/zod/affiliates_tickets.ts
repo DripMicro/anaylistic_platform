@@ -1,7 +1,7 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { affiliates_tickets_status } from "@prisma/client"
-import { Completeaffiliates, RelatedaffiliatesModel } from "./index"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import { affiliates_tickets_status } from "@prisma/client";
+import { Completeaffiliates, RelatedaffiliatesModel } from "./index";
 
 export const affiliates_ticketsModel = z.object({
   id: z.number().int(),
@@ -18,10 +18,11 @@ export const affiliates_ticketsModel = z.object({
   readed: z.number().int(),
   merchant_id: z.number().int(),
   aff_readed: z.boolean(),
-})
+});
 
-export interface Completeaffiliates_tickets extends z.infer<typeof affiliates_ticketsModel> {
-  affiliate: Completeaffiliates
+export interface Completeaffiliates_tickets
+  extends z.infer<typeof affiliates_ticketsModel> {
+  affiliate: Completeaffiliates;
 }
 
 /**
@@ -29,6 +30,9 @@ export interface Completeaffiliates_tickets extends z.infer<typeof affiliates_ti
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedaffiliates_ticketsModel: z.ZodSchema<Completeaffiliates_tickets> = z.lazy(() => affiliates_ticketsModel.extend({
-  affiliate: RelatedaffiliatesModel,
-}))
+export const Relatedaffiliates_ticketsModel: z.ZodSchema<Completeaffiliates_tickets> =
+  z.lazy(() =>
+    affiliates_ticketsModel.extend({
+      affiliate: RelatedaffiliatesModel,
+    })
+  );

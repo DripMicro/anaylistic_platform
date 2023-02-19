@@ -1,7 +1,7 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { traders_tag_status } from "@prisma/client"
-import { Completemerchants, RelatedmerchantsModel } from "./index"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import { traders_tag_status } from "@prisma/client";
+import { Completemerchants, RelatedmerchantsModel } from "./index";
 
 export const traders_tagModel = z.object({
   id: z.number().int(),
@@ -15,10 +15,10 @@ export const traders_tagModel = z.object({
   status: z.nativeEnum(traders_tag_status),
   notes: z.string(),
   calReport: z.number().int(),
-})
+});
 
 export interface Completetraders_tag extends z.infer<typeof traders_tagModel> {
-  merchant: Completemerchants
+  merchant: Completemerchants;
 }
 
 /**
@@ -26,6 +26,9 @@ export interface Completetraders_tag extends z.infer<typeof traders_tagModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedtraders_tagModel: z.ZodSchema<Completetraders_tag> = z.lazy(() => traders_tagModel.extend({
-  merchant: RelatedmerchantsModel,
-}))
+export const Relatedtraders_tagModel: z.ZodSchema<Completetraders_tag> = z.lazy(
+  () =>
+    traders_tagModel.extend({
+      merchant: RelatedmerchantsModel,
+    })
+);

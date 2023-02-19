@@ -1,5 +1,5 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
 
 export const products_itemsModel = z.object({
   id: z.number().int(),
@@ -31,4 +31,4 @@ export const products_itemsModel = z.object({
   isRTL: z.boolean(),
   type: z.string(),
   ignoreOtherInternalParameters: z.boolean(),
-})
+});
