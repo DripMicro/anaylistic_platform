@@ -1,7 +1,12 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { payments_details_status } from "@prisma/client"
-import { Completeaffiliates, RelatedaffiliatesModel, Completepayments_paid, Relatedpayments_paidModel } from "./index"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import { payments_details_status } from "@prisma/client";
+import {
+  Completeaffiliates,
+  RelatedaffiliatesModel,
+  Completepayments_paid,
+  Relatedpayments_paidModel,
+} from "./index";
 
 export const payments_detailsModel = z.object({
   id: z.number().int(),
@@ -18,11 +23,12 @@ export const payments_detailsModel = z.object({
   deposit: z.number(),
   withdrawal: z.number(),
   reason: z.string(),
-})
+});
 
-export interface Completepayments_details extends z.infer<typeof payments_detailsModel> {
-  affiliate: Completeaffiliates
-  paid: Completepayments_paid
+export interface Completepayments_details
+  extends z.infer<typeof payments_detailsModel> {
+  affiliate: Completeaffiliates;
+  paid: Completepayments_paid;
 }
 
 /**
@@ -30,7 +36,10 @@ export interface Completepayments_details extends z.infer<typeof payments_detail
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedpayments_detailsModel: z.ZodSchema<Completepayments_details> = z.lazy(() => payments_detailsModel.extend({
-  affiliate: RelatedaffiliatesModel,
-  paid: Relatedpayments_paidModel,
-}))
+export const Relatedpayments_detailsModel: z.ZodSchema<Completepayments_details> =
+  z.lazy(() =>
+    payments_detailsModel.extend({
+      affiliate: RelatedaffiliatesModel,
+      paid: Relatedpayments_paidModel,
+    })
+  );

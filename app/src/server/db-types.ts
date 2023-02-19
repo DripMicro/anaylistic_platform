@@ -1,11 +1,11 @@
-import type { z } from "zod";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
-import type { AppRouter } from "./api/root";
+import type { z } from "zod";
 import type {
   affiliates_profilesModel,
   affiliates_ticketsModel,
+  pixel_monitorModel,
 } from "../../prisma/zod";
-import { getPaymentsPaid } from "./api/routers/affiliates/billing";
+import type { AppRouter } from "./api/root";
 
 type RouterInput = inferRouterInputs<AppRouter>;
 type RouterOutput = inferRouterOutputs<AppRouter>;
@@ -46,3 +46,9 @@ export type TopMerchantCreativeType =
 
 export type CountryReportType =
   RouterOutput["affiliates"]["getCountryReport"][0];
+
+export type PixelMonitorType = RouterOutput["affiliates"]["getPixelMonitor"][0];
+export type PixelMonitorUpsertType =
+  RouterInput["affiliates"]["upsertPixelMonitor"];
+
+export type pixel_monitorModelType = z.infer<typeof pixel_monitorModel>;

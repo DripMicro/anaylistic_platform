@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
     //   return token;
     // },
     session({ session, user, token }) {
-      console.log(`muly:session`, { session, user, token });
+      // console.log(`muly:session`, { session, user, token });
       if (session.user && token.sub) {
         session.user.id = token.sub;
         // session.user.type = token.sub;

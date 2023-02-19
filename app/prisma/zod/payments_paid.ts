@@ -1,6 +1,11 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { Completeaffiliates, RelatedaffiliatesModel, Completepayments_details, Relatedpayments_detailsModel } from "./index"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import {
+  Completeaffiliates,
+  RelatedaffiliatesModel,
+  Completepayments_details,
+  Relatedpayments_detailsModel,
+} from "./index";
 
 export const payments_paidModel = z.object({
   id: z.number().int(),
@@ -19,11 +24,12 @@ export const payments_paidModel = z.object({
   creditLeft: z.number(),
   amount_gap_from_previous_month: z.number(),
   credit_gap_from_previous_month: z.number(),
-})
+});
 
-export interface Completepayments_paid extends z.infer<typeof payments_paidModel> {
-  affiliate: Completeaffiliates
-  payments_details: Completepayments_details[]
+export interface Completepayments_paid
+  extends z.infer<typeof payments_paidModel> {
+  affiliate: Completeaffiliates;
+  payments_details: Completepayments_details[];
 }
 
 /**
@@ -31,7 +37,10 @@ export interface Completepayments_paid extends z.infer<typeof payments_paidModel
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedpayments_paidModel: z.ZodSchema<Completepayments_paid> = z.lazy(() => payments_paidModel.extend({
-  affiliate: RelatedaffiliatesModel,
-  payments_details: Relatedpayments_detailsModel.array(),
-}))
+export const Relatedpayments_paidModel: z.ZodSchema<Completepayments_paid> =
+  z.lazy(() =>
+    payments_paidModel.extend({
+      affiliate: RelatedaffiliatesModel,
+      payments_details: Relatedpayments_detailsModel.array(),
+    })
+  );

@@ -1,5 +1,5 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
 
 export const merchants_creative_statsModel = z.object({
   Date: z.date(),
@@ -8,4 +8,4 @@ export const merchants_creative_statsModel = z.object({
   BannerID: z.number().int(),
   Impressions: z.number().int(),
   Clicks: z.number().int(),
-})
+});

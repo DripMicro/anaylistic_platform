@@ -1,5 +1,5 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
 
 export const short_urlsModel = z.object({
   id: z.number().int(),
@@ -7,4 +7,4 @@ export const short_urlsModel = z.object({
   short_code: z.unknown(),
   short_urls: z.date(),
   counter: z.number().int(),
-})
+});
