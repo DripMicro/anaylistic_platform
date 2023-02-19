@@ -17,8 +17,13 @@ import {
   getAllMerchants,
   getClicksReport,
   getCommissionReport,
+  getCreativeReport,
   getInstallReport,
+  getLandingPageData,
+  getLongCountries,
+  getpixelLogReport,
   getQuickReportSummary,
+  getTraderReport,
 } from "./reports";
 import {
   getPixelMonitorMeta,
@@ -54,10 +59,18 @@ export const affiliatesRouter = createTRPCRouter({
   getQuickReportSummary,
   getInstallReport,
   getAllMerchants,
+
   getCommissionReport,
   getClicksReport,
   getDocuments,
+
   getCommissions,
+  getCreativeReport,
+  getLandingPageData,
+
+  getTraderReport,
+  getLongCountries,
+  getpixelLogReport,
 
   getPixelMonitorMeta,
   getPixelMonitor,

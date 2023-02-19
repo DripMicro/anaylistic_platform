@@ -183,7 +183,8 @@ model affiliates {
   sub_stats                       sub_stats[]
   trackerconversion               trackerconversion[]
   traffic                         traffic[]
-  commission                       commissions[]
+  commission                      commissions[]
+  pixel_monitor                   pixel_monitor[]
 
   @@index([group_id], map: "group_id")
   @@index([mail], map: "mail")
@@ -380,21 +381,21 @@ model chart_data {
 }
 
 model commissions {
-  merchant_id       Int       @map("merchantID")
-  affiliate_id      Int       @map("affiliateID")
-  traderID          String    @db.VarChar(30)
-  transactionID     String    @db.VarChar(80)
-  Date              DateTime  @db.Timestamp(0)
-  Type              String    @db.VarChar(255)
+  merchant_id       Int        @map("merchantID")
+  affiliate_id      Int        @map("affiliateID")
+  traderID          String     @db.VarChar(30)
+  transactionID     String     @db.VarChar(80)
+  Date              DateTime   @db.Timestamp(0)
+  Type              String     @db.VarChar(255)
   Amount            Float
-  DealType          String    @db.VarChar(255)
+  DealType          String     @db.VarChar(255)
   Commission        Float
-  DealTypeCondition String    @db.VarChar(255)
+  DealTypeCondition String     @db.VarChar(255)
   level             Int?
   subAffiliateID    Int?
   status            Int?
-  updated           DateTime? @db.DateTime(0)
-  merchant          merchants @relation(fields: [merchant_id], references: [id])
+  updated           DateTime?  @db.DateTime(0)
+  merchant          merchants  @relation(fields: [merchant_id], references: [id])
   affiliate         affiliates @relation(fields: [affiliate_id], references: [id])
 
   @@id([merchant_id, affiliate_id, traderID, transactionID, Type, Amount, Date])
@@ -588,8 +589,9 @@ model data_reg {
   dummySource           Int
   currentDate           DateTime      @default(now()) @db.Timestamp(0)
 
-  merchant  merchants  @relation(fields: [merchant_id], references: [id])
-  affiliate affiliates @relation(fields: [affiliate_id], references: [id])
+  merchant  merchants     @relation(fields: [merchant_id], references: [id])
+  affiliate affiliates    @relation(fields: [affiliate_id], references: [id])
+  data_reg  reporttraders @relation(fields: [trader_id, affiliate_id, merchant_id], references: [TraderID, affiliate_id, merchant_id])
 
   @@index([FTDqualificationDate], map: "FTDqualificationDate")
   @@index([uid], map: "UID")
@@ -1206,6 +1208,8 @@ model pixel_logs {
   pixelCode     Int
   pixelResponse String   @default("") @db.VarChar(150)
   product_id    Int
+
+  pixel_monitor pixel_monitor @relation(fields: [pixelCode], references: [id])
 }
 
 model pixel_monitor {
@@ -1221,8 +1225,10 @@ model pixel_monitor {
   product_id   Int
   banner_id    Int
 
-  merchant merchants                      @relation(fields: [merchant_id], references: [id])
-  
+  merchant   merchants    @relation(fields: [merchant_id], references: [id])
+  affiliate  affiliates   @relation(fields: [affiliate_id], references: [id])
+  pixel_logs pixel_logs[]
+
   @@index([merchant_id], map: "merchant_id")
   @@index([affiliate_id], map: "affiliate_id")
   @@index([product_id], map: "product_id")
@@ -1403,6 +1409,7 @@ model reporttraders {
   ClickDetails        String   @db.VarChar(80)
 
   affiliate affiliates @relation(fields: [affiliate_id], references: [id])
+  data_reg  data_reg[]
 
   @@id([TraderID, affiliate_id, merchant_id])
   @@index([affiliate_id], map: "AffiliateID")

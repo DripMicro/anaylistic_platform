@@ -1,7 +1,7 @@
 import * as z from "zod"
 import * as imports from "../zod-add-schema"
 import { pixel_monitor_type, pixel_monitor_method } from "@prisma/client"
-import { Completemerchants, RelatedmerchantsModel } from "./index"
+import { Completemerchants, RelatedmerchantsModel, Completeaffiliates, RelatedaffiliatesModel, Completepixel_logs, Relatedpixel_logsModel } from "./index"
 
 export const pixel_monitorModel = z.object({
   id: z.number().int(),
@@ -19,6 +19,8 @@ export const pixel_monitorModel = z.object({
 
 export interface Completepixel_monitor extends z.infer<typeof pixel_monitorModel> {
   merchant: Completemerchants
+  affiliate: Completeaffiliates
+  pixel_logs: Completepixel_logs[]
 }
 
 /**
@@ -28,4 +30,6 @@ export interface Completepixel_monitor extends z.infer<typeof pixel_monitorModel
  */
 export const Relatedpixel_monitorModel: z.ZodSchema<Completepixel_monitor> = z.lazy(() => pixel_monitorModel.extend({
   merchant: RelatedmerchantsModel,
+  affiliate: RelatedaffiliatesModel,
+  pixel_logs: Relatedpixel_logsModel.array(),
 }))
