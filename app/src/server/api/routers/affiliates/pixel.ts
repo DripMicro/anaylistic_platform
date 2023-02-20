@@ -1,19 +1,17 @@
-import { data_regModel } from './../../../../../prisma/zod/data_reg';
-import { z } from "zod";
-import { schema as schemaPixelMonitor } from "../../../../shared-types/forms/pixel-monitor";
-import { publicProcedure } from "../../trpc";
 import type {
-  pixel_monitor_type,
   pixel_monitor_method,
+  pixel_monitor_type,
   Prisma,
 } from "@prisma/client";
-import { pixel_monitorModel } from "../../../../../prisma/zod";
-import { affiliate_id, merchant_id } from "./const";
+import { z } from "zod";
 import {
   addFreeTextSearchJSFilter,
   addFreeTextSearchWhere,
 } from "../../../../../prisma/prisma-utils";
+import { pixel_monitorModel } from "../../../../../prisma/zod";
 import { upsertSchema } from "../../../../../prisma/zod-add-schema";
+import { publicProcedure } from "../../trpc";
+import { affiliate_id, merchant_id } from "./const";
 
 export const getPixelMonitorMeta = publicProcedure.query(async ({ ctx }) => {
   const data = await ctx.prisma.merchants.findUnique({

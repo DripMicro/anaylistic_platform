@@ -1,8 +1,7 @@
-import React from "react";
-import { Stack, Heading, Flex, Button, Text } from "@chakra-ui/react";
+import { Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 
 interface Props {
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
   onPrevious: () => void;
 }
 
