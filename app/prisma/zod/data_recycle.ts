@@ -1,5 +1,5 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
 
 export const data_recycleModel = z.object({
   id: z.number().int(),
@@ -11,4 +11,4 @@ export const data_recycleModel = z.object({
   rdate: z.date(),
   data_table: z.string(),
   fields: z.string(),
-})
+});

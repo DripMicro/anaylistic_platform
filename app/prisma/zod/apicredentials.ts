@@ -1,7 +1,7 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { apicredentials_type } from "@prisma/client"
-import { Completemerchants, RelatedmerchantsModel } from "./index"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import { apicredentials_type } from "@prisma/client";
+import { Completemerchants, RelatedmerchantsModel } from "./index";
 
 export const apicredentialsModel = z.object({
   id: z.number().int(),
@@ -11,10 +11,11 @@ export const apicredentialsModel = z.object({
   password: z.string(),
   url: z.string(),
   type: z.nativeEnum(apicredentials_type),
-})
+});
 
-export interface Completeapicredentials extends z.infer<typeof apicredentialsModel> {
-  merchant: Completemerchants
+export interface Completeapicredentials
+  extends z.infer<typeof apicredentialsModel> {
+  merchant: Completemerchants;
 }
 
 /**
@@ -22,6 +23,9 @@ export interface Completeapicredentials extends z.infer<typeof apicredentialsMod
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedapicredentialsModel: z.ZodSchema<Completeapicredentials> = z.lazy(() => apicredentialsModel.extend({
-  merchant: RelatedmerchantsModel,
-}))
+export const RelatedapicredentialsModel: z.ZodSchema<Completeapicredentials> =
+  z.lazy(() =>
+    apicredentialsModel.extend({
+      merchant: RelatedmerchantsModel,
+    })
+  );

@@ -1,37 +1,37 @@
-import React, { useState } from "react";
+import { AddIcon } from "@chakra-ui/icons";
 import {
-  Flex,
-  Stack,
-  HStack,
   Button,
+  Flex,
+  HStack,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { createColumnHelper } from "@tanstack/react-table";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
-import { DataTable } from "../../common/data-table/DataTable";
-import { QuerySelect } from "../../common/QuerySelect";
-import { QueryText } from "../../common/QueryText";
-import { api } from "../../../utils/api";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import type * as z from "zod";
 import type {
   PixelMonitorType,
   pixel_monitorModelType,
 } from "../../../server/db-types";
-import { createColumnHelper } from "@tanstack/react-table";
-import { useRouter } from "next/router";
-import type * as z from "zod";
 import type { schema as schemaPixelMonitor } from "../../../shared-types/forms/pixel-monitor";
+import { api } from "../../../utils/api";
+import { DataTable } from "../../common/data-table/DataTable";
+import { QuerySelect } from "../../common/QuerySelect";
+import { QueryText } from "../../common/QueryText";
 
+import { FinishForm } from "./FinishForm";
+import { MethodForm } from "./MethodForm";
+import { PixelCodeForm } from "./PixelCodeForm";
 import { PixelTypeForm } from "./PixelTypeForm";
 import { TriggerForm } from "./TriggerForm";
-import { PixelCodeForm } from "./PixelCodeForm";
-import { MethodForm } from "./MethodForm";
-import { FinishForm } from "./FinishForm";
 
 const columnHelper = createColumnHelper<PixelMonitorType>();
 
