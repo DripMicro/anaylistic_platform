@@ -1,7 +1,8 @@
+import { data_regModel } from './../../../../../prisma/zod/data_reg';
 import { z } from "zod";
-
+import { schema as schemaPixelMonitor } from "../../../../shared-types/forms/pixel-monitor";
 import { publicProcedure } from "../../trpc";
-import {
+import type {
   pixel_monitor_type,
   pixel_monitor_method,
   Prisma,
