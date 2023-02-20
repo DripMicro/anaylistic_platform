@@ -1,6 +1,6 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { admins_level, admins_userType } from "@prisma/client"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import { admins_level, admins_userType } from "@prisma/client";
 
 export const adminsModel = z.object({
   id: z.number().int(),
@@ -30,4 +30,4 @@ export const adminsModel = z.object({
   showAdditionalLink: z.boolean(),
   additionalLinkText: z.string(),
   additionalLinkUrl: z.string(),
-})
+});

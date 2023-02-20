@@ -1,6 +1,6 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { settings_qualify_type } from "@prisma/client"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import { settings_qualify_type } from "@prisma/client";
 
 export const settingsModel = z.object({
   id: z.number().int(),
@@ -175,4 +175,4 @@ export const settingsModel = z.object({
   ShowQualificationOnChart: z.boolean(),
   ShowQualificationOnChartSince: z.date(),
   hasContinuousyCommissionType: z.boolean(),
-})
+});

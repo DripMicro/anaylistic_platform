@@ -1,7 +1,10 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { affiliates_deals_dealType, affiliates_deals_tier_type } from "@prisma/client"
-import { Completeaffiliates, RelatedaffiliatesModel } from "./index"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import {
+  affiliates_deals_dealType,
+  affiliates_deals_tier_type,
+} from "@prisma/client";
+import { Completeaffiliates, RelatedaffiliatesModel } from "./index";
 
 export const affiliates_dealsModel = z.object({
   id: z.number().int(),
@@ -16,10 +19,11 @@ export const affiliates_dealsModel = z.object({
   tier_pcpa: z.number(),
   tier_type: z.nativeEnum(affiliates_deals_tier_type),
   geo: z.string(),
-})
+});
 
-export interface Completeaffiliates_deals extends z.infer<typeof affiliates_dealsModel> {
-  affiliate: Completeaffiliates
+export interface Completeaffiliates_deals
+  extends z.infer<typeof affiliates_dealsModel> {
+  affiliate: Completeaffiliates;
 }
 
 /**
@@ -27,6 +31,9 @@ export interface Completeaffiliates_deals extends z.infer<typeof affiliates_deal
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedaffiliates_dealsModel: z.ZodSchema<Completeaffiliates_deals> = z.lazy(() => affiliates_dealsModel.extend({
-  affiliate: RelatedaffiliatesModel,
-}))
+export const Relatedaffiliates_dealsModel: z.ZodSchema<Completeaffiliates_deals> =
+  z.lazy(() =>
+    affiliates_dealsModel.extend({
+      affiliate: RelatedaffiliatesModel,
+    })
+  );

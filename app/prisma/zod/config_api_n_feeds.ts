@@ -1,5 +1,5 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
 
 export const config_api_n_feedsModel = z.object({
   id: z.number().int(),
@@ -10,4 +10,4 @@ export const config_api_n_feedsModel = z.object({
   createdByUserID: z.number().int(),
   rdate: z.date(),
   outputType: z.string(),
-})
+});

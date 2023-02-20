@@ -1,6 +1,6 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { chart_data_level } from "@prisma/client"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import { chart_data_level } from "@prisma/client";
 
 export const chart_dataModel = z.object({
   id: z.number().int(),
@@ -14,4 +14,4 @@ export const chart_dataModel = z.object({
   ftds: z.number().int(),
   val1: z.number().int(),
   val2: z.number().int(),
-})
+});

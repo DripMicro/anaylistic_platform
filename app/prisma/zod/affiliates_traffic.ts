@@ -1,6 +1,11 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
-import { Completemerchants, RelatedmerchantsModel, Completeaffiliates, RelatedaffiliatesModel } from "./index"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
+import {
+  Completemerchants,
+  RelatedmerchantsModel,
+  Completeaffiliates,
+  RelatedaffiliatesModel,
+} from "./index";
 
 export const affiliates_trafficModel = z.object({
   id: z.number().int(),
@@ -12,11 +17,12 @@ export const affiliates_trafficModel = z.object({
   refer_url: z.string(),
   visits: z.number().int(),
   uid: z.string(),
-})
+});
 
-export interface Completeaffiliates_traffic extends z.infer<typeof affiliates_trafficModel> {
-  merchant: Completemerchants
-  affiliate: Completeaffiliates
+export interface Completeaffiliates_traffic
+  extends z.infer<typeof affiliates_trafficModel> {
+  merchant: Completemerchants;
+  affiliate: Completeaffiliates;
 }
 
 /**
@@ -24,7 +30,10 @@ export interface Completeaffiliates_traffic extends z.infer<typeof affiliates_tr
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedaffiliates_trafficModel: z.ZodSchema<Completeaffiliates_traffic> = z.lazy(() => affiliates_trafficModel.extend({
-  merchant: RelatedmerchantsModel,
-  affiliate: RelatedaffiliatesModel,
-}))
+export const Relatedaffiliates_trafficModel: z.ZodSchema<Completeaffiliates_traffic> =
+  z.lazy(() =>
+    affiliates_trafficModel.extend({
+      merchant: RelatedmerchantsModel,
+      affiliate: RelatedaffiliatesModel,
+    })
+  );

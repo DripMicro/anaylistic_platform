@@ -1,5 +1,5 @@
-import * as z from "zod"
-import * as imports from "../zod-add-schema"
+import * as z from "zod";
+import * as imports from "../zod-add-schema";
 
 export const reportreferralModel = z.object({
   Date: z.date(),
@@ -27,4 +27,4 @@ export const reportreferralModel = z.object({
   ChargebackAmount: z.number(),
   PNL: z.number(),
   Commissions: z.number(),
-})
+});
