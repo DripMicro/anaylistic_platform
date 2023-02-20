@@ -98,7 +98,6 @@ export const PixelMonitor = () => {
       cell: (info) => info.getValue(),
       header: "#",
     }),
-    // @ts-ignore
     columnHelper.accessor("merchant.name", {
       cell: (info) => info.getValue(),
       header: "Merchant",
