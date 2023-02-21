@@ -110,3 +110,4 @@ dist
 FocusOption
 db/*
 gamingaffiliates_db.sql
+.DS_Store
