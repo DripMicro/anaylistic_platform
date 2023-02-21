@@ -225,6 +225,7 @@ export function createTsForm<
   >({
     schema,
     onSubmit,
+    onPrevious,
     props,
     formProps,
     defaultValues,

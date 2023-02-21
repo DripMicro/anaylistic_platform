@@ -1924,6 +1924,11 @@ chakra-dayzed-datepicker@^0.2.7:
   dependencies:
     react-focus-lock "^2.9.2"
 
+chakra-ui-steps@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/chakra-ui-steps/-/chakra-ui-steps-2.0.4.tgz#f846f0b1fafd2805424d113609174754de90f661"
+  integrity sha512-aImiPsw3hgqvfb9z3TVkt8WK32Hg0OOrJE5g/2Pt/1cA1Wqps2vDcWKShp8JZZQ1nyvNX3rxtrjPoDeRWdBO4A==
+
 chalk@4.1.2, chalk@^4.0.0:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
