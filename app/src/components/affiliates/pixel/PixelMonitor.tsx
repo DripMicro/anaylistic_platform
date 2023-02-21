@@ -38,6 +38,13 @@ const columnHelper = createColumnHelper<PixelMonitorType>();
 type NewRecType = z.infer<typeof schemaPixelMonitor>;
 type RecType = pixel_monitorModelType;
 
+const newRecValues: NewRecType = {
+  merchant_id: "",
+  type: "account",
+  pixelCode: "",
+  method: "get",
+};
+
 export const PixelMonitor = () => {
   const router = useRouter();
   const { pixel_type, merchant, pixel_code, type, method } = router.query;
@@ -48,12 +55,7 @@ export const PixelMonitor = () => {
     initialStep: 0,
   });
 
-  const [formState, setFormState] = useState<NewRecType>({
-    merchant_id: "",
-    type: "",
-    pixelCode: "",
-    method: "",
-  });
+  const [formState, setFormState] = useState<NewRecType>(newRecValues);
 
   const { data: meta } = api.affiliates.getPixelMonitorMeta.useQuery();
 
@@ -89,20 +91,23 @@ export const PixelMonitor = () => {
   const handleSubmit = async () => {
     const values = formState;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    values.merchant_id = parseInt(values.merchant_id);
+    const merchant_id = parseInt(values.merchant_id);
 
-    await upsertPixelMonitor.mutateAsync({
+    if (!merchant_id) {
+      throw new Error("Missing merchant_id");
+    }
+
+    const rec = {
       ...(editRec || {}),
       ...values,
-    });
+      merchant_id,
+    };
+
+    await upsertPixelMonitor.mutateAsync(rec);
+
     onClose();
     reset();
-    setFormState({
-      merchant_id: "",
-      type: "",
-      pixelCode: "",
-      method: "",
-    });
+    setFormState(newRecValues);
     await refetch();
   };
 

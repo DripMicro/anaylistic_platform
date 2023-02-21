@@ -1,14 +1,7 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
-import { merchants_creative_type } from "@prisma/client";
-import {
-  Completemerchants_creative_categories,
-  Relatedmerchants_creative_categoriesModel,
-  Completemerchants,
-  RelatedmerchantsModel,
-  Completelanguages,
-  RelatedlanguagesModel,
-} from "./index";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
+import { merchants_creative_type } from "@prisma/client"
+import { Completemerchants_creative_categories, Relatedmerchants_creative_categoriesModel, Completemerchants, RelatedmerchantsModel, Completelanguages, RelatedlanguagesModel } from "./index"
 
 export const merchants_creativeModel = z.object({
   id: z.number().int(),
@@ -34,13 +27,12 @@ export const merchants_creativeModel = z.object({
   featured: z.number().int(),
   affiliateReady: z.number().int(),
   isOverrideTrackingLink: z.boolean(),
-});
+})
 
-export interface Completemerchants_creative
-  extends z.infer<typeof merchants_creativeModel> {
-  category?: Completemerchants_creative_categories | null;
-  merchant: Completemerchants;
-  language: Completelanguages;
+export interface Completemerchants_creative extends z.infer<typeof merchants_creativeModel> {
+  category?: Completemerchants_creative_categories | null
+  merchant: Completemerchants
+  language: Completelanguages
 }
 
 /**
@@ -48,11 +40,8 @@ export interface Completemerchants_creative
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedmerchants_creativeModel: z.ZodSchema<Completemerchants_creative> =
-  z.lazy(() =>
-    merchants_creativeModel.extend({
-      category: Relatedmerchants_creative_categoriesModel.nullish(),
-      merchant: RelatedmerchantsModel,
-      language: RelatedlanguagesModel,
-    })
-  );
+export const Relatedmerchants_creativeModel: z.ZodSchema<Completemerchants_creative> = z.lazy(() => merchants_creativeModel.extend({
+  category: Relatedmerchants_creative_categoriesModel.nullish(),
+  merchant: RelatedmerchantsModel,
+  language: RelatedlanguagesModel,
+}))

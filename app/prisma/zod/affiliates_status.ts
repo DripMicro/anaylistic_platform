@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const affiliates_statusModel = z.object({
   id: z.number().int(),
@@ -7,4 +7,4 @@ export const affiliates_statusModel = z.object({
   valid: z.number().int(),
   title: z.string(),
   created_by_admin_id: z.number().int(),
-});
+})

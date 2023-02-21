@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const exchange_ratesModel = z.object({
   id: z.number().int(),
@@ -11,4 +11,4 @@ export const exchange_ratesModel = z.object({
   lastUpdate: z.date(),
   lastCheck: z.date(),
   valid: z.boolean(),
-});
+})

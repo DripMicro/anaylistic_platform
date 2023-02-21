@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const producttitlesModel = z.object({
   id: z.number().int(),
@@ -15,4 +15,4 @@ export const producttitlesModel = z.object({
   Dating: z.string(),
   Rummy: z.string(),
   Bingo: z.string(),
-});
+})

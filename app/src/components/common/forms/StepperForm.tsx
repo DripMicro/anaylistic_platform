@@ -11,7 +11,7 @@ export interface CommonFormProps {
   onSubmit: (values: unknown) => Promise<void>;
   children: React.ReactNode;
 
-  onPrevious?: () => Promise<void>;
+  onPrevious?: () => void;
   grid?: GridProps;
   stepCount?: number;
   activeStep?: number;

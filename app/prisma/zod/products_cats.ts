@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const products_catsModel = z.object({
   id: z.number().int(),
@@ -7,4 +7,4 @@ export const products_catsModel = z.object({
   valid: z.number().int(),
   title: z.string(),
   parent_id: z.number().int(),
-});
+})

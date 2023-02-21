@@ -1,11 +1,6 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
-import {
-  Completeaffiliates,
-  RelatedaffiliatesModel,
-  Completesub_banners,
-  Relatedsub_bannersModel,
-} from "./index";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
+import { Completeaffiliates, RelatedaffiliatesModel, Completesub_banners, Relatedsub_bannersModel } from "./index"
 
 export const sub_statsModel = z.object({
   id: z.number().int(),
@@ -16,11 +11,11 @@ export const sub_statsModel = z.object({
   profile_id: z.number().int(),
   views: z.number().int(),
   clicks: z.number().int(),
-});
+})
 
 export interface Completesub_stats extends z.infer<typeof sub_statsModel> {
-  affiliate: Completeaffiliates;
-  sub_banner: Completesub_banners;
+  affiliate: Completeaffiliates
+  sub_banner: Completesub_banners
 }
 
 /**
@@ -28,10 +23,7 @@ export interface Completesub_stats extends z.infer<typeof sub_statsModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const Relatedsub_statsModel: z.ZodSchema<Completesub_stats> = z.lazy(
-  () =>
-    sub_statsModel.extend({
-      affiliate: RelatedaffiliatesModel,
-      sub_banner: Relatedsub_bannersModel,
-    })
-);
+export const Relatedsub_statsModel: z.ZodSchema<Completesub_stats> = z.lazy(() => sub_statsModel.extend({
+  affiliate: RelatedaffiliatesModel,
+  sub_banner: Relatedsub_bannersModel,
+}))
