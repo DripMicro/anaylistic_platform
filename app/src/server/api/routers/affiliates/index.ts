@@ -16,7 +16,8 @@ import { getDocuments } from "./document";
 import {
   getAllMerchants, getClicksReport, getCommissionReport,
   getCreativeReport, getInstallReport, getLandingPageData,
-  getLongCountries, getpixelLogReport, getQuickReportSummary, getTraderReport
+  getLongCountries, getpixelLogReport, getProfileReportData,
+  getQuickReportSummary, getSubAffiliateReport, getTraderReport
 } from "./reports";
 
 export const affiliatesRouter = createTRPCRouter({
@@ -56,5 +57,8 @@ export const affiliatesRouter = createTRPCRouter({
 
   getTraderReport,
   getLongCountries,
-  getpixelLogReport
+  getpixelLogReport,
+
+  getProfileReportData,
+  getSubAffiliateReport
 });

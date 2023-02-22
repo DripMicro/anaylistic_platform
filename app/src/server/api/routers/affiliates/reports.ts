@@ -29,6 +29,15 @@ type listProfile = {
     [key:string]:object
 }
 
+type MerchantArray =  {
+  [key:string]:object
+}
+
+
+  type merchantObject = {
+    [key:string]:any 
+  }
+
 type Country  = {
     [key: string]: object
 }
@@ -848,7 +857,212 @@ export const getpixelLogReport = publicProcedure
 
       return pixelReport;
     }
-  );
+);
+
+
+export const getProfileReportData = publicProcedure.input(z.object({
+  from:z.date().optional(),
+  to: z.date().optional(),
+  merchant_id:z.number().optional(),
+  search_type: z.string().optional()
+})).query(async ({ctx, input: {from,to, merchant_id,search_type}}) => {
+  const arrGroup = await ctx.prisma.affiliates.findMany({
+    select: {
+      group_id: true,
+    },
+    where: {
+      id:500
+    }
+  });
+
+  const group_id  = arrGroup[0]?.group_id;
+
+  console.log("arr group", group_id)
+
+  let type_filter = {};
+
+  if (group_id) {
+    type_filter = {
+      group_id: group_id
+    }
+  }
+
+
+  const totalImpressionsM = 0;
+  const totalClicksM = 0;
+  const totalCPIM = 0;
+  const totalLeadsAccountsM = 0;
+  const totalDemoAccountsM = 0;
+  const totalRealAccountsM = 0;
+  const totalFTDM = 0;
+  const totalDepositsM = 0;
+  const totalFTDAmountM = 0;
+  const totalDepositAmountM = 0;
+  const totalVolumeM = 0;
+  const totalBonusM = 0;
+  const totalLotsM = 0;
+  const totalWithdrawalM = 0;
+  const totalChargeBackM = 0;
+  const totalNetRevenueM = 0;
+  const totalComsM = 0;
+  const netRevenueM = 0;
+  const totalFruadM = 0;
+  const totalFrozensM = 0;
+  const totalRealFtdM = 0;
+  const totalRealFtdAmountM = 0;
+  const totalPNLAmountM = 0;
+
+
+  const dateRanges = [{
+    from,to
+  }];
+  // switch (search_type) {
+  //   case "monthly":
+      
+  //     break;
+  
+  //   default:
+  //     break;
+  // }
+
+
+  dateRanges.forEach(  date => {
+    const ww =  ctx.prisma.affiliates_profiles.findMany({
+      where: {
+        valid: 1,
+      },
+      select: {
+        id: true,
+        name:true,
+        url:true,
+        affiliate: true,
+        affiliates_campaigns_relations: {
+          select:{
+            campID:true
+          }
+        }
+      },
+     
+    })
+
+
+  const merchant_count = ctx.prisma.merchants.aggregate({
+    _sum: {
+      id: true
+    },
+    where: {
+      valid: 1,
+      id: merchant_id ? merchant_id:0
+    }
+  })
+
+
+
+  const merchant_ww =  ctx.prisma.merchants.findMany({
+    where: {
+      id: merchant_id ? merchant_id:0
+    },
+    select: {
+      id:true,
+      name:true,
+      type:true,
+      producttype:true,
+      rev_formula:true,
+      wallet_id:true
+    }
+  })
+
+  
+
+
+  });
+
+
+
+  return arrGroup;
+})
+
+
+export const getSubAffiliateReport = publicProcedure.input(z.object({
+  from:z.date().optional(),
+  to:z.date().optional()
+})).query(async ({ctx, input: {from,to}}) => {
+
+  const merchantArray:MerchantArray = {};
+  const mer_rsc = await ctx.prisma.merchants.findMany({
+    where: {
+      valid: 1
+    }
+  })
+
+  let displayForex;
+  const merchant_object:merchantObject  = mer_rsc[0] ?? {}
+  if (merchant_object['producttype'] === 'forex') {
+    displayForex = 1;
+  }
+  console.log("merchant res", )
+
+
+  merchantArray['arrMerchant'] = mer_rsc;
+
+  const affiliate_ww = await ctx.prisma.affiliates.findMany({
+    where: {
+      valid:1
+    },
+    select: {
+      id: true,
+      username: true
+    }
+  });
+
+  const total:CreativeType = {};
+  let affiliate: any = affiliate_ww;
+  let _index = 0;
+  while (_index < Object.keys(affiliate_ww).length) {
+    console.log("affiliate id ", affiliate_ww[_index]?.id)
+    const arrClicksAndImpressions = await ctx.prisma.sub_stats.aggregate({
+      where: {
+        affiliate_id:affiliate_ww[_index]?.id ?? 0
+      },
+      _sum: {
+        clicks:true,
+        views: true
+      }
+    })
+
+    total['viewsSum'] = arrClicksAndImpressions._sum.views;
+    total['clicksSum'] = arrClicksAndImpressions._sum.clicks;
+
+
+    	let line_views = 0;
+			let line_clicks = 0;
+			let line_leads = 0;
+			let line_demo = 0;
+			let line_real = 0;
+			let line_ftd = 0;
+			let line_lots = 0;
+			let line_ftd_amount = 0;
+			let line_deposits = 0;
+			let line_deposits_amount = 0;
+			let line_bonus = 0;
+			let line_withdrawal = 0;
+			let line_comission = 0;
+			let line_pnl = 0;
+
+
+      line_views = total.viewsSum;
+      line_clicks = total.clicksSum;
+
+    console.log("clicks and impresssions ----->", arrClicksAndImpressions)
+    _index++;
+  }
+
+
+
+
+  return affiliate_ww
+})
+
 
 export const getDataInstall = publicProcedure.query(async ({ ctx }) => {
   const data = await ctx.prisma.data_install.findMany({

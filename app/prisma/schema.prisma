@@ -195,14 +195,16 @@ model affiliates {
 }
 
 model affiliates_campaigns_relations {
-  id            Int     @id @default(autoincrement())
-  name          String  @default("") @db.VarChar(40)
-  campID        String  @db.VarChar(20)
-  affiliate_id  Int     @default(0) @map("affiliateID")
-  advertiserID  Int     @default(0)
-  profile_id    Int     @default(0)
-  isDefaultCamp Boolean @default(false)
-  merchant_id   Int     @default(0) @map("merchantid")
+  id                    Int                  @id @default(autoincrement())
+  name                  String               @default("") @db.VarChar(40)
+  campID                String               @db.VarChar(20)
+  affiliate_id          Int                  @default(0) @map("affiliateID")
+  advertiserID          Int                  @default(0)
+  profile_id            Int                  @default(0)
+  isDefaultCamp         Boolean              @default(false)
+  merchant_id           Int                  @default(0) @map("merchantid")
+  affiliates_profiles   affiliates_profiles? @relation(fields: [affiliates_profilesId], references: [id])
+  affiliates_profilesId Int?
 
   @@index([campID, affiliate_id], map: "campID")
 }
@@ -267,14 +269,15 @@ model affiliates_notes {
 }
 
 model affiliates_profiles {
-  id             Int      @unique(map: "id") @default(autoincrement())
-  rdate          DateTime @db.DateTime(0)
-  valid          Int
-  affiliate_id   Int
-  name           String   @db.VarChar(254)
-  url            String   @db.VarChar(254)
-  description    String   @db.Text
-  source_traffic String   @db.VarChar(254)
+  id                             Int                              @unique(map: "id") @default(autoincrement())
+  rdate                          DateTime                         @db.DateTime(0)
+  valid                          Int
+  affiliate_id                   Int
+  name                           String                           @db.VarChar(254)
+  url                            String                           @db.VarChar(254)
+  description                    String                           @db.Text
+  source_traffic                 String                           @db.VarChar(254)
+  affiliates_campaigns_relations affiliates_campaigns_relations[]
 
   affiliate affiliates @relation(fields: [affiliate_id], references: [id])
 
