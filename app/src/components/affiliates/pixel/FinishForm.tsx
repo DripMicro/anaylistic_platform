@@ -18,7 +18,12 @@ export const FinishForm = ({ onSubmit, onPrevious }: Props) => {
         <Button minW={36} onClick={onPrevious} mr={4} size="md" variant="ghost">
           Prev
         </Button>
-        <Button size="md" minW={36} variant="solid" onClick={onSubmit}>
+        <Button
+          size="md"
+          minW={36}
+          variant="solid"
+          onClick={() => void onSubmit()}
+        >
           Finish
         </Button>
       </Flex>

@@ -49,7 +49,7 @@ import {
 import { DataTable } from "../../common/data-table/DataTable";
 import { serverStoragePath } from "../../utils";
 
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import {
   AcauisitionIcon,
   ClicksIcon,
@@ -125,17 +125,6 @@ export const Dashboard = () => {
     return null;
   }
 
-  const updateReportFields = async () => {
-    fields.map((field, i) => {
-      const temp = {
-        id: i,
-        title: field,
-        isChecked: !reportsHiddenCols?.includes(field),
-      };
-      setReportFields((prevState) => ({ ...prevState, temp }));
-    });
-  };
-
   const columns = [
     columnHelper.accessor("merchant.name", {
       cell: (info) => info.getValue(),
@@ -191,7 +180,7 @@ export const Dashboard = () => {
 
   const handleReportField = async (event: ChangeEvent<HTMLInputElement>) => {
     const value = reportFields.map((item) => {
-      let temp = Object.assign({}, item);
+      const temp = Object.assign({}, item);
       if (temp.id === parseInt(event.target.value)) {
         temp.isChecked = event.target.checked;
       }
@@ -237,13 +226,13 @@ export const Dashboard = () => {
               <Grid templateColumns="repeat(3, 1fr)" gap={6} mt="3">
                 {reportFields.map((field) => {
                   return (
-                    <GridItem w="100%">
+                    <GridItem w="100%" key={field.id}>
                       <FormControl display="flex" alignItems="center">
                         <Switch
                           id={`report-field-${field.id}`}
                           isChecked={field.isChecked}
                           value={field.id}
-                          onChange={(e) => handleReportField(e)}
+                          onChange={(e) => void handleReportField(e)}
                         />
                         <FormLabel
                           htmlFor={`report-field-${field.id}`}
@@ -304,6 +293,7 @@ export const Dashboard = () => {
             };
             return (
               <Box
+                key={item.id}
                 width="100%"
                 border="1px solid gray"
                 borderRadius="5"
@@ -322,7 +312,7 @@ export const Dashboard = () => {
                     {item.title}
                   </Text>
                   <Text fontSize="lg" fontWeight="bold">
-                    {data[0]?._sum[item.value]}
+                    {data[0]?._sum[`item.value`]}
                   </Text>
                 </Box>
               </Box>
@@ -411,7 +401,7 @@ export const Dashboard = () => {
                 </Text>
                 <Text cursor="pointer" wordBreak="break-word">
                   <Link
-                    href={`mailto:${account?.mail}`}
+                    href={`mailto:${account?.mail || ""}`}
                     textDecoration="none"
                     _hover={{ textDecoration: "none" }}
                   >
@@ -425,7 +415,7 @@ export const Dashboard = () => {
                 </Text>
                 <Text cursor="pointer" wordBreak="break-word">
                   <Link
-                    href={`skype:${account?.mail}?call`}
+                    href={`skype:${account?.mail || ""}?call`}
                     textDecoration="none"
                     _hover={{ textDecoration: "none" }}
                   >
