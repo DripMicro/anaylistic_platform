@@ -36,26 +36,24 @@ export const Documents = () => {
   }
 
   const handleSubmit = async (values: NewRecType) => {
-    // let formData = new FormData();
-    // const strMonthYear = format(new Date(), "yyyy-MM-dd");
-    // formData.append("document_upload", values.documentFile);
-    // formData.append("doc_type", values.documentType);
-    // formData.append("affiliate_id", 500);
-    // formData.append("monthyear", strMonthYear);
+    console.log(`muly:handleSubmit`, { values });
+
+    const formData = new FormData();
+    const strMonthYear = format(new Date(), "yyyy-MM-dd");
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    formData.append("document_upload", values.documentFile);
+    formData.append("doc_type", values.documentType);
+    formData.append("affiliate_id", String(500));
+    formData.append("monthyear", strMonthYear);
     // const url = "https://go.gamingaffiliates.co/ajax/UploadDocuments.php";
-    // await axios
-    //   .post(url, formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //       "Access-Control-Allow-Origin": "*",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    const url = "/api/document-upload";
+    const answer = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+    console.log(`muly:handleSubmit DONE`, { answer });
     await refetch();
   };
 
@@ -76,7 +74,8 @@ export const Documents = () => {
         const arrDocType = info.getValue().split("_");
         let strDocType = "";
         arrDocType.map((item) => {
-          strDocType += String(item[0]?.toUpperCase()) + String(item.substring(1)) + " ";
+          strDocType +=
+            String(item[0]?.toUpperCase()) + String(item.substring(1)) + " ";
         });
         return <span>{strDocType}</span>;
       },
@@ -91,7 +90,8 @@ export const Documents = () => {
         const arrDocStatus = info.getValue().split("_");
         let strDocStatus = "";
         arrDocStatus.map((item) => {
-          strDocStatus += String(item[0]?.toUpperCase()) + String(item.substring(1)) + " ";
+          strDocStatus +=
+            String(item[0]?.toUpperCase()) + String(item.substring(1)) + " ";
         });
         return <span>{strDocStatus}</span>;
       },

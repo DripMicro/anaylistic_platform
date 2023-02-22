@@ -4,7 +4,7 @@ import type { merchants_creative_type, Prisma } from "@prisma/client";
 import { countBy, map, sortBy, uniq, uniqBy } from "rambda";
 import {
   addFreeTextSearchJSFilter,
-  addFreeTextSearchWhere
+  addFreeTextSearchWhere,
 } from "../../../../../prisma/prisma-utils";
 import { SelectSchema } from "../../../db-schema-utils";
 import { publicProcedure } from "../../trpc";

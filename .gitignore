@@ -106,3 +106,5 @@ dist
 FocusOption
 db/*
 gamingaffiliates_db.sql
+/docs/**/*.pdf
+/docs/**/02-affiliate-dashboard.pdf

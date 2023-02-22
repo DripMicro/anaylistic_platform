@@ -1,9 +1,8 @@
 import * as z from "zod"
 import * as imports from "../zod-add-schema"
-import { Completemerchants, RelatedmerchantsModel, Completeaffiliates, RelatedaffiliatesModel, Completedata_reg, Relateddata_regModel } from "./index"
+import { Completemerchants, RelatedmerchantsModel, Completeaffiliates, RelatedaffiliatesModel } from "./index"
 
 export const commissionsModel = z.object({
-  id: z.number().int(),
   merchant_id: z.number().int(),
   affiliate_id: z.number().int(),
   traderID: z.string(),
@@ -18,13 +17,11 @@ export const commissionsModel = z.object({
   subAffiliateID: z.number().int().nullish(),
   status: z.number().int().nullish(),
   updated: z.date().nullish(),
-  data_regId: z.number().int().nullish(),
 })
 
 export interface Completecommissions extends z.infer<typeof commissionsModel> {
   merchant: Completemerchants
   affiliate: Completeaffiliates
-  data_reg?: Completedata_reg | null
 }
 
 /**
@@ -35,5 +32,4 @@ export interface Completecommissions extends z.infer<typeof commissionsModel> {
 export const RelatedcommissionsModel: z.ZodSchema<Completecommissions> = z.lazy(() => commissionsModel.extend({
   merchant: RelatedmerchantsModel,
   affiliate: RelatedaffiliatesModel,
-  data_reg: Relateddata_regModel.nullish(),
 }))

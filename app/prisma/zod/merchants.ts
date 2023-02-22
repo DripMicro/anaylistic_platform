@@ -1,7 +1,7 @@
 import * as z from "zod"
 import * as imports from "../zod-add-schema"
 import { merchants_type, merchants_qualify_type } from "@prisma/client"
-import { Completemerchants_affiliate_level, Relatedmerchants_affiliate_levelModel, Completemerchants_creative, Relatedmerchants_creativeModel, Completeaffiliates_traffic, Relatedaffiliates_trafficModel, Completeapicredentials, RelatedapicredentialsModel, Completecron_logs, Relatedcron_logsModel, Completedata_install, Relateddata_installModel, Completedata_reg, Relateddata_regModel, Completedata_sales, Relateddata_salesModel, Completedata_sales_pending, Relateddata_sales_pendingModel, Completedata_stats, Relateddata_statsModel, Completemerchants_creative_categories, Relatedmerchants_creative_categoriesModel, Completemerchants_promotions, Relatedmerchants_promotionsModel, Completestats_banners, Relatedstats_bannersModel, Completesub_banners, Relatedsub_bannersModel, Completetraders_tag, Relatedtraders_tagModel, Completetraffic, RelatedtrafficModel, Completedashboard, RelateddashboardModel, Completecommissions, RelatedcommissionsModel, Completepixel_monitor, Relatedpixel_monitorModel, Completepixel_logs, Relatedpixel_logsModel } from "./index"
+import { Completemerchants_affiliate_level, Relatedmerchants_affiliate_levelModel, Completemerchants_creative, Relatedmerchants_creativeModel, Completeaffiliates_traffic, Relatedaffiliates_trafficModel, Completeapicredentials, RelatedapicredentialsModel, Completecron_logs, Relatedcron_logsModel, Completedata_install, Relateddata_installModel, Completedata_reg, Relateddata_regModel, Completedata_sales, Relateddata_salesModel, Completedata_sales_pending, Relateddata_sales_pendingModel, Completedata_stats, Relateddata_statsModel, Completemerchants_creative_categories, Relatedmerchants_creative_categoriesModel, Completemerchants_promotions, Relatedmerchants_promotionsModel, Completestats_banners, Relatedstats_bannersModel, Completesub_banners, Relatedsub_bannersModel, Completetraders_tag, Relatedtraders_tagModel, Completetraffic, RelatedtrafficModel, Completedashboard, RelateddashboardModel, Completecommissions, RelatedcommissionsModel, Completepixel_monitor, Relatedpixel_monitorModel } from "./index"
 
 export const merchantsModel = z.object({
   id: z.number().int(),
@@ -107,8 +107,7 @@ export interface Completemerchants extends z.infer<typeof merchantsModel> {
   traffic: Completetraffic[]
   dashboard: Completedashboard[]
   commissions: Completecommissions[]
-  pixel_monitor?: Completepixel_monitor | null
-  pixel_logs: Completepixel_logs[]
+  pixel_monitor: Completepixel_monitor[]
 }
 
 /**
@@ -135,6 +134,5 @@ export const RelatedmerchantsModel: z.ZodSchema<Completemerchants> = z.lazy(() =
   traffic: RelatedtrafficModel.array(),
   dashboard: RelateddashboardModel.array(),
   commissions: RelatedcommissionsModel.array(),
-  pixel_monitor: Relatedpixel_monitorModel.nullish(),
-  pixel_logs: Relatedpixel_logsModel.array(),
+  pixel_monitor: Relatedpixel_monitorModel.array(),
 }))

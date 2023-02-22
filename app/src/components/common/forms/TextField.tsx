@@ -60,10 +60,18 @@ export const TextField = (
     } else if (controlName === "File") {
       control = (
         <input
-          type={"file"}
+          type="file"
           name={field.name}
           onChange={(e) => {
-            field.onChange(e.target.value);
+            let file;
+
+            if (e.target.files) {
+              file = e.target.files[0];
+            }
+
+            console.log(`muly:set file value`, { file, v: e.target.value });
+            // @ts-ignore
+            field.onChange(file);
           }}
         />
       );
