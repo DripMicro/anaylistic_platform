@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const fieldssortorderModel = z.object({
   id: z.number().int(),
@@ -8,4 +8,4 @@ export const fieldssortorderModel = z.object({
   productType: z.string(),
   defaultPos: z.number().int(),
   newPos: z.number().int(),
-});
+})

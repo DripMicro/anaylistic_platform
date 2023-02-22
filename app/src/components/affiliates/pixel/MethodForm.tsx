@@ -2,6 +2,7 @@ import React from "react";
 import { Stack, Heading } from "@chakra-ui/react";
 import { StepperForm } from "../../common/forms/StepperForm";
 import { z } from "zod";
+import { callAsync } from "../../../utils/call-async";
 
 const schema = z.object({
   method: z.string().describe("Select Method // Select Method"),
@@ -34,9 +35,9 @@ export const MethodForm = ({
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={onNext}
         formProps={{
-          stepCount: stepCount,
-          activeStep: activeStep,
-          onPrevious: onPrevious,
+          stepCount,
+          activeStep,
+          onPrevious,
           submitNotification: false,
         }}
         props={{

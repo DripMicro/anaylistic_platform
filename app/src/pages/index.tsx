@@ -23,6 +23,8 @@ const Home: NextPage = () => {
     { href: "/affiliates/tickets", title: "Tickets" },
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
+    { href: "/affiliates/pixel-monitor", title: "Pixel Monitor" },
+
     {
       href: "/affiliates/reports/quick-summary",
       title: "Reports -> Quick Summary",

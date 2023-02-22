@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const admins_notesModel = z.object({
   id: z.number().int(),
@@ -9,4 +9,4 @@ export const admins_notesModel = z.object({
   edited_by: z.number().int(),
   admins_id: z.number().int(),
   notes: z.string(),
-});
+})

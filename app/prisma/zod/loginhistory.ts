@@ -1,6 +1,6 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
-import { loginhistory_type } from "@prisma/client";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
+import { loginhistory_type } from "@prisma/client"
 
 export const loginhistoryModel = z.object({
   id: z.number().int(),
@@ -19,4 +19,4 @@ export const loginhistoryModel = z.object({
   REMOTE_ADDR: z.string(),
   rdate: z.date(),
   attempt: z.string(),
-});
+})

@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const groupsModel = z.object({
   id: z.number().int(),
@@ -8,4 +8,4 @@ export const groupsModel = z.object({
   title: z.string(),
   language_id: z.string(),
   makedefault: z.boolean(),
-});
+})

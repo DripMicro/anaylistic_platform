@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const users_reportsModel = z.object({
   id: z.number().int(),
@@ -9,4 +9,4 @@ export const users_reportsModel = z.object({
   url: z.string(),
   report: z.string(),
   user_id: z.number().int(),
-});
+})

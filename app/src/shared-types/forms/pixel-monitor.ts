@@ -1,8 +1,10 @@
 import { z } from "zod";
+import { pixel_monitorModelType } from "../../server/db-types";
+import { pixel_monitorModel } from "../../../prisma/zod";
 
 export const schema = z.object({
   merchant_id: z.any().describe("Merchant // Select Merchant"),
-  type: z.string().describe("Trigger // Select Trigger"),
+  type: pixel_monitorModel.shape.type.describe("Trigger // Select Trigger"),
   pixelCode: z.string().describe("Pixel Code"),
-  method: z.string().describe("Method // Select Method"),
+  method: pixel_monitorModel.shape.method.describe("Method // Select Method"),
 });

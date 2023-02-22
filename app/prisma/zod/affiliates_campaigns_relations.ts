@@ -1,5 +1,5 @@
-import * as z from "zod";
-import * as imports from "../zod-add-schema";
+import * as z from "zod"
+import * as imports from "../zod-add-schema"
 
 export const affiliates_campaigns_relationsModel = z.object({
   id: z.number().int(),
@@ -10,4 +10,4 @@ export const affiliates_campaigns_relationsModel = z.object({
   profile_id: z.number().int(),
   isDefaultCamp: z.boolean(),
   merchant_id: z.number().int(),
-});
+})
