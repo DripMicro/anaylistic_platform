@@ -375,7 +375,7 @@ export const Dashboard = () => {
         </Tabs>
       </Stack>
       <Stack mt="5">
-        <Flex direction="row" columnGap="5px">
+        <Flex direction="row" columnGap="10px">
           <Box flex="1" bg="white" border="1px solid gray" padding="20px 16px">
             <Heading as="h6" size="xs" mb="2">
               Country Report
