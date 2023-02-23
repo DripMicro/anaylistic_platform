@@ -38,7 +38,7 @@ jobs:
         push: true
         tags: europe-docker.pkg.dev/api-front-dashbord/dev/aff:latest
 
-    - id: 'deploy'
+    - id: 'deploy_gamingaffiliates'
       name: deploy gamingaffiliates-staging
       uses: 'google-github-actions/deploy-cloudrun@v1'
       with:
@@ -62,7 +62,7 @@ jobs:
           --vpc-egress=all-traffic
           --port=3000
 
-    - id: 'deploy'
+    - id: 'deploy_best-brokers-partners'
       name: deploy best-brokers-partners-staging
       uses: 'google-github-actions/deploy-cloudrun@v1'
       with:
