@@ -1,10 +1,9 @@
 on:
   push:
     branches:
-      - dev
-      - ci
+      - main
 
-name: '[Staging] Deploy to Cloud Run'
+name: '[Prod] Deploy to Cloud Run'
 jobs:
   cloudrun:
     runs-on: ubuntu-latest
@@ -36,52 +35,52 @@ jobs:
       with:
         context: app
         push: true
-        tags: europe-docker.pkg.dev/api-front-dashbord/dev/aff:latest
+        tags: europe-docker.pkg.dev/api-front-dashbord/production/aff:latest
 
     - id: 'deploy'
-      name: deploy gamingaffiliates-staging
+      name: deploy gamingaffiliates
       uses: 'google-github-actions/deploy-cloudrun@v1'
       with:
-        service: 'gamingaffiliates-staging'
-        image: 'europe-docker.pkg.dev/api-front-dashbord/dev/aff:latest'
+        service: 'gamingaffiliates-prod'
+        image: 'europe-docker.pkg.dev/api-front-dashbord/production/aff:latest'
         labels:
-          env=dev
+          env=prod
         project_id: api-front-dashbord
         region: europe-west1
         secrets: |
-          DATABASE_URL=DEV_DATABASE_URL:latest
-          SHADOW_DATABASE_URL=DEV_SHADOW_DATABASE_URL:latest
-          LEGACY_PHP_ACCESS_TOKEN=DEV_LEGACY_PHP_ACCESS_TOKEN:latest
-          NEXTAUTH_SECRET=DEV_NEXTAUTH_SECRET:latest
+          DATABASE_URL=PROD_DATABASE_URL:latest
+          SHADOW_DATABASE_URL=PROD_SHADOW_DATABASE_URL:latest
+          LEGACY_PHP_ACCESS_TOKEN=PROD_LEGACY_PHP_ACCESS_TOKEN:latest
+          NEXTAUTH_SECRET=PROD_NEXTAUTH_SECRET:latest
         env_vars: |
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
           NEXTAUTH_URL=http://localhost:3001
         flags: |
           --allow-unauthenticated
-          --vpc-connector=development-serverless-vp 
+          --vpc-connector=production-serverless-vp 
           --vpc-egress=all-traffic
           --port=3000
 
     - id: 'deploy'
-      name: deploy best-brokers-partners-staging
+      name: deploy best-brokers-partners
       uses: 'google-github-actions/deploy-cloudrun@v1'
       with:
-        service: 'best-brokers-partners-staging'
-        image: 'europe-docker.pkg.dev/api-front-dashbord/dev/aff:latest'
+        service: 'best-brokers-partners-prod'
+        image: 'europe-docker.pkg.dev/api-front-dashbord/production/aff:latest'
         labels:
-          env=dev
+          env=prod
         project_id: api-front-dashbord
         region: europe-west1
         secrets: |
-          DATABASE_URL=DEV_DATABASE_URL:latest
-          SHADOW_DATABASE_URL=DEV_SHADOW_DATABASE_URL:latest
-          LEGACY_PHP_ACCESS_TOKEN=DEV_LEGACY_PHP_ACCESS_TOKEN:latest
-          NEXTAUTH_SECRET=DEV_NEXTAUTH_SECRET:latest
+          DATABASE_URL=PROD_DATABASE_URL:latest
+          SHADOW_DATABASE_URL=PROD_SHADOW_DATABASE_URL:latest
+          LEGACY_PHP_ACCESS_TOKEN=PROD_LEGACY_PHP_ACCESS_TOKEN:latest
+          NEXTAUTH_SECRET=PROD_NEXTAUTH_SECRET:latest
         env_vars: |
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
           NEXTAUTH_URL=http://localhost:3001
         flags: |
           --allow-unauthenticated
-          --vpc-connector=development-serverless-vp 
+          --vpc-connector=production-serverless-vp 
           --vpc-egress=all-traffic
           --port=3000
