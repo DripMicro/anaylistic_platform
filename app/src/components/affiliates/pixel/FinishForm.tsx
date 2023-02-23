@@ -1,5 +1,4 @@
 import { Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
-import { callAsync } from "../../../utils/call-async";
 
 interface Props {
   onSubmit: () => Promise<void>;
@@ -23,7 +22,7 @@ export const FinishForm = ({ onSubmit, onPrevious }: Props) => {
           size="md"
           minW={36}
           variant="solid"
-          onClick={callAsync(onSubmit)}
+          onClick={() => void onSubmit()}
         >
           Finish
         </Button>
