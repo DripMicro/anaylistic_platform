@@ -312,7 +312,7 @@ export const Dashboard = () => {
                     {item.title}
                   </Text>
                   <Text fontSize="lg" fontWeight="bold">
-                    {data[0]?._sum[`item.value`]}
+                    TBD {/*{data[0]?._sum[`item.value`]}*/}
                   </Text>
                 </Box>
               </Box>
