@@ -2,7 +2,7 @@ on: [pull_request]
 
 name: Pull Request Check
 jobs:
-  cloudrun:
+  pullrequest:
     runs-on: ubuntu-latest
 
     steps:
