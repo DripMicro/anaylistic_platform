@@ -12,7 +12,9 @@ import {
   getCountryReport,
   getDashboard,
   getPerformanceChart,
+  getReportsHiddenCols,
   getTopMerchantCreative,
+  upsertReportsField,
 } from "./dashboard";
 import { deleteProfile, getProfiles, upsertProfile } from "./profile";
 import { getMerchantSubCreative, getMerchantSubCreativeMeta } from "./sub";
@@ -46,6 +48,8 @@ export const affiliatesRouter = createTRPCRouter({
   getPerformanceChart,
   getConversionChart,
   getCountryReport,
+  getReportsHiddenCols,
+  upsertReportsField,
 
   getMerchantCreativeMeta,
   getMerchantCreative,
