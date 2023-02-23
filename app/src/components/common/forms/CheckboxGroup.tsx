@@ -1,5 +1,4 @@
-import type {
-  CheckboxGroupProps} from "@chakra-ui/react";
+import type { CheckboxGroupProps } from "@chakra-ui/react";
 import {
   Box,
   Checkbox,

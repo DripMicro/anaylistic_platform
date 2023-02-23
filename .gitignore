@@ -111,3 +111,5 @@ FocusOption
 db/*
 gamingaffiliates_db.sql
 .DS_Store
+/docs/**/*.pdf
+/docs/**/02-affiliate-dashboard.pdf

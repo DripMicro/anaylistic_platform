@@ -1401,10 +1401,10 @@
   dependencies:
     tippy.js "^6.3.1"
 
-"@tremor/react@^1.6.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@tremor/react/-/react-1.7.0.tgz#661b6c20d3369e7facba24367ea855927c17544c"
-  integrity sha512-PlER8rLiF1Id9Gy9FpO4Z9GSkzqQpts9lY5/4tiedHFoEUvgWH3uOGHwPPWiI91WbQlz+1jJRSctdW2KUcCEBw==
+"@tremor/react@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@tremor/react/-/react-1.8.0.tgz#2370eee5b106833a468a175fb2f268e10fcd37a5"
+  integrity sha512-LUAzKOX7aIGc3UkuQuuZPb+Lz88cqJOZGOx+vBLKLtptIhG+On0MyySqBhJo8tpJhVLHFXbzBP1cPDlpezhIzg==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     date-fns "^2.28.0"
@@ -1923,6 +1923,11 @@ chakra-dayzed-datepicker@^0.2.7:
   integrity sha512-kmKx0Bvyw7XrrOm+kIJVAVUy2L9IWmuz0oQpPcBfI5A3l2BLXASPSBdlbwbHi6tSHNprW7lxY8K2xWytNUkjlw==
   dependencies:
     react-focus-lock "^2.9.2"
+
+chakra-ui-steps@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/chakra-ui-steps/-/chakra-ui-steps-2.0.4.tgz#f846f0b1fafd2805424d113609174754de90f661"
+  integrity sha512-aImiPsw3hgqvfb9z3TVkt8WK32Hg0OOrJE5g/2Pt/1cA1Wqps2vDcWKShp8JZZQ1nyvNX3rxtrjPoDeRWdBO4A==
 
 chalk@4.1.2, chalk@^4.0.0:
   version "4.1.2"
