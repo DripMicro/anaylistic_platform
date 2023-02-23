@@ -10,8 +10,10 @@ const Home: NextPage = () => {
   const links = [
     { href: "/affiliates/signup", title: "Auth -> Sign Up" },
     { href: "/affiliates/signin", title: "Auth -> Sign In" },
+
     { href: "/affiliates/lost-password", title: "Auth -> Lost Password" },
 
+    { href: "/affiliates/dashboard", title: "Dashboard" },
     { href: "/affiliates/creative", title: "Creative Materials" },
     { href: "/affiliates/sub", title: "Sub Affiliate Creative Materials" },
     { href: "/affiliates/account", title: "Account Details" },
@@ -21,6 +23,8 @@ const Home: NextPage = () => {
     { href: "/affiliates/tickets", title: "Tickets" },
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
+    { href: "/affiliates/pixel-monitor", title: "Pixel Monitor" },
+
     {
       href: "/affiliates/reports/quick-summary",
       title: "Reports -> Quick Summary",
@@ -36,6 +40,22 @@ const Home: NextPage = () => {
     {
       href: "/affiliates/reports/install-reports",
       title: "Reports -> Installs Report",
+    },
+    {
+      href: "/affiliates/reports/creative-report",
+      title: "Reports -> Creative Report",
+    },
+    {
+      href: "/affiliates/reports/landing-page",
+      title: "Reports -> Landing Page Report",
+    },
+    {
+      href: "/affiliates/reports/trader_report",
+      title: "Reports -> Trader Report",
+    },
+    {
+      href: "/affiliates/reports/pixel_log_report",
+      title: "Reports -> pixels Logs Report",
     },
   ];
 

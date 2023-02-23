@@ -1,20 +1,12 @@
 import type {
   ForwardRefExoticComponent,
   ReactNode,
-  RefAttributes} from "react";
-import React, {
-  Fragment,
-  useRef,
+  RefAttributes,
 } from "react";
+import React, { Fragment, useRef } from "react";
 import type { ComponentProps } from "react";
-import type {
-  DeepPartial,
-  ErrorOption,
-  UseFormReturn} from "react-hook-form";
-import {
-  FormProvider,
-  useForm
-} from "react-hook-form";
+import type { DeepPartial, ErrorOption, UseFormReturn } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import type { AnyZodObject, z, ZodEffects } from "zod";
 import { getComponentForZodType } from "./getComponentForZodType";
 import { zodResolver } from "@hookform/resolvers/zod";
