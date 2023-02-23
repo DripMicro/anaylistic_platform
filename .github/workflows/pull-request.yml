@@ -12,7 +12,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
-    - run: cd app && yarn confirm
+    - run: cd app && yarn && yarn confirm
 
     # - id: 'post-comment'
     #   uses: thollander/actions-comment-pull-request@v2
