@@ -82,85 +82,85 @@ model affiliate_messages_approval {
 }
 
 model affiliates {
-  id                              Int                         @unique(map: "id") @default(autoincrement())
-  rdate                           DateTime                    @default(now()) @db.DateTime(0)
-  udate                           DateTime?                   @ignore @db.DateTime(0)
-  lastvisit                       DateTime?                   @ignore @db.DateTime(0)
-  lastactive                      DateTime?                   @ignore @db.DateTime(0)
+  id                              Int                              @unique(map: "id") @default(autoincrement())
+  rdate                           DateTime                         @default(now()) @db.DateTime(0)
+  udate                           DateTime?                        @ignore @db.DateTime(0)
+  lastvisit                       DateTime?                        @ignore @db.DateTime(0)
+  lastactive                      DateTime?                        @ignore @db.DateTime(0)
   valid                           Int
-  lang                            String                      @db.VarChar(3)
+  lang                            String                           @db.VarChar(3)
   language_id                     Int
-  ip                              String                      @db.VarChar(15)
+  ip                              String                           @db.VarChar(15)
   group_id                        Int
   refer_id                        Int
   refer_banner_id                 Int
-  username                        String                      @db.VarChar(254)
-  password                        String                      @db.VarChar(254)
-  first_name                      String                      @db.VarChar(254)
-  last_name                       String                      @db.VarChar(254)
-  mail                            String                      @db.VarChar(254)
-  website                         String                      @db.VarChar(254)
-  website2                        String                      @db.VarChar(254)
-  website3                        String                      @db.VarChar(254)
-  phone                           String                      @db.VarChar(15)
-  street                          String                      @db.VarChar(254)
-  postalCode                      String                      @db.VarChar(254)
-  city                            String                      @db.VarChar(254)
+  username                        String                           @db.VarChar(254)
+  password                        String                           @db.VarChar(254)
+  first_name                      String                           @db.VarChar(254)
+  last_name                       String                           @db.VarChar(254)
+  mail                            String                           @db.VarChar(254)
+  website                         String                           @db.VarChar(254)
+  website2                        String                           @db.VarChar(254)
+  website3                        String                           @db.VarChar(254)
+  phone                           String                           @db.VarChar(15)
+  street                          String                           @db.VarChar(254)
+  postalCode                      String                           @db.VarChar(254)
+  city                            String                           @db.VarChar(254)
   gender                          affiliates_gender
-  company                         String                      @db.VarChar(254)
-  country                         String                      @db.VarChar(254)
-  marketInfo                      String                      @db.VarChar(254)
+  company                         String                           @db.VarChar(254)
+  country                         String                           @db.VarChar(254)
+  marketInfo                      String                           @db.VarChar(254)
   newsletter                      Int
-  IMUser                          String                      @db.VarChar(254)
-  IMUserType                      String                      @db.VarChar(254)
+  IMUser                          String                           @db.VarChar(254)
+  IMUserType                      String                           @db.VarChar(254)
   logged                          Int
   paymentMethod                   affiliates_paymentMethod
-  pay_firstname                   String                      @db.VarChar(254)
-  pay_lastname                    String                      @db.VarChar(254)
-  pay_mail                        String                      @db.VarChar(254)
-  pay_account                     String                      @db.VarChar(254)
-  account_name                    String                      @db.VarChar(50)
-  account_number                  String                      @db.VarChar(50)
-  pay_info                        String                      @db.VarChar(254)
-  pay_bank                        String                      @db.VarChar(254)
-  pay_swift                       String                      @db.VarChar(254)
-  pay_iban                        String                      @db.VarChar(254)
-  pay_branch                      String                      @db.VarChar(254)
-  pay_email                       String                      @db.VarChar(254)
-  pay_address1                    String                      @db.VarChar(254)
-  pay_address2                    String                      @db.VarChar(254)
-  pay_city                        String                      @db.VarChar(254)
-  pay_state                       String                      @db.VarChar(254)
-  pay_zip                         String                      @db.VarChar(254)
+  pay_firstname                   String                           @db.VarChar(254)
+  pay_lastname                    String                           @db.VarChar(254)
+  pay_mail                        String                           @db.VarChar(254)
+  pay_account                     String                           @db.VarChar(254)
+  account_name                    String                           @db.VarChar(50)
+  account_number                  String                           @db.VarChar(50)
+  pay_info                        String                           @db.VarChar(254)
+  pay_bank                        String                           @db.VarChar(254)
+  pay_swift                       String                           @db.VarChar(254)
+  pay_iban                        String                           @db.VarChar(254)
+  pay_branch                      String                           @db.VarChar(254)
+  pay_email                       String                           @db.VarChar(254)
+  pay_address1                    String                           @db.VarChar(254)
+  pay_address2                    String                           @db.VarChar(254)
+  pay_city                        String                           @db.VarChar(254)
+  pay_state                       String                           @db.VarChar(254)
+  pay_zip                         String                           @db.VarChar(254)
   pay_country                     Int
-  pay_company                     String                      @db.VarChar(100)
-  preferredCurrency               String                      @default("USD") @db.VarChar(3)
-  merchants                       String                      @db.VarChar(100)
+  pay_company                     String                           @db.VarChar(100)
+  preferredCurrency               String                           @default("USD") @db.VarChar(3)
+  merchants                       String                           @db.VarChar(100)
   credit                          Float
   sub_com                         Float
   showDeposit                     Int
   com_alert                       Int
-  show_credit                     Int?                        @db.TinyInt
-  manager_private_note            String                      @db.VarChar(350)
-  status_id                       Int                         @default(0)
-  accounts_pixel_params_replacing String                      @default("") @db.VarChar(500)
-  sales_pixel_params_replacing    String                      @default("") @db.VarChar(500)
-  apiAccessType                   String                      @default("none") @db.VarChar(12)
-  apiToken                        String                      @db.VarChar(40)
-  apiStaticIP                     String                      @db.VarChar(120)
-  isIB                            Boolean                     @default(false)
-  qualify_amount                  Float?                      @default(0) @db.Float
+  show_credit                     Int?                             @db.TinyInt
+  manager_private_note            String                           @db.VarChar(350)
+  status_id                       Int                              @default(0)
+  accounts_pixel_params_replacing String                           @default("") @db.VarChar(500)
+  sales_pixel_params_replacing    String                           @default("") @db.VarChar(500)
+  apiAccessType                   String                           @default("none") @db.VarChar(12)
+  apiToken                        String                           @db.VarChar(40)
+  apiStaticIP                     String                           @db.VarChar(120)
+  isIB                            Boolean                          @default(false)
+  qualify_amount                  Float?                           @default(0) @db.Float
   qualify_type                    affiliates_qualify_type?
-  profilePermissionID             Int                         @default(0)
-  type                            affiliates_type             @default(Affiliate)
-  products                        String                      @db.VarChar(100)
-  optinGuid                       String                      @db.VarChar(64)
-  emailVerification               Int                         @default(0) @db.TinyInt
-  pendingDepositExclude           Int                         @default(0) @db.TinyInt
-  selected_language_id            Int                         @default(1)
-  blockNewTraffic                 Int                         @default(0) @db.TinyInt
-  isDefaultAffiliate              Boolean                     @default(false)
-  regReferUrl                     String                      @db.VarChar(100)
+  profilePermissionID             Int                              @default(0)
+  type                            affiliates_type                  @default(Affiliate)
+  products                        String                           @db.VarChar(100)
+  optinGuid                       String                           @db.VarChar(64)
+  emailVerification               Int                              @default(0) @db.TinyInt
+  pendingDepositExclude           Int                              @default(0) @db.TinyInt
+  selected_language_id            Int                              @default(1)
+  blockNewTraffic                 Int                              @default(0) @db.TinyInt
+  isDefaultAffiliate              Boolean                          @default(false)
+  regReferUrl                     String                           @db.VarChar(100)
   affiliates_deals                affiliates_deals[]
   affiliates_msgs                 affiliates_msgs[]
   affiliates_notes                affiliates_notes[]
@@ -185,6 +185,7 @@ model affiliates {
   traffic                         traffic[]
   commission                      commissions[]
   pixel_monitor                   pixel_monitor[]
+  affiliates_campaigns_relations  affiliates_campaigns_relations[]
 
   @@index([group_id], map: "group_id")
   @@index([mail], map: "mail")
@@ -193,18 +194,18 @@ model affiliates {
 }
 
 model affiliates_campaigns_relations {
-  id                    Int                  @id @default(autoincrement())
-  name                  String               @default("") @db.VarChar(40)
-  campID                String               @db.VarChar(20)
-  affiliate_id          Int                  @default(0) @map("affiliateID")
-  advertiserID          Int                  @default(0)
-  profile_id            Int                  @default(0)
-  isDefaultCamp         Boolean              @default(false)
-  merchant_id           Int                  @default(0) @map("merchantid")
-  affiliates_profiles   affiliates_profiles? @relation(fields: [affiliates_profilesId], references: [id])
-  affiliates_profilesId Int?
+  id            Int         @id @default(autoincrement())
+  name          String      @default("") @db.VarChar(40)
+  campID        String      @db.VarChar(20)
+  affiliate_id  Int         @default(0) @map("affiliateID")
+  advertiserID  Int         @default(0)
+  profile_id    Int         @default(0)
+  isDefaultCamp Boolean     @default(false)
+  merchant_id   Int         @default(0) @map("merchantid")
+  affiliates    affiliates? @relation(fields: [affiliate_id], references: [id])
 
-  @@index([campID, affiliate_id], map: "campID")
+  @@index([campID], map: "campID")
+  @@index([affiliate_id], map: "affiliate_id")
 }
 
 model affiliates_deals {
@@ -267,17 +268,15 @@ model affiliates_notes {
 }
 
 model affiliates_profiles {
-  id                             Int                              @unique(map: "id") @default(autoincrement())
-  rdate                          DateTime                         @db.DateTime(0)
-  valid                          Int
-  affiliate_id                   Int
-  name                           String                           @db.VarChar(254)
-  url                            String                           @db.VarChar(254)
-  description                    String                           @db.Text
-  source_traffic                 String                           @db.VarChar(254)
-  affiliates_campaigns_relations affiliates_campaigns_relations[]
-
-  affiliate affiliates @relation(fields: [affiliate_id], references: [id])
+  id             Int        @unique(map: "id") @default(autoincrement())
+  rdate          DateTime   @db.DateTime(0)
+  valid          Int
+  affiliate_id   Int
+  name           String     @db.VarChar(254)
+  url            String     @db.VarChar(254)
+  description    String     @db.Text
+  source_traffic String     @db.VarChar(254)
+  affiliate      affiliates @relation(fields: [affiliate_id], references: [id])
 
   @@index([affiliate_id], map: "affiliate_id")
   @@index([valid], map: "valid")
@@ -2231,6 +2230,7 @@ enum affiliates_qualify_type {
   default
   totalmd
   lots
+  EMPTY_ENUM_VALUE @map("")
 }
 
 enum affiliates_type {
