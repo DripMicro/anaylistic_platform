@@ -582,7 +582,7 @@ model data_reg {
   traderTrades          Int
   lastStatsRecordDate   DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
   traderValue           Float
-  lastDepositRecordDate DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  // lastDepositRecordDate DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
   email                 String        @db.VarChar(40)
   couponName            String        @db.VarChar(30)
   campaign_id           String?       @default("") @db.VarChar(50)
@@ -1996,6 +1996,7 @@ enum traders_tag_status {
 enum sub_banners_type {
   flash
   image
+  EMPTY_ENUM_VALUE @map("")
 }
 
 enum affiliates_deals_tier_type {

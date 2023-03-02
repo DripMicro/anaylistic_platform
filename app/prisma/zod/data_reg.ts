@@ -41,7 +41,6 @@ export const data_regModel = z.object({
   traderTrades: z.number().int(),
   lastStatsRecordDate: z.date(),
   traderValue: z.number(),
-  lastDepositRecordDate: z.date(),
   email: z.string(),
   couponName: z.string(),
   campaign_id: z.string().nullish(),
