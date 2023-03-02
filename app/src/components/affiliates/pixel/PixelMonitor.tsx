@@ -75,6 +75,7 @@ export const PixelMonitor = () => {
     return null;
   }
 
+  console.log(meta);
   const handleNext = (values: object) => {
     const keys = Object.keys(values);
     keys.map((key) => {
@@ -121,6 +122,7 @@ export const PixelMonitor = () => {
           activeStep={activeStep}
           values={formState}
           merchants={meta?.merchants}
+          merchant_creative={meta?.merchants_creative}
           onNext={handleNext}
           onPrevious={handlePrevious}
         />
