@@ -48,7 +48,7 @@ jobs:
         project_id: api-front-dashbord
         region: europe-west1
         secrets: |
-          DATABASE_URL=DEV_DATABASE_URL:latest
+          DATABASE_URL=DEV_GAMINGAFFILIATES_DATABASE_URL:latest
           SHADOW_DATABASE_URL=DEV_SHADOW_DATABASE_URL:latest
           LEGACY_PHP_ACCESS_TOKEN=DEV_LEGACY_PHP_ACCESS_TOKEN:latest
           NEXTAUTH_SECRET=DEV_NEXTAUTH_SECRET:latest
@@ -72,7 +72,7 @@ jobs:
         project_id: api-front-dashbord
         region: europe-west1
         secrets: |
-          DATABASE_URL=DEV_DATABASE_URL:latest
+          DATABASE_URL=DEV_BESTBROKERSPARTNERS_DATABASE_URL:latest
           SHADOW_DATABASE_URL=DEV_SHADOW_DATABASE_URL:latest
           LEGACY_PHP_ACCESS_TOKEN=DEV_LEGACY_PHP_ACCESS_TOKEN:latest
           NEXTAUTH_SECRET=DEV_NEXTAUTH_SECRET:latest
