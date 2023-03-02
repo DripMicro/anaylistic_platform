@@ -53,7 +53,7 @@ jobs:
           NEXTAUTH_SECRET=PROD_NEXTAUTH_SECRET:latest
         env_vars: |
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
-          NEXTAUTH_URL=http://localhost:3001
+          NEXTAUTH_URL=https://affiliate.gamingaffiliates.co
           NODE_ENV=production
         flags: |
           --allow-unauthenticated
@@ -77,7 +77,7 @@ jobs:
           NEXTAUTH_SECRET=PROD_NEXTAUTH_SECRET:latest
         env_vars: |
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
-          NEXTAUTH_URL=http://localhost:3001
+          NEXTAUTH_URL=https://affiliate.best-brokers-partners.com
           NODE_ENV=production
         flags: |
           --allow-unauthenticated
