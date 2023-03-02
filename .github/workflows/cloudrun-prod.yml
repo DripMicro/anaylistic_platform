@@ -54,6 +54,7 @@ jobs:
         env_vars: |
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
           NEXTAUTH_URL=http://localhost:3001
+          NODE_ENV=production
         flags: |
           --allow-unauthenticated
           --vpc-connector=production-serverless-vp 
@@ -77,6 +78,7 @@ jobs:
         env_vars: |
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
           NEXTAUTH_URL=http://localhost:3001
+          NODE_ENV=production
         flags: |
           --allow-unauthenticated
           --vpc-connector=production-serverless-vp 
