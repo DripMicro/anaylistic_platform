@@ -1,10 +1,15 @@
-import React from "react";
-import { Stack, Heading } from "@chakra-ui/react";
-import { StepperForm } from "../../common/forms/StepperForm";
+import { Heading, Stack } from "@chakra-ui/react";
 import { z } from "zod";
+import { StepperForm } from "../../common/forms/StepperForm";
 
 const schema = z.object({
   merchant_id: z.any().describe("Select Merchants // Select Merchants"),
+  creative: z
+    .string()
+    .optional()
+    .describe(
+      "What creative you would like to relate this pixel to // All Creatives"
+    ),
 });
 
 interface Props {
@@ -12,6 +17,7 @@ interface Props {
   activeStep: number;
   values: object;
   merchants: any;
+  merchant_creative: any;
   onNext: (values: z.infer<typeof schema>) => void;
   onPrevious: () => void;
 }
@@ -21,6 +27,7 @@ export const PixelTypeForm = ({
   activeStep,
   values,
   merchants,
+  merchant_creative,
   onNext,
   onPrevious,
 }: Props) => {
@@ -43,6 +50,9 @@ export const PixelTypeForm = ({
           merchant_id: {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             choices: merchants,
+          },
+          creative: {
+            choices: merchant_creative,
           },
         }}
         defaultValues={values}

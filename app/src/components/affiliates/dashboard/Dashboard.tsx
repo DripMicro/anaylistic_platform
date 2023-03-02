@@ -262,6 +262,12 @@ export const Dashboard = () => {
         {reportFields
           .filter((item) => item.isChecked === true)
           .map((item) => {
+            interface Sum {
+              [index: string]: number;
+            }
+            const sumObject = data[0]?._sum as Sum;
+            const value = sumObject[item.value];
+
             const icon = () => {
               let result;
               switch (item.title) {
@@ -312,7 +318,7 @@ export const Dashboard = () => {
                     {item.title}
                   </Text>
                   <Text fontSize="lg" fontWeight="bold">
-                    TBD {/*{data[0]?._sum[`item.value`]}*/}
+                    {value}
                   </Text>
                 </Box>
               </Box>
