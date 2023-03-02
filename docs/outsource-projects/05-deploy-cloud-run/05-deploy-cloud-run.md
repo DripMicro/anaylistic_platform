@@ -19,7 +19,7 @@ https://github.com/affiliatets-com/aff/app
 have different MySQL connection string (DATABASE_URL)
 and other env variables
   - Production/main
-    - affiliate.gamingaffiliates.co
+    - affiliate.gamingaffiliates.com
     - affiliate.best-brokers-partners.com
     - can be many more, say around 50...
   - Staging/dev
