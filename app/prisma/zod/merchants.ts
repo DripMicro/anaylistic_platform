@@ -83,7 +83,6 @@ export const merchantsModel = z.object({
   lowestAmountPendingDeposit: z.number(),
   postbackIPlimit: z.string(),
   randomKey: z.string(),
-  subbrands: z.string(),
   isSelfManaged: z.number().int(),
   cronjoburl: z.string(),
 })
