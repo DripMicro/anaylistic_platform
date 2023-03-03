@@ -1871,6 +1871,7 @@ enum permissionprofile_defaultViewForDealType {
 }
 
 enum pixel_monitor_type {
+  EMPTY_ENUM_VALUE @map("")
   lead
   account
   sale
