@@ -53,7 +53,7 @@ jobs:
           LEGACY_PHP_ACCESS_TOKEN=DEV_LEGACY_PHP_ACCESS_TOKEN:latest
           NEXTAUTH_SECRET=DEV_NEXTAUTH_SECRET:latest
         env_vars: |
-          LEGACY_PHP_URL=https://go.gamingaffiliates.co
+          NEXT_PUBLIC_LEGACY_PHP_URL=https://go.gamingaffiliates.co
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
           NEXTAUTH_URL=https://gamingaffiliates.staging.affiliatets.com
         flags: |
@@ -78,7 +78,7 @@ jobs:
           LEGACY_PHP_ACCESS_TOKEN=DEV_LEGACY_PHP_ACCESS_TOKEN:latest
           NEXTAUTH_SECRET=DEV_NEXTAUTH_SECRET:latest
         env_vars: |
-          LEGACY_PHP_URL=https://go.best-brokers-partners.com/
+          NEXT_PUBLIC_LEGACY_PHP_URL=https://go.best-brokers-partners.com
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
           NEXTAUTH_URL=https://best-brokers-partners.staging.affiliatets.com
         flags: |
