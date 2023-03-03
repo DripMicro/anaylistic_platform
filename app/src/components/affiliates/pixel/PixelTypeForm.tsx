@@ -52,6 +52,7 @@ export const PixelTypeForm = ({
             choices: merchants,
           },
           creative: {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             choices: merchant_creative,
           },
         }}

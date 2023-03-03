@@ -582,7 +582,7 @@ model data_reg {
   traderTrades          Int
   lastStatsRecordDate   DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
   traderValue           Float
-  lastDepositRecordDate DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  // lastDepositRecordDate DateTime      @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
   email                 String        @db.VarChar(40)
   couponName            String        @db.VarChar(30)
   campaign_id           String?       @default("") @db.VarChar(50)
@@ -989,7 +989,7 @@ model merchants {
   lowestAmountPendingDeposit    Float                           @db.Float
   postbackIPlimit               String                          @db.VarChar(90)
   randomKey                     String                          @db.VarChar(6)
-  subbrands                     String                          @db.VarChar(20)
+  // subbrands                     String                          @db.VarChar(20)
   isSelfManaged                 Int                             @default(0) @db.TinyInt
   cronjoburl                    String                          @db.VarChar(100)
   merchants_affiliate_level     merchants_affiliate_level[]
@@ -1062,7 +1062,7 @@ model merchants_creative {
   category_id            Int
   featured               Int                     @default(0) @db.TinyInt
   affiliateReady         Int                     @default(0) @db.TinyInt
-  isOverrideTrackingLink Boolean                 @default(false)
+  // isOverrideTrackingLink Boolean                 @default(false)
 
   category merchants_creative_categories? @relation(fields: [category_id], references: [id])
   merchant merchants                      @relation(fields: [merchant_id], references: [id])
@@ -1871,9 +1871,11 @@ enum permissionprofile_defaultViewForDealType {
 }
 
 enum pixel_monitor_type {
+  EMPTY_ENUM_VALUE @map("")
   lead
   account
   sale
+  ftd
   qftd
 }
 
@@ -1995,6 +1997,7 @@ enum traders_tag_status {
 enum sub_banners_type {
   flash
   image
+  EMPTY_ENUM_VALUE @map("")
 }
 
 enum affiliates_deals_tier_type {

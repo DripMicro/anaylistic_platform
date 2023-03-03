@@ -9,6 +9,7 @@ import {
 import { SelectSchema } from "../../../db-schema-utils";
 import { publicProcedure } from "../../trpc";
 import { affiliate_id, merchant_id } from "./const";
+import { serverStoragePath } from "../../../../components/utils";
 
 export const getMerchantCreativeMeta = publicProcedure
   .output(
@@ -148,19 +149,24 @@ export const getMerchantCreative = publicProcedure
         },
       });
 
-      return addFreeTextSearchJSFilter(
-        await ctx.prisma.merchants_creative.findMany({
-          where,
-          include: {
-            language: {
-              select: { title: true },
+      const answer = map(
+        ({ file, ...data }) => ({ ...data, file: serverStoragePath(file) }),
+        addFreeTextSearchJSFilter(
+          await ctx.prisma.merchants_creative.findMany({
+            where,
+            include: {
+              language: {
+                select: { title: true },
+              },
+              category: { select: { categoryname: true } },
             },
-            category: { select: { categoryname: true } },
-          },
-        }),
-        "title",
-        search
+          }),
+          "title",
+          search
+        )
       );
+
+      return answer;
     }
   );
 //

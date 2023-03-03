@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { publicProcedure } from "../../trpc";
 import { affiliate_id, merchant_id } from "./const";
+import { map } from "rambda";
+import { serverStoragePath } from "../../../../components/utils";
 
 export const getDashboard = publicProcedure.query(async ({ ctx }) => {
   const data = await ctx.prisma.dashboard.groupBy({
@@ -65,7 +67,10 @@ export const getTopMerchantCreative = publicProcedure.query(async ({ ctx }) => {
     take: 5,
   });
 
-  return data;
+  return map(
+    ({ file, ...data }) => ({ ...data, file: serverStoragePath(file) }),
+    data
+  );
 });
 
 const dateList = (): { year: number; month: number; label: string }[] => {
@@ -203,7 +208,7 @@ export const getReportsHiddenCols = publicProcedure.query(async ({ ctx }) => {
       location: location,
     },
   });
-  return data?.removed_fields.split("|");
+  return data?.removed_fields.split("|") || "";
 });
 
 export const upsertReportsField = publicProcedure
