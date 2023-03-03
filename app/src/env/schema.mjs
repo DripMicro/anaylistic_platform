@@ -21,6 +21,7 @@ export const serverSchema = z.object({
   // ),
   // DISCORD_CLIENT_ID: z.string(),
   // DISCORD_CLIENT_SECRET: z.string(),
+  LEGACY_PHP_URL: z.string().url(),
 });
 
 /**
@@ -31,6 +32,7 @@ export const serverSchema = z.object({
 export const serverEnv = {
   DATABASE_URL: process.env.DATABASE_URL,
   NODE_ENV: process.env.NODE_ENV,
+  LEGACY_PHP_URL: process.env.LEGACY_PHP_URL,
   // NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   // NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   // DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
