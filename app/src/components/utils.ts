@@ -1,4 +1,4 @@
-import { serverEnv as env } from "../env/schema.mjs";
+import { env } from "../env.mjs";
 
 export const storageBasePath = String(env.LEGACY_PHP_URL);
 
