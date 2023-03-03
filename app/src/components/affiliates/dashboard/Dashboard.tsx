@@ -47,7 +47,6 @@ import {
 } from "../../../utils/format";
 
 import { DataTable } from "../../common/data-table/DataTable";
-import { serverStoragePath } from "../../utils";
 
 import type { ChangeEvent } from "react";
 import {
@@ -140,14 +139,14 @@ export const Dashboard = () => {
     }),
     columnHelper.accessor("file", {
       cell: ({ row }) => {
-        return (
+        return !!row.original.file ? (
           <Image
             objectFit="cover"
             maxW={{ base: "100%", sm: "173px" }}
-            src={serverStoragePath(row.original.file)}
+            src={row.original.file}
             alt={row.original.alt}
           />
-        );
+        ) : null;
       },
       header: "Preview",
     }),
