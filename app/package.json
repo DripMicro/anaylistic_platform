@@ -8,7 +8,7 @@
     "x_postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "confirm": "yarn prettier --write . && yarn lint --fix && tsc && env-cmd -f .env next build"
+    "confirm": "yarn prettier --write . && yarn lint --fix && tsc && env-cmd -f .env next build",
     "confirm-ci": "yarn lint && tsc && SKIP_ENV_VALIDATION=1 next build"
   },
   "dependencies": {
