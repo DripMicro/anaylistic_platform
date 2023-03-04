@@ -28,7 +28,7 @@ const Page: NextPage = () => {
 
   console.log("data ----->", data);
   // console.log("merchants ----->", merchants);
-  console.log("item per page",isNaN(items_per_page) ? 10:items_per_page)
+  console.log("item per page", isNaN(items_per_page) ? 10 : items_per_page);
   return (
     <>
       <Head>
