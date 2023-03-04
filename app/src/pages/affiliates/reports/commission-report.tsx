@@ -21,15 +21,14 @@ const Page: NextPage = () => {
   const { data } = api.affiliates.getCommissionReport.useQuery({
     from: selectedDates[0],
     to: selectedDates[1],
-    page: page,
-    items_per_page: items_per_page,
+    page: isNaN(page) ? 1 : page,
+    items_per_page: isNaN(items_per_page) ? 10 : items_per_page,
   });
   const { data: merchants } = api.affiliates.getAllMerchants.useQuery();
 
   console.log("data ----->", data);
-  console.log("merchants ----->", merchants);
-  console.log("route params", router.query);
-
+  // console.log("merchants ----->", merchants);
+  console.log("item per page",isNaN(items_per_page) ? 10:items_per_page)
   return (
     <>
       <Head>
@@ -66,7 +65,7 @@ const Page: NextPage = () => {
             </Select>
           </Flex>
         </Flex>
-        <Container marginTop={"90%"}>
+        <Container marginTop={"45%"}>
           <Pagination total={100} />
         </Container>
       </main>
