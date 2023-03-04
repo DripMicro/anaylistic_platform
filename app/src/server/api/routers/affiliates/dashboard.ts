@@ -1,5 +1,8 @@
+import { z } from "zod";
 import { publicProcedure } from "../../trpc";
 import { affiliate_id, merchant_id } from "./const";
+import { map } from "rambda";
+import { serverStoragePath } from "../../../../components/utils";
 
 export const getDashboard = publicProcedure.query(async ({ ctx }) => {
   const data = await ctx.prisma.dashboard.groupBy({
@@ -64,7 +67,10 @@ export const getTopMerchantCreative = publicProcedure.query(async ({ ctx }) => {
     take: 5,
   });
 
-  return data;
+  return map(
+    ({ file, ...data }) => ({ ...data, file: serverStoragePath(file) }),
+    data
+  );
 });
 
 const dateList = (): { year: number; month: number; label: string }[] => {
@@ -191,3 +197,53 @@ export const getCountryReport = publicProcedure.query(async ({ ctx }) => {
     };
   });
 });
+
+export const getReportsHiddenCols = publicProcedure.query(async ({ ctx }) => {
+  const level = "affiliate";
+  const location = level + "->dashStatCols";
+  const data = await ctx.prisma.reports_fields.findFirst({
+    where: {
+      user_id: affiliate_id,
+      userlevel: level,
+      location: location,
+    },
+  });
+  return data?.removed_fields.split("|") || "";
+});
+
+export const upsertReportsField = publicProcedure
+  .input(
+    z.object({
+      remove_fields: z.string(),
+    })
+  )
+  .mutation(async ({ ctx, input: { remove_fields } }) => {
+    const level = "affiliate";
+    const location = level + "->dashStatCols";
+    const exists = await ctx.prisma.reports_fields.findFirst({
+      where: {
+        user_id: affiliate_id,
+        userlevel: level,
+        location: location,
+      },
+    });
+
+    return await (exists
+      ? ctx.prisma.reports_fields.update({
+          where: {
+            id: exists.id,
+          },
+          data: {
+            removed_fields: remove_fields,
+          },
+        })
+      : ctx.prisma.reports_fields.create({
+          data: {
+            userlevel: level,
+            user_id: affiliate_id,
+            rdate: new Date(),
+            location: location,
+            removed_fields: remove_fields,
+          },
+        }));
+  });

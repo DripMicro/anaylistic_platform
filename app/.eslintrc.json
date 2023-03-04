@@ -22,5 +22,6 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/restrict-template-expressions": "off"
-  }
+  },
+  "ignorePatterns": ["**/react-ts-form/*.*", "src/utils/p-map.ts"]
 }

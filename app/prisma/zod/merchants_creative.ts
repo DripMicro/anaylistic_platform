@@ -26,7 +26,6 @@ export const merchants_creativeModel = z.object({
   category_id: z.number().int(),
   featured: z.number().int(),
   affiliateReady: z.number().int(),
-  isOverrideTrackingLink: z.boolean(),
 })
 
 export interface Completemerchants_creative extends z.infer<typeof merchants_creativeModel> {

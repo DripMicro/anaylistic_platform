@@ -44,12 +44,13 @@ export const getPixelMonitorMeta = publicProcedure.query(async ({ ctx }) => {
     merchants_creative: data.merchants_creative,
     type: [
       { id: "account", title: "Account" },
-      { id: "sale", title: "FTD" },
+      { id: "ftd", title: "FTD" },
+      { id: "qftd", title: "QFTD" },
     ],
     method: [
       { id: "post", title: "Server To Server - POST" },
       { id: "get", title: "Server To Server - GET" },
-      { id: "client", title: "Client Side" },
+      // { id: "client", title: "Client Side" },
     ],
   };
 });

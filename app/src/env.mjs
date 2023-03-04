@@ -6,7 +6,7 @@ import { z } from "zod";
  * This way you can ensure the app isn't built with invalid env vars.
  */
 const server = z.object({
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: z.string(),
   NODE_ENV: z.enum(["development", "test", "production"]),
   NEXTAUTH_SECRET:
     process.env.NODE_ENV === "production"
@@ -23,6 +23,7 @@ const server = z.object({
   // DISCORD_CLIENT_ID: z.string(),
   // DISCORD_CLIENT_SECRET: z.string(),
 
+  LEGACY_PHP_URL: z.string().url(),
   LEGACY_PHP_API_URL: z.string(),
   LEGACY_PHP_ACCESS_TOKEN: z.string(),
 });
@@ -33,7 +34,8 @@ const server = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object({
-  // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  // limited as cannot change per deployment, we build docker only once
+  // NEXT_PUBLIC_LEGACY_PHP_URL: z.string().url(),
 });
 
 /**
@@ -47,6 +49,7 @@ const processEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
 
+  LEGACY_PHP_URL: process.env.LEGACY_PHP_URL,
   LEGACY_PHP_API_URL: process.env.LEGACY_PHP_API_URL,
   LEGACY_PHP_ACCESS_TOKEN: process.env.LEGACY_PHP_ACCESS_TOKEN,
   // DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,

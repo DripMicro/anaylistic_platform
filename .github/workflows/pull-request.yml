@@ -1,0 +1,40 @@
+on: [pull_request]
+
+name: Pull Request Check
+jobs:
+  pullrequest:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+    - id: 'secrets'
+      uses: 'google-github-actions/get-secretmanager-secrets@v1'
+      with:
+        secrets: |-
+          database_url:api-front-dashbord/DEV_DATABASE_URL
+          nextauth_secret:api-front-dashbord/DEV_NEXTAUTH_SECRET
+
+    - run: |-
+        touch app/.env
+        echo 'DATABASE_URL=${{ steps.secrets.outputs.database_url }}' > app/.env
+        echo 'NEXTAUTH_SECRET=${{ steps.secrets.outputs.nextauth_secret }}' >> app/.env
+      shell: bash
+
+    - id: yarn_confirm
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: cd app && yarn && yarn confirm-ci
+
+    # - id: 'post-comment'
+    #   uses: thollander/actions-comment-pull-request@v2
+    #   with:
+    #     message: "Success"
+    #     reactions: rocket
