@@ -1,10 +1,11 @@
-import React from "react";
-import { Stack, Heading } from "@chakra-ui/react";
-import { StepperForm } from "../../common/forms/StepperForm";
+import { Heading, Stack } from "@chakra-ui/react";
 import { z } from "zod";
+import { StepperForm } from "../../common/forms/StepperForm";
 
 const schema = z.object({
-  type: z.string().describe("Select Trigger // Select Trigger"),
+  type: z
+    .enum(["lead", "account", "sale", "qftd"])
+    .describe("Select Trigger // Select Trigger"),
 });
 
 interface Props {
