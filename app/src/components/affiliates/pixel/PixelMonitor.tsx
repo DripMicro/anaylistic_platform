@@ -326,6 +326,7 @@ export const PixelMonitor = () => {
               actionName: "Add",
             }
       }
+      // @ts-ignore
       defaultValues={editRec ? editRec : { valid: 1 }}
       props={{
         merchant_id: {

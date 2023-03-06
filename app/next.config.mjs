@@ -34,7 +34,7 @@ const sentryWebpackPluginOptions = {
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 
-  authToken: "90b35c7c214844c5b75a52f078fb42a58f860ee880eb409dbf0259df29f5a8ae",
+  authToken: "d8bf21c6d4d344019e15bb6cc00d27950ba5b88c7154454d95f3c07a71e08130",
 };
 
 export default withSentryConfig(config, sentryWebpackPluginOptions);

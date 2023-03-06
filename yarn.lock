@@ -1112,6 +1112,13 @@
     lodash "4.17.21"
     query-string "6.12.1"
 
+"@happykit/flags@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@happykit/flags/-/flags-3.0.0.tgz#e2ad9f2791026e39a50fd6300727613fe63034a0"
+  integrity sha512-vZx0CBXgrZ0Q0LiHaikD4/oPQ1KO++erY9FaCLTunn3C5i2oh3/HqqGUzPPITFaadHyzqIQC4whbZ1SkyHSeew==
+  dependencies:
+    nanoid "3.2.0"
+
 "@hookform/resolvers@^2.9.10":
   version "2.9.11"
   resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.9.11.tgz#9ce96e7746625a89239f68ca57c4f654264c17ef"
@@ -3800,6 +3807,11 @@ ms@2.1.3, ms@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
+
+nanoid@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
+  integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
 
 nanoid@^3.3.4:
   version "3.3.4"
