@@ -28,6 +28,9 @@ export type affiliates_profilesModelType = z.infer<
   typeof affiliates_profilesModel
 >;
 
+export type DashboardType =
+  RouterOutput["affiliates"]["getQuickReportSummary"][0];
+
 export type PaymentsPaidType = RouterOutput["affiliates"]["getPaymentsPaid"][0];
 
 export type AffiliateTicketType = RouterOutput["affiliates"]["getTickets"][0];

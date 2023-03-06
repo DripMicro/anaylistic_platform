@@ -66,6 +66,36 @@ type Row = {
   [key: string]: any;
 };
 
+type Dashboard = {
+  Date: Date;
+  MerchantId: number;
+  Year: string;
+  Month: string;
+  Week: string;
+  Impressions: number;
+  Clicks: number;
+  Install: number;
+  Leads: number;
+  Demo: number;
+  RealAccount: number;
+  FTD: number;
+  FTDAmount: number;
+  RawFTD: number;
+  RawFTDAmount: number;
+  Deposits: number;
+  DepositsAmount: number;
+  Bonus: number;
+  Withdrawal: number;
+  ChargeBack: number;
+  NetDeposit: number;
+  PNL: number;
+  Volume: number;
+  ActiveTrader: number;
+  Commission: number;
+  PendingDeposits: number;
+  PendingDepositsAmount: number;
+};
+
 export const getQuickReportSummary = publicProcedure
   .input(
     z.object({
@@ -80,77 +110,119 @@ export const getQuickReportSummary = publicProcedure
   .query(
     async ({
       ctx,
-      input: { from, to, merchant_id, display, page, items_per_page },
+      input: { from, to, merchant_id, display = "", page, items_per_page },
     }) => {
       console.log(from, to);
-      console.log("display type", display);
+      console.log("display type", display, merchant_id);
       let offset;
       console.log("item per page ------>", page, items_per_page);
       if (page && items_per_page) {
         offset = (page - 1) * items_per_page;
       }
+      let where = "GROUP BY d.MerchantId ORDER BY d.MerchantId ASC";
 
-      const totalImpressions = 0;
-      const totalClicks = 0;
-      const totalCPIM = 0;
-      const totalLeadsAccounts = 0;
-      const totalDemoAccounts = 0;
-      const totalRealAccounts = 0;
-      const totalFTD = 0;
-      const totalFTDAmount = 0;
-      const totalRealFtd = 0;
-      const totalRealFtdAmount = 0;
-      const totalDeposits = 0;
-      const totalDepositAmount = 0;
-      const totalVolume = 0;
-      const totalBonus = 0;
-      const totalWithdrawal = 0;
-      const totalChargeback = 0;
-      const totalNetRevenue = 0;
-      const totalFooterPNL = 0;
-      const totalActiveTraders = 0;
-      const totalComs = 0;
+      if (display === "monthly") {
+        where = `GROUP BY d.MerchantId, YEAR(d.Date), MONTH(d.Date) ORDER BY YEAR(d.Date) ASC, MONTH(d.Date) ASC, d.MerchantId ASC`;
+      }
 
-      const data = await ctx.prisma.dashboard.aggregate({
-        where: {
-          merchant_id: merchant_id ? merchant_id : 1,
-          Date: {
-            gte: from,
-            lt: to,
-          },
-        },
-        _sum: {
-          Clicks: true,
-          Impressions: true,
-          Install: true,
-          Leads: true,
-          Demo: true,
-          RealAccount: true,
-          FTD: true,
-          FTDAmount: true,
-          Deposits: true,
-          DepositsAmount: true,
-          Bonus: true,
-          RawFTD: true,
-          RawFTDAmount: true,
-          Withdrawal: true,
-          ChargeBack: true,
-          NetDeposit: true,
-          PNL: true,
-          Volume: true,
-          ActiveTrader: true,
-          Commission: true,
-          PendingDeposits: true,
-          PendingDepositsAmount: true,
-        },
-      });
+      if (display === "weekly") {
+        where = `GROUP BY d.MerchantId, YEAR(d.Date), WEEK(d.Date,1) ORDER BY YEAR(d.Date) ASC, WEEK(d.Date,1) ASC, d.MerchantId ASC`;
+      }
+
+      if (display === "daily") {
+        where = `GROUP BY d.MerchantId, d.Date ORDER BY d.Date ASC, d.MerchantId ASC`;
+      }
+      // if (display === "") {
+      // 	where = `GROUP BY d.MerchantId ORDER BY d.MerchantId ASC`;
+      // }
+
+      // const sum_data = await ctx.prisma.dashboard.aggregate({
+      // 	where: {
+      // 		merchant_id: merchant_id ? merchant_id : 1,
+      // 		Date: {
+      // 			gte: from,
+      // 			lt: to,
+      // 		},
+      // 	},
+      // 	_sum: {
+      // 		merchant_id: true,
+      // 		Clicks: true,
+      // 		Impressions: true,
+      // 		Install: true,
+      // 		Leads: true,
+      // 		Demo: true,
+      // 		RealAccount: true,
+      // 		FTD: true,
+      // 		FTDAmount: true,
+      // 		Deposits: true,
+      // 		DepositsAmount: true,
+      // 		Bonus: true,
+      // 		RawFTD: true,
+      // 		RawFTDAmount: true,
+      // 		Withdrawal: true,
+      // 		ChargeBack: true,
+      // 		NetDeposit: true,
+      // 		PNL: true,
+      // 		Volume: true,
+      // 		ActiveTrader: true,
+      // 		Commission: true,
+      // 		PendingDeposits: true,
+      // 		PendingDepositsAmount: true,
+      // 	},
+      // });
+
+      // const merchant_date = await ctx.prisma.dashboard.findMany({
+      // 	where: {
+      // 		merchant_id: merchant_id ? merchant_id : 1,
+      // 		Date: {
+      // 			gte: from,
+      // 			lt: to,
+      // 		},
+      // 	},
+      // 	select: {
+      // 		Date: true,
+      // 		merchant_id: true,
+      // 	},
+      // });
 
       // for (let i = 0; i < Object.keys(data).length; i++) {
       // 	totalImpressions += data[i]?.Impressions || 0;
       // 	totalClicks += data[i]?.Clicks || 0;
       // }
 
-      console.log("Data -------> ", data);
+      const data: Dashboard[] = await ctx.prisma.$queryRaw(Prisma.sql`select 
+        d.Date,
+        d.MerchantId, 
+        YEAR(d.Date) AS Year, 
+        MONTH(d.Date) AS Month , 
+        WEEK(d.Date) AS Week,
+        sum(d.Impressions) as Impressions, 
+        sum(d.Clicks) as Clicks,  
+        sum(d.Install) as Install, 
+        sum(d.Leads) as Leads,  
+        sum(d.Demo) as Demo,  
+        sum(d.RealAccount) as RealAccount,  
+        sum(d.FTD) as FTD,  
+        sum(d.FTDAmount) as FTDAmount,  
+        sum(d.RawFTD) as RawFTD,  
+        sum(d.RawFTDAmount) as RawFTDAmount,  
+        sum(d.Deposits) as Deposits,  
+        sum(d.DepositsAmount) as DepositsAmount, 
+        sum(d.Bonus) as Bonus, 
+        sum(d.Withdrawal) as Withdrawal, 
+        sum(d.ChargeBack) as ChargeBack, 
+        sum(d.NetDeposit) as NetDeposit, 
+        sum(d.PNL) as PNL, 
+        sum(d.Volume) as Volume, 
+        sum(d.ActiveTrader) as ActiveTrader, 
+        sum(d.Commission) as Commission, 
+        sum(d.PendingDeposits) as PendingDeposits, 
+        sum(d.PendingDepositsAmount) as PendingDepositsAmount 
+        from Dashboard d
+        INNER JOIN affiliates aff ON d.AffiliateID = aff.id
+        WHERE 
+          d.Date >= ${moment(from).format()}
+        AND d.Date <  ${moment(to).format()} || ${where}`);
 
       return data;
     }
