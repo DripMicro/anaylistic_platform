@@ -73,15 +73,23 @@ const columnHelper = createColumnHelper<TopMerchantCreativeType>();
 const reportColumnHelper = createColumnHelper<CountryReportType>();
 
 export const Dashboard = () => {
+  const date = new Date();
+  date.setMonth(date.getMonth() - 6);
+
   const [reportFields, setReportFields] = useState<
     { id: number; title: string; value: string; isChecked: boolean }[]
   >([]);
-  const [fromDate, setFromDate] = useState(new Date());
+  const [fromDate, setFromDate] = useState(
+    new Date(date.getFullYear(), date.getMonth() + 1, 1)
+  );
   const [toDate, setToDate] = useState(new Date());
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { data } = api.affiliates.getDashboard.useQuery();
+  const { data } = api.affiliates.getDashboard.useQuery({
+    from: fromDate,
+    to: toDate,
+  });
   const { data: performanceChart } =
     api.affiliates.getPerformanceChart.useQuery({ from: fromDate, to: toDate });
   const { data: conversionChart } = api.affiliates.getConversionChart.useQuery({
@@ -195,6 +203,27 @@ export const Dashboard = () => {
       <Heading as="h4" size="md">
         Affiliate Program Dashboard
       </Heading>
+      <Flex
+        display="flex"
+        justifyContent="flex-end"
+        columnGap="10px"
+        marginTop="20px"
+      >
+        <Box>
+          <SingleDatepicker
+            name="date-from"
+            date={fromDate}
+            onDateChange={setFromDate}
+          />
+        </Box>
+        <Box>
+          <SingleDatepicker
+            name="date-to"
+            date={toDate}
+            onDateChange={setToDate}
+          />
+        </Box>
+      </Flex>
       <Flex justifyContent="space-between" alignItems="center" mt="3">
         <Heading as="h5" size="sm">
           Merchants Performance
@@ -258,7 +287,8 @@ export const Dashboard = () => {
               [index: string]: number;
             }
             const sumObject = data[0]?._sum as Sum;
-            const value = sumObject[item.value];
+            console.log(sumObject);
+            const value = sumObject ? sumObject[item.value] : 0;
 
             const icon = () => {
               let result;
@@ -319,29 +349,12 @@ export const Dashboard = () => {
       </SimpleGrid>
       <Stack mt="8">
         <Tabs>
-          <Flex
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
+          <Flex direction="row" alignItems="center">
             <TabList>
               <Tab>Performace Chart</Tab>
               <Tab>Conversion Chart</Tab>
             </TabList>
-            <Box display="flex" columnGap="10px">
-              <SingleDatepicker
-                name="date-from"
-                date={fromDate}
-                onDateChange={setFromDate}
-              />
-              <SingleDatepicker
-                name="date-to"
-                date={toDate}
-                onDateChange={setToDate}
-              />
-            </Box>
           </Flex>
-
           <TabPanels>
             <TabPanel>
               <AreaChart
