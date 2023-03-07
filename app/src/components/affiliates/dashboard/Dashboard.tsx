@@ -32,7 +32,7 @@ import {
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { AreaChart, LineChart } from "@tremor/react";
-import { RangeDatepicker } from "chakra-dayzed-datepicker";
+import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
 import { useEffect, useState } from "react";
 
@@ -76,18 +76,18 @@ export const Dashboard = () => {
   const [reportFields, setReportFields] = useState<
     { id: number; title: string; value: string; isChecked: boolean }[]
   >([]);
-  const [selectedDates, setSelectedDates] = useState<Date[]>([
-    new Date(),
-    new Date(),
-  ]);
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data } = api.affiliates.getDashboard.useQuery();
   const { data: performanceChart } =
-    api.affiliates.getPerformanceChart.useQuery();
-  const { data: conversionChart } =
-    api.affiliates.getConversionChart.useQuery();
+    api.affiliates.getPerformanceChart.useQuery({ from: fromDate, to: toDate });
+  const { data: conversionChart } = api.affiliates.getConversionChart.useQuery({
+    from: fromDate,
+    to: toDate,
+  });
   const { data: creative } = api.affiliates.getTopMerchantCreative.useQuery();
   const { data: report } = api.affiliates.getCountryReport.useQuery();
   const { data: reportsHiddenCols } =
@@ -96,31 +96,24 @@ export const Dashboard = () => {
   const upsertReportsField = api.affiliates.upsertReportsField.useMutation();
 
   useEffect(() => {
-    if (reportsHiddenCols) {
-      const fieldsArray = fields.map((field, i) => {
-        return {
-          id: i,
-          title: field,
-          value: field.replace(/\s/g, ""),
-          isChecked: !reportsHiddenCols?.includes(field),
-        };
-      });
-      setReportFields(fieldsArray);
-    }
+    const fieldsArray = fields.map((field, i) => {
+      return {
+        id: i,
+        title: field,
+        value: field.replace(/\s/g, ""),
+        isChecked: !reportsHiddenCols?.includes(field),
+      };
+    });
+    setReportFields(fieldsArray);
   }, [reportsHiddenCols]);
 
   useEffect(() => {
-    console.log("report fields->>>>>>>", reportFields);
-  }, [reportFields]);
+    if (fromDate > toDate) {
+      setToDate(fromDate);
+    }
+  }, [fromDate, toDate]);
 
-  if (
-    !data ||
-    !creative ||
-    !report ||
-    !performanceChart ||
-    !conversionChart ||
-    !reportsHiddenCols
-  ) {
+  if (!data || !creative || !report || !performanceChart || !conversionChart) {
     return null;
   }
 
@@ -335,10 +328,16 @@ export const Dashboard = () => {
               <Tab>Performace Chart</Tab>
               <Tab>Conversion Chart</Tab>
             </TabList>
-            <Box>
-              <RangeDatepicker
-                selectedDates={selectedDates}
-                onDateChange={setSelectedDates}
+            <Box display="flex" columnGap="10px">
+              <SingleDatepicker
+                name="date-from"
+                date={fromDate}
+                onDateChange={setFromDate}
+              />
+              <SingleDatepicker
+                name="date-to"
+                date={toDate}
+                onDateChange={setToDate}
               />
             </Box>
           </Flex>

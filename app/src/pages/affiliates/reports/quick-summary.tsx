@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { Quicks } from "../../../components/affiliates/reports/Quick";
+import { QuickSummaryReport } from "../../../components/affiliates/reports/QuickSummaryReport";
 import styles from "./../../index.module.css";
 
 const Page: NextPage = () => {
@@ -12,7 +12,7 @@ const Page: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Quicks />
+        <QuickSummaryReport />
       </main>
     </>
   );

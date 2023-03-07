@@ -1,8 +1,9 @@
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   Flex,
   HStack,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -11,22 +12,24 @@ import {
   ModalOverlay,
   Stack,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import type * as z from "zod";
+import * as z from "zod";
 import type {
   PixelMonitorType,
   pixel_monitorModelType,
 } from "../../../server/db-types";
-import type { schema as schemaPixelMonitor } from "../../../shared-types/forms/pixel-monitor";
+// import type { schema as schemaPixelMonitor } from "../../../shared-types/forms/pixel-monitor";
 import { api } from "../../../utils/api";
 import { DataTable } from "../../common/data-table/DataTable";
+import { ModalForm } from "../../common/forms/ModalForm";
+import { ModalFormAction } from "../../common/modal/ModalFormButton";
 import { QuerySelect } from "../../common/QuerySelect";
 import { QueryText } from "../../common/QueryText";
-
 import { FinishForm } from "./FinishForm";
 import { MethodForm } from "./MethodForm";
 import { PixelCodeForm } from "./PixelCodeForm";
@@ -35,7 +38,15 @@ import { TriggerForm } from "./TriggerForm";
 
 const columnHelper = createColumnHelper<PixelMonitorType>();
 
-type NewRecType = z.infer<typeof schemaPixelMonitor>;
+const schema = z.object({
+  merchant_id: z.any().describe("Select Merchants"),
+  type: z.enum(["lead", "account", "sale", "qftd"]).describe("Type"),
+  pixelCode: z.string().describe("Pixel Code"),
+  method: z.enum(["post", "get", "client"]).describe("Method"),
+  valid: z.coerce.number().describe("Status"),
+});
+
+type NewRecType = z.infer<typeof schema>;
 type RecType = pixel_monitorModelType;
 
 const newRecValues: NewRecType = {
@@ -43,6 +54,7 @@ const newRecValues: NewRecType = {
   type: "account",
   pixelCode: "",
   method: "get",
+  valid: 1,
 };
 
 export const PixelMonitor = () => {
@@ -54,6 +66,7 @@ export const PixelMonitor = () => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
+  const toast = useToast();
 
   const [formState, setFormState] = useState<NewRecType>(newRecValues);
 
@@ -70,12 +83,57 @@ export const PixelMonitor = () => {
     { keepPreviousData: true }
   );
   const upsertPixelMonitor = api.affiliates.upsertPixelMonitor.useMutation();
+  const deletePixelMonitor = api.affiliates.deletePixelMonitor.useMutation();
 
   if (!data) {
     return null;
   }
 
-  console.log(meta);
+  const handleDelete = () => {
+    if (editRec?.id) {
+      deletePixelMonitor.mutate(
+        { id: editRec.id },
+        {
+          onSuccess: () => {
+            setEditRec(null);
+            toast({
+              title: "Pixel Monitor deleted",
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
+            void refetch();
+          },
+          onError: (error) => {
+            toast({
+              title: "Failed to delete pixel monitor",
+              description: `Error: ${error.message}`,
+              status: "error",
+              duration: 10000,
+              isClosable: true,
+            });
+          },
+        }
+      );
+    }
+  };
+
+  const handleUpdate = async (values: NewRecType) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const merchant_id = parseInt(values.merchant_id);
+
+    if (!merchant_id) {
+      throw new Error("Missing merchant_id");
+    }
+
+    await upsertPixelMonitor.mutateAsync({
+      ...(editRec || {}),
+      ...values,
+      merchant_id,
+    });
+    await refetch();
+  };
+
   const handleNext = (values: object) => {
     const keys = Object.keys(values);
     keys.map((key) => {
@@ -192,14 +250,104 @@ export const PixelMonitor = () => {
       header: "Pixel Code",
     }),
     columnHelper.accessor("type", {
-      cell: (info) => info.getValue().toUpperCase(),
+      cell: (info) => {
+        switch (info.getValue()) {
+          case "account":
+            return "Account";
+          case "sale":
+            return "FTD";
+          case "lead":
+            return "Lead";
+          case "qftd":
+            return "Qualified FTD";
+          default:
+            return "";
+        }
+      },
       header: "Type",
     }),
     columnHelper.accessor("method", {
       cell: (info) => info.getValue().toUpperCase(),
       header: "Method",
     }),
+    columnHelper.accessor("valid", {
+      cell: (info) => {
+        return (
+          <Image
+            src={info.getValue() === 1 ? "/docs_green.jpg" : "/docs_red.png"}
+            boxSize="15px"
+            objectFit="cover"
+            alt="Dan Abramov"
+            display="inline-block"
+          />
+        );
+      },
+      header: "Status",
+    }),
+    columnHelper.accessor("edit-button" as any, {
+      cell: (info) => {
+        return (
+          <Button
+            leftIcon={<EditIcon />}
+            onClick={() => setEditRec(info.row.original)}
+          >
+            Edit
+          </Button>
+        );
+      },
+      header: "Action",
+    }),
   ];
+
+  const modal = (
+    <ModalForm
+      schema={schema}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={handleUpdate}
+      formProps={
+        editRec
+          ? {
+              title: "Edit Pixel Monitor",
+              actionName: "Update",
+              actions: (
+                <Button
+                  onClick={handleDelete}
+                  variant="outline"
+                  colorScheme="red"
+                  leftIcon={<DeleteIcon />}
+                  isLoading={deletePixelMonitor.isLoading}
+                >
+                  Delete
+                </Button>
+              ),
+            }
+          : {
+              title: "Add Pixel Monitor",
+              actionName: "Add",
+            }
+      }
+      // @ts-ignore
+      defaultValues={editRec ? editRec : { valid: 1 }}
+      props={{
+        merchant_id: {
+          choices: meta?.merchants,
+        },
+        type: {
+          choices: meta?.type,
+        },
+        pixelCode: {
+          controlName: "Textarea",
+        },
+        method: {
+          choices: meta?.method,
+        },
+        valid: {
+          choices: ["0", "1"],
+          controlName: "Switch",
+        },
+      }}
+    />
+  );
 
   return (
     <Stack m={12} gap={2}>
@@ -273,6 +421,9 @@ export const PixelMonitor = () => {
             </ModalFooter> */}
           </ModalContent>
         </Modal>
+        <ModalFormAction isOpen={!!editRec} onClose={() => setEditRec(null)}>
+          {modal}
+        </ModalFormAction>
       </HStack>
     </Stack>
   );

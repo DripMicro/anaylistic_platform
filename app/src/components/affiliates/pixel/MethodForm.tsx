@@ -1,11 +1,11 @@
-import React from "react";
-import { Stack, Heading } from "@chakra-ui/react";
-import { StepperForm } from "../../common/forms/StepperForm";
+import { Heading, Stack } from "@chakra-ui/react";
 import { z } from "zod";
-import { callAsync } from "../../../utils/call-async";
+import { StepperForm } from "../../common/forms/StepperForm";
 
 const schema = z.object({
-  method: z.string().describe("Select Method // Select Method"),
+  method: z
+    .enum(["post", "get", "client"])
+    .describe("Select Method // Select Method"),
 });
 
 interface Props {

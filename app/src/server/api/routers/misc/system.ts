@@ -1,39 +1,10 @@
 import * as z from "zod";
 import { publicProcedure } from "../../trpc";
-import { affiliate_id, merchant_id } from "../affiliates/const";
 import { TRPCError } from "@trpc/server";
 import { castError } from "../../../../utils/errors";
 import * as Sentry from "@sentry/nextjs";
-import { Extra } from "@sentry/types";
-import { Hub } from "@sentry/core/types/hub";
-import { captureException } from "@sentry/core/types/exports";
 
-export interface AdminCommandAnswer {
-  message: string;
-  results?: any;
-}
-
-export const executeAdminCommand = async (
-  cmd: string,
-  data: any
-): Promise<AdminCommandAnswer> => {
-  if (cmd === "system-info") {
-    return Promise.resolve({
-      message: "system-info",
-      results: {
-        affiliate_id,
-        merchant_id,
-        env: process.env,
-      },
-    });
-  } else if (cmd === "simulateErrorEvent") {
-    throw new Error("simulateErrorEvent");
-  } else if (cmd === "ping") {
-    return Promise.resolve({ message: "pong" });
-  } else {
-    return Promise.resolve({ message: "Command not found" });
-  }
-};
+import { executeAdminCommand } from "../../../process/admin-commands";
 
 export const runAdminCommand = publicProcedure
   .input(

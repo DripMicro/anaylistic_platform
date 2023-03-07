@@ -8,7 +8,7 @@ import { QuerySelect } from "../../../components/common/QuerySelect";
 import type { DashboardType } from "../../../server/db-types";
 import { api } from "../../../utils/api";
 
-export const Quicks = () => {
+export const QuickSummaryReport = () => {
   const router = useRouter();
   const page = parseInt(router?.query?.page as string);
   const items_per_page = parseInt(router?.query?.size as string);
