@@ -1,8 +1,8 @@
 import { Box, HStack, useRadio, useRadioGroup } from "@chakra-ui/react";
-import type { UseRadioProps } from "@chakra-ui/radio/dist/use-radio";
+import type { UseRadioProps } from "@chakra-ui/react";
 import React from "react";
 import type { ChoiceType } from "./TextField";
-import type { UseRadioGroupProps } from "@chakra-ui/radio/dist/use-radio-group";
+import type { UseRadioGroupProps } from "@chakra-ui/react";
 
 interface RCProps extends UseRadioProps {
   children: React.ReactNode;

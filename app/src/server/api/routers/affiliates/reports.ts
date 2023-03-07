@@ -1,8 +1,9 @@
 import { Prisma } from "@prisma/client";
-import moment from "moment-mini";
 import { z } from "zod";
 
 import { publicProcedure } from "../../trpc";
+import { convertPrismaResultsToNumbers } from "../../../../utils/prisma-convert";
+import { formatISO, getUnixTime } from "date-fns";
 
 type ResultType = {
   [key: string]: number;
@@ -66,17 +67,50 @@ type Row = {
   [key: string]: any;
 };
 
+export const QuickReportSummarySchema = z.object({
+  Date: z.date().nullish(),
+  merchant_id: z.number().nullish(),
+  Year: z.number().nullish(),
+  Month: z.number().nullish(),
+  Week: z.number().nullish(),
+  Impressions: z.number().nullish(),
+  Clicks: z.number().nullish(),
+  Install: z.number().nullish(),
+  Leads: z.number().nullish(),
+  Demo: z.number().nullish(),
+  RealAccount: z.number().nullish(),
+  FTD: z.number().nullish(),
+  FTDAmount: z.number().nullish(),
+  RawFTD: z.number().nullish(),
+  RawFTDAmount: z.number().nullish(),
+  Deposits: z.number().nullish(),
+  DepositsAmount: z.number().nullish(),
+  Bonus: z.number().nullish(),
+  Withdrawal: z.number().nullish(),
+  ChargeBack: z.number().nullish(),
+  NetDeposit: z.number().nullish(),
+  PNL: z.number().nullish(),
+  Volume: z.number().nullish(),
+  ActiveTrader: z.number().nullish(),
+  Commission: z.number().nullish(),
+  PendingDeposits: z.number().nullish(),
+  PendingDepositsAmount: z.number().nullish(),
+});
+
+const QuickReportSummarySchemaArray = z.array(QuickReportSummarySchema);
+
 export const getQuickReportSummary = publicProcedure
   .input(
     z.object({
-      from: z.date().optional(),
-      to: z.date().optional(),
+      from: z.date(),
+      to: z.date(),
       display: z.string().optional(),
       merchant_id: z.number().optional(),
       page: z.number().int().optional(),
       items_per_page: z.number().int().optional(),
     })
   )
+  .output(QuickReportSummarySchemaArray)
   .query(
     async ({
       ctx,
@@ -160,7 +194,9 @@ export const getQuickReportSummary = publicProcedure
       // 	totalClicks += data[i]?.Clicks || 0;
       // }
 
-      const data = await ctx.prisma.$queryRaw(Prisma.sql`select 
+      const data = await ctx.prisma.$queryRaw<
+        z.infer<typeof QuickReportSummarySchema>[]
+      >(Prisma.sql`select 
         d.Date,
         d.MerchantId AS merchant_id, 
         YEAR(d.Date) AS Year, 
@@ -191,10 +227,12 @@ export const getQuickReportSummary = publicProcedure
         from Dashboard d
         INNER JOIN affiliates aff ON d.AffiliateID = aff.id
         WHERE 
-          d.Date >= ${moment(from).format()}
-        AND d.Date <  ${moment(to).format()} || ${where}`);
+          d.Date >= ${formatISO(from, { representation: "date" })}
+        AND d.Date <  ${formatISO(to, {
+          representation: "date",
+        })} || ${where}`);
 
-      return data;
+      return data?.map(convertPrismaResultsToNumbers) || data;
     }
   );
 
@@ -249,8 +287,8 @@ export const getCommissionReport = publicProcedure
 export const getClicksReport = publicProcedure
   .input(
     z.object({
-      from: z.date().optional(),
-      to: z.date().optional(),
+      from: z.date(),
+      to: z.date(),
       merchant_id: z.number().optional(),
       unique_id: z.string().optional(),
       trader_id: z.string().optional(),
@@ -302,11 +340,6 @@ export const getClicksReport = publicProcedure
         take: 1,
       });
 
-      console.log("dates", {
-        gte: moment(from).unix(),
-        lt: moment(to).unix(),
-      });
-
       const totalRecords = await ctx.prisma.traffic.aggregate({
         where: {
           // uid: {
@@ -320,8 +353,8 @@ export const getClicksReport = publicProcedure
             gt: 0,
           },
           unixRdate: {
-            gte: moment(from).unix(),
-            lt: moment(to).unix(),
+            gte: getUnixTime(from),
+            lt: getUnixTime(to),
           },
         },
         _sum: {
@@ -1003,8 +1036,8 @@ export const getpixelLogReport = publicProcedure
 export const getProfileReportData = publicProcedure
   .input(
     z.object({
-      from: z.date().optional(),
-      to: z.date().optional(),
+      from: z.date(),
+      to: z.date(),
       merchant_id: z.number().optional(),
       search_type: z.string().optional(),
     })
@@ -1166,9 +1199,9 @@ export const getProfileReportData = publicProcedure
         let where = "";
 
         if (!from && !to) {
-          where = `sb.unixRdate BETWEEN ${moment(from).unix()} AND ${moment(
+          where = `sb.unixRdate BETWEEN ${getUnixTime(from)} AND ${getUnixTime(
             to
-          ).unix()} AND `;
+          )} AND `;
         }
 
         for (let i = 0; i <= Object.keys(ww).length; i++) {
