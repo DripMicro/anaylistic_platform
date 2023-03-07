@@ -6,13 +6,14 @@ import { QuerySelect } from "../../../components/common/QuerySelect";
 import { api } from "../../../utils/api";
 import type { QuickReportSummary } from "../../../server/db-types";
 import { DateRangeSelect, useDateRange } from "../../common/DateRangeSelect";
+import { Loading } from "../../common/Loading";
 
 export const QuickSummaryReport = () => {
   const router = useRouter();
   const { merchant_id, display } = router.query;
   const { from, to } = useDateRange();
 
-  const { data } = api.affiliates.getQuickReportSummary.useQuery({
+  const { data, isLoading } = api.affiliates.getQuickReportSummary.useQuery({
     from: from,
     to: to,
     display: display ? String(display) : undefined,
@@ -24,8 +25,8 @@ export const QuickSummaryReport = () => {
   console.log("data ----->", data);
   console.log("merchants ----->", merchants);
 
-  if (!data) {
-    return null;
+  if (isLoading) {
+    return <Loading />;
   }
 
   const divCol = (
