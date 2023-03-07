@@ -66,36 +66,6 @@ type Row = {
   [key: string]: any;
 };
 
-type Dashboard = {
-  Date: Date;
-  MerchantId: number;
-  Year: string;
-  Month: string;
-  Week: string;
-  Impressions: number;
-  Clicks: number;
-  Install: number;
-  Leads: number;
-  Demo: number;
-  RealAccount: number;
-  FTD: number;
-  FTDAmount: number;
-  RawFTD: number;
-  RawFTDAmount: number;
-  Deposits: number;
-  DepositsAmount: number;
-  Bonus: number;
-  Withdrawal: number;
-  ChargeBack: number;
-  NetDeposit: number;
-  PNL: number;
-  Volume: number;
-  ActiveTrader: number;
-  Commission: number;
-  PendingDeposits: number;
-  PendingDepositsAmount: number;
-};
-
 export const getQuickReportSummary = publicProcedure
   .input(
     z.object({
@@ -190,9 +160,9 @@ export const getQuickReportSummary = publicProcedure
       // 	totalClicks += data[i]?.Clicks || 0;
       // }
 
-      const data: Dashboard[] = await ctx.prisma.$queryRaw(Prisma.sql`select 
+      const data = await ctx.prisma.$queryRaw(Prisma.sql`select 
         d.Date,
-        d.MerchantId, 
+        d.MerchantId AS merchant_id, 
         YEAR(d.Date) AS Year, 
         MONTH(d.Date) AS Month , 
         WEEK(d.Date) AS Week,

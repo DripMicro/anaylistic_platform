@@ -33,13 +33,13 @@ export const QuickSummaryReport = () => {
   }
 
   const columns = [
-    columnHelper.accessor("MerchantId", {
+    columnHelper.accessor("merchant_id", {
       cell: (info) => info.getValue(),
       header: "Merchant",
     }),
     columnHelper.accessor("Impressions", {
       cell: (info) => info.getValue(),
-      header: "Profile Name",
+      header: "Impressions",
     }),
     columnHelper.accessor("Clicks", {
       cell: (info) => info.getValue(),
