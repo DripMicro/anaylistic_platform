@@ -197,7 +197,7 @@ export const QuickSummaryReport = () => {
         alignSelf="center"
         overflow={"scroll"}
       >
-        <DataTable data={Object.values(data)} columns={columns} />
+        <DataTable data={data} columns={columns} />
       </Grid>
     </>
   );
