@@ -22,8 +22,15 @@ export const QuickSummaryReport = () => {
   const { data: merchants } = api.affiliates.getAllMerchants.useQuery();
   const columnHelper = createColumnHelper<QuickReportSummary>();
 
-  console.log("data (v2) ----->", data);
-  console.log("merchants ----->", merchants);
+  console.log("QuickSummaryReport render", {
+    data,
+    merchants,
+    isLoading,
+    from,
+    to,
+    display,
+    merchant_id,
+  });
 
   if (isLoading) {
     return <Loading />;
@@ -104,7 +111,7 @@ export const QuickSummaryReport = () => {
     }),
     columnHelper.accessor("Commission", {
       cell: ({ row }) => {
-        console.log("row ---->", row);
+        // console.log("row ---->", row);
         return <span>{row?.original?.Commission?.toFixed(2)}</span>;
       },
       header: "Commission",
