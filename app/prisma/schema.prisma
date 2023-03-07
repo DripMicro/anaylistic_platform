@@ -185,7 +185,6 @@ model affiliates {
   traffic                         traffic[]
   commission                      commissions[]
   pixel_monitor                   pixel_monitor[]
-  affiliates_campaigns_relations  affiliates_campaigns_relations[]
 
   @@index([group_id], map: "group_id")
   @@index([mail], map: "mail")
@@ -194,18 +193,16 @@ model affiliates {
 }
 
 model affiliates_campaigns_relations {
-  id            Int         @id @default(autoincrement())
-  name          String      @default("") @db.VarChar(40)
-  campID        String      @db.VarChar(20)
-  affiliate_id  Int         @default(0) @map("affiliateID")
-  advertiserID  Int         @default(0)
-  profile_id    Int         @default(0)
-  isDefaultCamp Boolean     @default(false)
-  merchant_id   Int         @default(0) @map("merchantid")
-  affiliates    affiliates? @relation(fields: [affiliate_id], references: [id])
+  id            Int     @id @default(autoincrement())
+  name          String  @default("") @db.VarChar(40)
+  campID        String  @db.VarChar(20)
+  affiliate_id  Int     @default(0) @map("affiliateID")
+  advertiserID  Int     @default(0)
+  profile_id    Int     @default(0)
+  isDefaultCamp Boolean @default(false)
+  merchant_id   Int     @default(0) @map("merchantid")
 
-  @@index([campID], map: "campID")
-  @@index([affiliate_id], map: "affiliate_id")
+  @@index([campID, affiliate_id], map: "campID")
 }
 
 model affiliates_deals {
