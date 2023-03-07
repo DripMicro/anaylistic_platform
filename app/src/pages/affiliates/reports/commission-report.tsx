@@ -1,6 +1,5 @@
 import { Container, Flex, Select } from "@chakra-ui/react";
 import Pagination from "@etchteam/next-pagination";
-import "@etchteam/next-pagination/dist/index.css";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import { type NextPage } from "next";
 import Head from "next/head";

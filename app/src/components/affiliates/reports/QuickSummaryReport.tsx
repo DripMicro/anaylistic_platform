@@ -1,21 +1,17 @@
-import { FormLabel, Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { DataTable } from "../../../components/common/data-table/DataTable";
 import { QuerySelect } from "../../../components/common/QuerySelect";
-import type { DashboardType } from "../../../server/db-types";
 import { api } from "../../../utils/api";
+import type { QuickReportSummary } from "../../../server/db-types";
+import { DateRangeSelect, useDateRange } from "../../common/DateRangeSelect";
 
 export const QuickSummaryReport = () => {
   const router = useRouter();
-  const page = parseInt(router?.query?.page as string);
-  const items_per_page = parseInt(router?.query?.size as string);
   const { merchant_id, display } = router.query;
-  const [displayType, setDisplayType] = useState("");
-  const [from, setFrom] = useState(new Date());
-  const [to, setTo] = useState(new Date());
+  const { from, to } = useDateRange();
+
   const { data } = api.affiliates.getQuickReportSummary.useQuery({
     from: from,
     to: to,
@@ -23,7 +19,7 @@ export const QuickSummaryReport = () => {
     merchant_id: merchant_id ? Number(merchant_id) : 1,
   });
   const { data: merchants } = api.affiliates.getAllMerchants.useQuery();
-  const columnHelper = createColumnHelper<DashboardType>();
+  const columnHelper = createColumnHelper<QuickReportSummary>();
 
   console.log("data ----->", data);
   console.log("merchants ----->", merchants);
@@ -31,6 +27,17 @@ export const QuickSummaryReport = () => {
   if (!data) {
     return null;
   }
+
+  const divCol = (
+    val: number | null | undefined,
+    div: number | null | undefined
+  ) => {
+    return val ? (
+      <span>{((val / (div || 1)) * 100).toFixed(2)}%</span>
+    ) : (
+      <span></span>
+    );
+  };
 
   const columns = [
     columnHelper.accessor("merchant_id", {
@@ -53,48 +60,17 @@ export const QuickSummaryReport = () => {
       // },
     }),
     columnHelper.accessor("click-through-ratio" as any, {
-      cell: ({ row }) => {
-        return row?.original?.RealAccount ? (
-          <span>
-            {(
-              (row?.original?.Clicks ?? 0 / row.original.Impressions ?? 1) * 100
-            ).toFixed(2)}
-            %
-          </span>
-        ) : (
-          <span></span>
-        );
-      },
+      cell: ({ row }) =>
+        divCol(row?.original?.Clicks, row.original.Impressions),
       header: "Click Through Ratio(CTR)",
     }),
     columnHelper.accessor("click-to-account" as any, {
-      cell: ({ row }) => {
-        return row?.original?.RealAccount ? (
-          <span>
-            {(
-              (row?.original?.RealAccount ?? 0 / row.original.Clicks ?? 1) * 100
-            ).toFixed(2)}
-            %
-          </span>
-        ) : (
-          <span></span>
-        );
-      },
+      cell: ({ row }) =>
+        divCol(row?.original?.RealAccount, row.original.Clicks),
       header: "Click to Account",
     }),
     columnHelper.accessor("Leads", {
-      cell: ({ row }) => {
-        return row?.original?.FTD ? (
-          <span>
-            {(
-              (row?.original?.FTD ?? 0 / row.original.Clicks ?? 1) * 100
-            ).toFixed(2)}
-            %
-          </span>
-        ) : (
-          <span></span>
-        );
-      },
+      cell: ({ row }) => divCol(row?.original?.FTD, row.original.Clicks),
       header: "Click to Sale",
     }),
     columnHelper.accessor("Demo", {
@@ -167,12 +143,7 @@ export const QuickSummaryReport = () => {
         alignSelf="center"
       >
         <GridItem>
-          <FormLabel>From</FormLabel>
-          <SingleDatepicker date={from} onDateChange={setFrom} />
-        </GridItem>
-        <GridItem>
-          <FormLabel>to</FormLabel>
-          <SingleDatepicker date={to} onDateChange={setTo} />
+          <DateRangeSelect />
         </GridItem>
         <GridItem>
           <QuerySelect

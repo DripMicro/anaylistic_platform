@@ -1,5 +1,5 @@
 import React, { Children } from "react";
-import type { GridProps } from "@chakra-ui/layout/dist/grid";
+import type { GridProps } from "@chakra-ui/react";
 import { Box, Grid, GridItem } from "@chakra-ui/react";
 
 interface Props {
