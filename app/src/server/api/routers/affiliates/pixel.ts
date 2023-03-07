@@ -43,9 +43,10 @@ export const getPixelMonitorMeta = publicProcedure.query(async ({ ctx }) => {
     merchants: [{ id: data.id, title: data.name }],
     merchants_creative: data.merchants_creative,
     type: [
+      { id: "lead", title: "Lead" },
       { id: "account", title: "Account" },
-      { id: "ftd", title: "FTD" },
-      { id: "qftd", title: "QFTD" },
+      { id: "sale", title: "FTD" },
+      { id: "qftd", title: "Qualified FTD" },
     ],
     method: [
       { id: "post", title: "Server To Server - POST" },
@@ -124,6 +125,7 @@ export const upsertPixelMonitor = publicProcedure
           type: true,
           pixelCode: true,
           method: true,
+          valid: true,
         })
         .extend({
           id: pixel_monitorModel.shape.id.optional(),

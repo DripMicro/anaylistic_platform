@@ -17,6 +17,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@etchteam/next-pagination": "^3.5.4",
+    "@happykit/flags": "^3.0.0",
     "@hookform/resolvers": "^2.9.10",
     "@prisma/client": "^4.8.0",
     "@react-hook/debounce": "^4.0.0",

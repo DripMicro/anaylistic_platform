@@ -56,6 +56,7 @@ jobs:
           LEGACY_PHP_URL=https://go.gamingaffiliates.co
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
           NEXTAUTH_URL=https://gamingaffiliates.staging.affiliatets.com
+          NEXT_PUBLIC_FLAGS_ENV_KEY=flags_pub_preview_358370259303924312
         flags: |
           --allow-unauthenticated
           --vpc-connector=development-serverless-vp 
@@ -81,6 +82,7 @@ jobs:
           LEGACY_PHP_URL=https://go.best-brokers-partners.com
           LEGACY_PHP_API_URL=https://affiliate-com.netlify.app/api/document-upload-just-log
           NEXTAUTH_URL=https://best-brokers-partners.staging.affiliatets.com
+          NEXT_PUBLIC_FLAGS_ENV_KEY=flags_pub_preview_358370259303924312
         flags: |
           --allow-unauthenticated
           --vpc-connector=development-serverless-vp 
