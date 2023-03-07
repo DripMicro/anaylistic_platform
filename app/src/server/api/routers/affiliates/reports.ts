@@ -3,6 +3,7 @@ import moment from "moment-mini";
 import { z } from "zod";
 
 import { publicProcedure } from "../../trpc";
+import { dashboardModel } from "../../../../../prisma/zod";
 
 type ResultType = {
   [key: string]: number;
@@ -77,6 +78,7 @@ export const getQuickReportSummary = publicProcedure
       items_per_page: z.number().int().optional(),
     })
   )
+  .output(z.array(dashboardModel))
   .query(
     async ({
       ctx,
@@ -160,7 +162,9 @@ export const getQuickReportSummary = publicProcedure
       // 	totalClicks += data[i]?.Clicks || 0;
       // }
 
-      const data = await ctx.prisma.$queryRaw(Prisma.sql`select 
+      const data = await ctx.prisma.$queryRaw<
+        z.infer<typeof dashboardModel>[]
+      >(Prisma.sql`select 
         d.Date,
         d.MerchantId AS merchant_id, 
         YEAR(d.Date) AS Year, 
