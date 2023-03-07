@@ -1,6 +1,5 @@
 import * as z from "zod"
 import * as imports from "../zod-add-schema"
-import { Completeaffiliates, RelatedaffiliatesModel } from "./index"
 
 export const affiliates_campaigns_relationsModel = z.object({
   id: z.number().int(),
@@ -12,16 +11,3 @@ export const affiliates_campaigns_relationsModel = z.object({
   isDefaultCamp: z.boolean(),
   merchant_id: z.number().int(),
 })
-
-export interface Completeaffiliates_campaigns_relations extends z.infer<typeof affiliates_campaigns_relationsModel> {
-  affiliates?: Completeaffiliates | null
-}
-
-/**
- * Relatedaffiliates_campaigns_relationsModel contains all relations on your model in addition to the scalars
- *
- * NOTE: Lazy required in case of potential circular dependencies within schema
- */
-export const Relatedaffiliates_campaigns_relationsModel: z.ZodSchema<Completeaffiliates_campaigns_relations> = z.lazy(() => affiliates_campaigns_relationsModel.extend({
-  affiliates: RelatedaffiliatesModel.nullish(),
-}))
