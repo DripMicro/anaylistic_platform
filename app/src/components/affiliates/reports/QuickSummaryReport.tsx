@@ -22,7 +22,7 @@ export const QuickSummaryReport = () => {
   const { data: merchants } = api.affiliates.getAllMerchants.useQuery();
   const columnHelper = createColumnHelper<QuickReportSummary>();
 
-  console.log("data ----->", data);
+  console.log("data (v2) ----->", data);
   console.log("merchants ----->", merchants);
 
   if (isLoading) {
