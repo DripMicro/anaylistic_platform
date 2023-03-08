@@ -55,6 +55,7 @@ import {
   ComissionIcon,
   SignupIcon,
 } from "../../icons";
+import { DateRangeSelect, useDateRange } from "../../common/DateRangeSelect";
 
 const fields = [
   "Impressions",
@@ -73,28 +74,22 @@ const columnHelper = createColumnHelper<TopMerchantCreativeType>();
 const reportColumnHelper = createColumnHelper<CountryReportType>();
 
 export const Dashboard = () => {
-  const date = new Date();
-  date.setMonth(date.getMonth() - 6);
+  const { from, to } = useDateRange();
 
   const [reportFields, setReportFields] = useState<
     { id: number; title: string; value: string; isChecked: boolean }[]
   >([]);
-  const [fromDate, setFromDate] = useState(
-    new Date(date.getFullYear(), date.getMonth() + 1, 1)
-  );
-  const [toDate, setToDate] = useState(new Date());
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data } = api.affiliates.getDashboard.useQuery({
-    from: fromDate,
-    to: toDate,
+    from,
+    to,
   });
   const { data: performanceChart } =
-    api.affiliates.getPerformanceChart.useQuery({ from: fromDate, to: toDate });
+    api.affiliates.getPerformanceChart.useQuery({ from, to });
   const { data: conversionChart } = api.affiliates.getConversionChart.useQuery({
-    from: fromDate,
-    to: toDate,
+    from,
+    to,
   });
   const { data: creative } = api.affiliates.getTopMerchantCreative.useQuery();
   const { data: report } = api.affiliates.getCountryReport.useQuery();
@@ -114,12 +109,6 @@ export const Dashboard = () => {
     });
     setReportFields(fieldsArray);
   }, [reportsHiddenCols]);
-
-  useEffect(() => {
-    if (fromDate > toDate) {
-      setToDate(fromDate);
-    }
-  }, [fromDate, toDate]);
 
   if (!data || !creative || !report || !performanceChart || !conversionChart) {
     return null;
@@ -209,20 +198,7 @@ export const Dashboard = () => {
         columnGap="10px"
         marginTop="20px"
       >
-        <Box>
-          <SingleDatepicker
-            name="date-from"
-            date={fromDate}
-            onDateChange={setFromDate}
-          />
-        </Box>
-        <Box>
-          <SingleDatepicker
-            name="date-to"
-            date={toDate}
-            onDateChange={setToDate}
-          />
-        </Box>
+        <DateRangeSelect />
       </Flex>
       <Flex justifyContent="space-between" alignItems="center" mt="3">
         <Heading as="h5" size="sm">
