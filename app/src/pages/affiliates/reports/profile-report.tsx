@@ -7,20 +7,21 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "../../../utils/api";
 import styles from "./../../index.module.css";
+import {
+  DateRangeSelect,
+  useDateRange,
+} from "../../../components/common/DateRangeSelect";
 
 const Page: NextPage = () => {
   const router = useRouter();
+  const { from, to } = useDateRange();
   const page = parseInt(router?.query?.page as string);
   const items_per_page = parseInt(router?.query?.size as string);
   const [displayType, setDisplayType] = useState("");
   const [merchant_id, Setmerchant_id] = useState(0);
-  const [selectedDates, setSelectedDates] = useState<Date[]>([
-    new Date(),
-    new Date(),
-  ]);
   const { data } = api.affiliates.getProfileReportData.useQuery({
-    from: selectedDates[0],
-    to: selectedDates[1],
+    from,
+    to,
     merchant_id: merchant_id,
   });
   const { data: merchants } = api.affiliates.getAllMerchants.useQuery();
@@ -38,11 +39,7 @@ const Page: NextPage = () => {
       <main className={styles.main} style={{ marginTop: "20px" }}>
         <Flex direction="column" gap={2}>
           <Flex direction="row" gap={2}>
-            <RangeDatepicker
-              selectedDates={selectedDates}
-              onDateChange={setSelectedDates}
-            />
-
+            <DateRangeSelect />
             <Select
               placeholder="Merchant"
               onChange={(event) => Setmerchant_id(parseInt(event.target.value))}
