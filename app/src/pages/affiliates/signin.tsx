@@ -1,9 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import {AuthenticationFooter} from "../../components/common/footer/AuthenticationFooter"; 
-
 import { FormSignin } from "../../components/affiliates/account/FormSignin";
-const Page: NextPage = () => {
+import { MyPage } from "../../components/common/types";
+
+const Page: MyPage = () => {
   return (
     <>
       <Head>
@@ -20,3 +21,4 @@ const Page: NextPage = () => {
 };
 
 export default Page;
+Page.Layout = "NoLayout";

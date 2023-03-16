@@ -1,6 +1,6 @@
 import { Box, Flex, Link, Stack, Text } from "@chakra-ui/react";
 import { api } from "../../../utils/api";
-import { Form } from "../../common/forms/Form";
+import { FormLostPassword } from "../../common/forms/FormLostPassword";
 import type { z } from "zod";
 import { schema } from "../../../shared-types/forms/lost-password";
 
@@ -11,7 +11,7 @@ export const RecoverLostPassword = () => {
   };
 
   return (
-    <Form
+    <FormLostPassword
       schema={schema}
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit}
@@ -19,6 +19,6 @@ export const RecoverLostPassword = () => {
         submitButtonText: "Reset Password",
         submitNotification: false,
       }}
-    ></Form>
+    />
   );
 };

@@ -3,16 +3,15 @@ import { type NextPage } from "next";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import NextLink from "next/link";
+import { MyPage } from "../components/common/types";
 
-const Home: NextPage = () => {
+const Home: MyPage = () => {
   const { data: session } = useSession();
 
   const links = [
     { href: "/affiliates/signup", title: "Auth -> Sign Up" },
     { href: "/affiliates/signin", title: "Auth -> Sign In" },
-
     { href: "/affiliates/lost-password", title: "Auth -> Lost Password" },
-
     { href: "/affiliates/dashboard", title: "Dashboard" },
     { href: "/affiliates/creative", title: "Creative Materials" },
     { href: "/affiliates/sub", title: "Sub Affiliate Creative Materials" },
@@ -24,7 +23,6 @@ const Home: NextPage = () => {
     { href: "/affiliates/documents", title: "Documents" },
     { href: "/affiliates/commissions", title: "Commission Structure" },
     { href: "/affiliates/pixel-monitor", title: "Pixel Monitor" },
-
     {
       href: "/affiliates/reports/quick-summary",
       title: "Reports -> Quick Summary",
@@ -93,3 +91,5 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+Home.Layout = "NoLayout";

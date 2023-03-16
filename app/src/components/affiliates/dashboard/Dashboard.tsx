@@ -56,6 +56,8 @@ import {
   SignupIcon,
 } from "../../icons";
 
+import Affiliates from "../../../layouts/AffiliatesLayout";
+
 const fields = [
   "Impressions",
   "Clicks",
@@ -495,3 +497,7 @@ export const Dashboard = () => {
     </Container>
   );
 };
+
+Dashboard.getLayout = Affiliates;
+
+

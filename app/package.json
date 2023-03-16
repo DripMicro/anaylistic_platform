@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.10.5",
     "@etchteam/next-pagination": "^3.5.4",
     "@hookform/resolvers": "^2.9.10",
+    "@popperjs/core": "2.9.1",
     "@prisma/client": "^4.8.0",
     "@react-hook/debounce": "^4.0.0",
     "@sentry/nextjs": "^7.40.0",
@@ -44,7 +45,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.42.1",
+    "react-phone-input-2": "^2.15.1",
     "superjson": "1.9.1",
+    "tailwindcss": "^3.2.7",
     "trpc-playground": "^1.0.4",
     "zod": "^3.20.2"
   },
