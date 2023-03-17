@@ -42,17 +42,13 @@ export const FormSignin = () => {
   console.log(`muly:FormSignin`, { session });
 
   return (
-    <Stack gap={8} maxW="md">
+    <>
       <Form
         schema={schema}
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit}
-        formProps={{ submitButtonText: "LOGIN", submitNotification: false }}
+        formProps={{ submitButtonText: "Sign In", submitNotification: false }}
       ></Form>
-
-      <Link as={NextLink} href="/affiliates/lost-password">
-        <Text>Forgot your Username or Password?</Text>
-      </Link>
 
       {!!loginError && (
         <Alert status="error">
@@ -60,6 +56,6 @@ export const FormSignin = () => {
           {loginError}
         </Alert>
       )}
-    </Stack>
+    </>
   );
 };

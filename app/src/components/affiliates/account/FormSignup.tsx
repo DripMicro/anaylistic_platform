@@ -1,5 +1,6 @@
 import { api } from "../../../utils/api";
-import { Form } from "../../common/forms/Form";
+import { FormSignUp } from "../../common/forms/FormSignUp";
+import { Link } from "@chakra-ui/react";
 import type { z } from "zod";
 import { schema } from "../../../shared-types/forms/register";
 import { imUserTypes } from "../../../shared-types/forms/common";
@@ -13,7 +14,7 @@ export const FormSignup = () => {
   };
 
   return (
-    <Form
+    <FormSignUp
       schema={schema}
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit}
@@ -28,6 +29,6 @@ export const FormSignup = () => {
           choices: languages,
         },
       }}
-    ></Form>
+    />
   );
 };

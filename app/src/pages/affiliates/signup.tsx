@@ -1,9 +1,9 @@
-import styles from "./../index.module.css";
 import { type NextPage } from "next";
 import Head from "next/head";
-
+import { MyPage } from "../../components/common/types";
 import { FormSignup } from "../../components/affiliates/account/FormSignup";
-const Page: NextPage = () => {
+import {AuthenticationFooter} from "../../components/common/footer/AuthenticationFooter"; 
+const Page: MyPage = () => {
   return (
     <>
       <Head>
@@ -11,11 +11,13 @@ const Page: NextPage = () => {
         <meta name="description" content="Affiliates Creative Materials" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main className="flex flex-col items-center min-h-screen px-5">
         <FormSignup />
+        <AuthenticationFooter/>
       </main>
     </>
   );
 };
 
 export default Page;
+Page.Layout = "NoLayout";

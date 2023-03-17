@@ -56,7 +56,7 @@ const CommonForm = ({
         </Button> */}
 
         <div className="text-4xl text-black flex flex-col items-center mt-20 mb-16 md:mt-28 md:mb-24">
-          Login to Your
+          Reset to Your
           <div className="flex items-center">
             <img className="mt-2" src="/img/logo.png" width="109"/>
             <span className="ml-3 text-black">account</span>
@@ -70,7 +70,7 @@ const CommonForm = ({
           <input className="border rounded-md w-full py-4 px-3 text-gray-700 font-normal text-base" id="username" type="text" placeholder="Type Here..."/>
         </div>
 
-        <div className="pb-2.5 relative">
+        <div className="pb-14 relative">
           <label className="block text-gray-600 text-base mb-1.5 ml-2.5 font-medium">
             Password
           </label>
@@ -98,40 +98,10 @@ const CommonForm = ({
           </label>
 
         </div>
-
-        <div className="grid justify-items-end pb-5">
-          <Link as={NextLink} href="/affiliates/lost-password">
-            <span className="text-sm text-black">
-              Forgot your Username or Password?
-            </span>
-          </Link>
-        </div>
         
         <button className="w-full bg-[#2262C6] text-white py-3 font-semibold rounded-md">
           {submitButtonText ? submitButtonText : "SAVE"}
         </button>
-        
-        <div className="text-center pt-6 md:pt-14 text-sm md:text-xl">
-          Don’t have an account yet?&nbsp;
-          <Link as={NextLink} href="/affiliates/signup">
-            <span className="text-[#2262C6] text-sm md:text-xl font-bold">
-              Sign Up
-            </span>
-          </Link>
-        </div>
-        
-        <div className="flex flex-col items-center pt-3 md:pt-8">
-          <div className="h-px bg-[#D7D7D7] md:w-[32rem] w-72"></div>
-        </div>
-
-        <div className="text-center pt-3 md:pt-8 text-sm md:text-xl">
-          Are you an admin?&nbsp;
-          <Link as={NextLink} href="/affiliates/signup">
-            <span className="text-[#2262C6] text-sm md:text-xl font-bold">
-              Sign In here
-            </span>
-          </Link>
-        </div>
         
       </Stack>
     </form>
@@ -140,6 +110,6 @@ const CommonForm = ({
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const Form = createTsForm(mapping, {
+export const FormLostPassword = createTsForm(mapping, {
   FormComponent: CommonForm,
 });
