@@ -146,38 +146,69 @@ export const DateRangeSelect = ({ range: defaultRange }: Props) => {
 
   console.log(`muly:DateRangeSelect render ${name}`, { from, to });
 
+  const month:string[] = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
   return (
     <FormControl>
-      <FormLabel>Date Range</FormLabel>
       <HStack>
-        <Select
-          minW={40}
-          placeholder="Select date range"
-          value={name}
-          onChange={(event) => {
-            if (event.target.value !== "custom") {
-              void handleSelectDateRange(event.target.value as DateRange);
-            }
-          }}
-        >
-          <option value="today">Today</option>
-          <option value="yesterday">Yesterday</option>
-          <option value="this-week">This Week</option>
-          <option value="month-to-date">Month to Date</option>
-          <option value="last-month">Last Month</option>
-          <option value="last-6-month">Last 6 Month</option>
-          <option value="year-to-date">Year to Date</option>
-          <option value="last-year">Last Year</option>
-          <option value="custom">Custom</option>
-        </Select>
-        <DatePicker
+        <div className="flex">
+          <div className="relative">
+            <select
+              className="pl-6 pr-14 py-2 flex space-x-2 items-center border rounded border-[#D7D7D7] bg-white appearance-none cursor-pointer"
+              placeholder="Select date range"
+              value={name}
+              onChange={(event) => {
+                if (event.target.value !== "custom") {
+                  void handleSelectDateRange(event.target.value as DateRange);
+                }
+              }}
+            >
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="this-week">This Week</option>
+              <option value="month-to-date">Month to Date</option>
+              <option value="last-month">Last Month</option>
+              <option value="last-6-month">Last 6 Month</option>
+              <option value="year-to-date">Year to Date</option>
+              <option value="last-year">Last Year</option>
+              <option value="custom">Custom</option>
+            </select>
+
+            <div className="absolute -mt-8 right-6 cursor-pointer ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <path
+                  d="M17 3.00024H16V1.00024C16 0.735028 15.8946 0.480674 15.7071 0.293137C15.5196 0.105601 15.2652 0.000244141 15 0.000244141C14.7348 0.000244141 14.4804 0.105601 14.2929 0.293137C14.1054 0.480674 14 0.735028 14 1.00024V3.00024H6V1.00024C6 0.735028 5.89464 0.480674 5.70711 0.293137C5.51957 0.105601 5.26522 0.000244141 5 0.000244141C4.73478 0.000244141 4.48043 0.105601 4.29289 0.293137C4.10536 0.480674 4 0.735028 4 1.00024V3.00024H3C2.20435 3.00024 1.44129 3.31631 0.87868 3.87892C0.316071 4.44153 0 5.20459 0 6.00024V7.00024H20V6.00024C20 5.20459 19.6839 4.44153 19.1213 3.87892C18.5587 3.31631 17.7956 3.00024 17 3.00024Z"
+                  fill="#2262C6"
+                />
+                <path
+                  d="M0 17.0002C0 17.7959 0.316071 18.5589 0.87868 19.1216C1.44129 19.6842 2.20435 20.0002 3 20.0002H17C17.7956 20.0002 18.5587 19.6842 19.1213 19.1216C19.6839 18.5589 20 17.7959 20 17.0002V9.00024H0V17.0002Z"
+                  fill="#2262C6"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div className="px-4 py-2 ml-2 border rounded border-[#D7D7D7] bg-white cursor-pointer">
+            {from.getDate()} {month[from.getMonth()]} {from.getFullYear()} &nbsp;&nbsp;&nbsp;
+            TO &nbsp;&nbsp;&nbsp;
+            {to.getDate()} {month[to.getMonth()]} {to.getFullYear()} 
+          </div>
+        </div>
+        
+        {/* <DatePicker
           selected={from}
           onChange={(date) => setDateRange(date, to)}
         />
         <DatePicker
           selected={to}
           onChange={(date) => setDateRange(from, date)}
-        />
+        /> */}
       </HStack>
     </FormControl>
   );

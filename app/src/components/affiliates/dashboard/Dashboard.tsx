@@ -22,6 +22,7 @@ import {
   SimpleGrid,
   Stack,
   Switch,
+  Checkbox,
   Tab,
   TabList,
   TabPanel,
@@ -197,7 +198,7 @@ export const Dashboard = () => {
           &nbsp;-&nbsp;Dashboard
         </div>
         <div className="flex">
-          <button className="px-6 py-2 flex space-x-2 items-center border rounded border-[#D7D7D7] bg-white">
+          {/* <button className="px-6 py-2 flex space-x-2 items-center border rounded border-[#D7D7D7] bg-white">
             <span>Month to Date</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -215,72 +216,86 @@ export const Dashboard = () => {
                 fill="#2262C6"
               />
             </svg>
+          </button> */}
+          <DateRangeSelect />
+          <button className="ml-5 bg-[#2262C6] text-white px-8 py-2 rounded-md">
+            Update
           </button>
+
+          <button 
+            className="ml-5 bg-white px-3 pt-1.5 pb-2 rounded-md drop-shadow"
+            onClick={onOpen}
+          >
+            <SettingsIcon />
+          </button>
+          {/* <IconButton
+            variant="outline"
+            colorScheme="#0E132B"
+            size="sm"
+            aria-label="Setting"
+            icon={<SettingsIcon />}
+            onClick={onOpen}
+          /> */}
         </div>
       </div>
-      <Flex
-        display="flex"
-        justifyContent="flex-end"
-        columnGap="10px"
-        marginTop="20px"
-      >
-        <DateRangeSelect />
-      </Flex>
-      <Flex justifyContent="space-between" alignItems="center" mt="3">
-        <Heading as="h5" size="sm">
-          Merchants Performance
-        </Heading>
-        <IconButton
-          variant="outline"
-          colorScheme="#0E132B"
-          size="sm"
-          aria-label="Setting"
-          icon={<SettingsIcon />}
-          onClick={onOpen}
-        />
-        <Modal isOpen={isOpen} onClose={onClose} size="2xl">
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>
-              <Text fontSize="md">Manage Field On Report - Data</Text>
-            </ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Grid templateColumns="repeat(3, 1fr)" gap={6} mt="3">
-                {reportFields.map((field) => {
-                  return (
-                    <GridItem w="100%" key={field.id}>
-                      <FormControl display="flex" alignItems="center">
-                        <Switch
-                          id={`report-field-${field.id}`}
-                          isChecked={field.isChecked}
-                          value={field.id}
-                          onChange={(e) => void handleReportField(e)}
-                        />
-                        <FormLabel
-                          htmlFor={`report-field-${field.id}`}
-                          mb="0"
-                          mr="0"
-                          ml="2"
-                          fontSize="sm"
-                        >
-                          {field.title}
-                        </FormLabel>
-                      </FormControl>
-                    </GridItem>
-                  );
-                })}
-              </Grid>
-            </ModalBody>
+        
+      <Modal isOpen={isOpen} size='3xl' onClose={onClose} isCentered >
+        
+        <ModalOverlay />
+        <ModalContent ml={4} mr={4}>
+          
+          <div className="flex pl-8 pt-4 justify-between items-end">
+            <div className="text-[#282560] font-medium">Manage Field On Report - Quick Summary</div>
+            <img
+              alt="..."
+              className="mr-4 w-10 h-10 rounded-full align-middle "
+              src="/img/icons/close.png"
+              onClick={onClose}
+            />
+          </div>
+          <div className="text-[#717171] pl-8 pt-2 text-sm">
+            Please activate the fields you want  to display on the report:
+          </div>
+          
+          <ModalBody mt={16}>
+            <SimpleGrid minChildWidth='300px' spacing='40px' pr={2} pl={2}>
+              {reportFields.map((field) => {
+                return (
+                  <Box key={field.id}>
+                    <FormControl display="flex" alignItems="center">
+                      <input
+                        type="checkbox"
+                        id={`report-field-${field.id}`}
+                        checked={field.isChecked}
+                        value={field.id}
+                        onChange={(e) => void handleReportField(e)}
+                        className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+                      />
+                      <FormLabel
+                        htmlFor={`report-field-${field.id}`}
+                        mb="0"
+                        mr="0"
+                        ml="4"
+                        color="black"
+                        fontSize="md"
+                      >
+                        {field.title}
+                      </FormLabel>
+                    </FormControl>
+                  </Box>
+                );
+              })}
+            </SimpleGrid>
+          </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="blue" size="sm" onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Flex>
+          <ModalFooter>
+            <Button colorScheme="blue" size="sm" onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      
       <SimpleGrid minChildWidth="200px" spacing="15px" mt="3">
         {reportFields
           .filter((item) => item.isChecked === true)
