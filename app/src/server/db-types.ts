@@ -3,6 +3,7 @@ import type { z } from "zod";
 import type {
   affiliates_profilesModel,
   affiliates_ticketsModel,
+  dashboardModel,
   pixel_monitorModel,
 } from "../../prisma/zod";
 import type { AppRouter } from "./api/root";
@@ -28,6 +29,8 @@ export type affiliates_profilesModelType = z.infer<
   typeof affiliates_profilesModel
 >;
 
+export type DashboardType = z.infer<typeof dashboardModel>;
+
 export type PaymentsPaidType = RouterOutput["affiliates"]["getPaymentsPaid"][0];
 
 export type AffiliateTicketType = RouterOutput["affiliates"]["getTickets"][0];
@@ -52,3 +55,6 @@ export type PixelMonitorUpsertType =
   RouterInput["affiliates"]["upsertPixelMonitor"];
 
 export type pixel_monitorModelType = z.infer<typeof pixel_monitorModel>;
+
+export type QuickReportSummary =
+  RouterOutput["affiliates"]["getQuickReportSummary"][0];

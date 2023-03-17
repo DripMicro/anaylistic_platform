@@ -14,7 +14,7 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import type { GridProps } from "@chakra-ui/layout/dist/grid";
+import type { GridProps } from "@chakra-ui/react";
 import { FormLayout } from "./FormLayout";
 import { useSubmitAction } from "./useSubmitAction";
 import { ModalFormActionContext } from "../modal/ModalFormActionContext";

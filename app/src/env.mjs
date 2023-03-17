@@ -36,6 +36,7 @@ const server = z.object({
 const client = z.object({
   // limited as cannot change per deployment, we build docker only once
   // NEXT_PUBLIC_LEGACY_PHP_URL: z.string().url(),
+  NEXT_PUBLIC_FLAGS_ENV_KEY: z.string(),
 });
 
 /**
@@ -52,6 +53,8 @@ const processEnv = {
   LEGACY_PHP_URL: process.env.LEGACY_PHP_URL,
   LEGACY_PHP_API_URL: process.env.LEGACY_PHP_API_URL,
   LEGACY_PHP_ACCESS_TOKEN: process.env.LEGACY_PHP_ACCESS_TOKEN,
+
+  NEXT_PUBLIC_FLAGS_ENV_KEY: process.env.NEXT_PUBLIC_FLAGS_ENV_KEY,
   // DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   // DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,

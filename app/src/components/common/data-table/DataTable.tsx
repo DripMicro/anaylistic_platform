@@ -24,7 +24,7 @@ import {
 import { ModalFormButton } from "../modal/ModalFormButton";
 
 export type DataTableProps<Data extends object> = {
-  data: Data[];
+  data: Data[] | null | undefined;
   columns: ColumnDef<Data, any>[];
 };
 
@@ -35,7 +35,7 @@ export function DataTable<Data extends object>({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
     columns,
-    data,
+    data: data || [],
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),

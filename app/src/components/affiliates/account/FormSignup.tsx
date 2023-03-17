@@ -1,4 +1,3 @@
-import { Flex } from "@chakra-ui/react";
 import { api } from "../../../utils/api";
 import { FormSignUp } from "../../common/forms/FormSignUp";
 import { Link } from "@chakra-ui/react";

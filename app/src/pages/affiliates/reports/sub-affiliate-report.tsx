@@ -1,4 +1,4 @@
-import { Container, Flex, Select } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import Pagination from "@etchteam/next-pagination";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import { type NextPage } from "next";
@@ -10,56 +10,35 @@ import styles from "./../../index.module.css";
 
 const Page: NextPage = () => {
   const router = useRouter();
-  const [displayType, setDisplayType] = useState("");
   const page = parseInt(router?.query?.page as string);
   const items_per_page = parseInt(router?.query?.size as string);
   const [selectedDates, setSelectedDates] = useState<Date[]>([
     new Date(),
     new Date(),
   ]);
-  const { data } = api.affiliates.getInstallReport.useQuery({
+  const { data } = api.affiliates.getSubAffiliateReport.useQuery({
     from: selectedDates[0],
     to: selectedDates[1],
   });
   const { data: merchants } = api.affiliates.getAllMerchants.useQuery();
 
-  console.log("data ----->", data);
+  console.log("sub affiliate data ----->", data);
   console.log("merchants ----->", merchants);
 
   return (
     <>
       <Head>
-        <title>Quick Summary Report</title>
-        <meta name="description" content="Affiliates Creative Materials" />
+        <title>Creative Report</title>
+        <meta name="description" content="Creative Report" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main className={styles.main} style={{ marginTop: "20px" }}>
         <Flex direction="column" gap={2}>
           <Flex direction="row" gap={2}>
             <RangeDatepicker
               selectedDates={selectedDates}
               onDateChange={setSelectedDates}
             />
-            <Select
-              placeholder="Select option"
-              onChange={(event) => setDisplayType(event.target.value)}
-            >
-              <option value="monthly">monthly</option>
-              <option value="weekly">weekly</option>
-              <option value="daily">daily</option>
-            </Select>
-            <Select
-              placeholder="Select option"
-              onChange={(event) => setDisplayType(event.target.value)}
-            >
-              {merchants?.map((merchant, i) => {
-                return (
-                  <option key={i} value={merchant.name}>
-                    {merchant.name}
-                  </option>
-                );
-              })}
-            </Select>
           </Flex>
         </Flex>
         <Container marginTop={"45%"}>

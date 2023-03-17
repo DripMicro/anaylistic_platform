@@ -38,7 +38,9 @@ import {
   getLandingPageData,
   getLongCountries,
   getpixelLogReport,
+  getProfileReportData,
   getQuickReportSummary,
+  getSubAffiliateReport,
   getTraderReport,
 } from "./reports";
 
@@ -88,6 +90,9 @@ export const affiliatesRouter = createTRPCRouter({
   getTraderReport,
   getLongCountries,
   getpixelLogReport,
+
+  getProfileReportData,
+  getSubAffiliateReport,
 
   getPixelMonitorMeta,
   getPixelMonitor,

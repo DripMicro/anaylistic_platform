@@ -1,12 +1,17 @@
-import { Flex, Input, Select } from "@chakra-ui/react";
+import { Container, Flex, Input, Select } from "@chakra-ui/react";
+import Pagination from "@etchteam/next-pagination";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "../../../utils/api";
 import styles from "./../../index.module.css";
 
 const Page: NextPage = () => {
+  const router = useRouter();
+  const page = parseInt(router?.query?.page as string);
+  const items_per_page = parseInt(router?.query?.size as string);
   const [displayType, setDisplayType] = useState("");
   const [selectedDates, setSelectedDates] = useState<Date[]>([
     new Date(),
@@ -67,6 +72,10 @@ const Page: NextPage = () => {
             </Select>
           </Flex>
         </Flex>
+
+        <Container marginTop={"45%"}>
+          <Pagination total={100} />
+        </Container>
       </main>
     </>
   );

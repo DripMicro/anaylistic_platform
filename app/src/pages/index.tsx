@@ -16,7 +16,10 @@ const Home: MyPage = () => {
     { href: "/affiliates/creative", title: "Creative Materials" },
     { href: "/affiliates/sub", title: "Sub Affiliate Creative Materials" },
     { href: "/affiliates/account", title: "Account Details" },
-    { href: "/affiliates/account-payment", title: "Account Payment Details" },
+    {
+      href: "/affiliates/account-payment",
+      title: "Account Payment Details",
+    },
     { href: "/affiliates/profiles", title: "Profiles" },
     { href: "/affiliates/billings", title: "Billing" },
     { href: "/affiliates/tickets", title: "Tickets" },
@@ -54,6 +57,14 @@ const Home: MyPage = () => {
     {
       href: "/affiliates/reports/pixel_log_report",
       title: "Reports -> pixels Logs Report",
+    },
+    {
+      href: "/affiliates/reports/profile-report",
+      title: "Reports -> Profile Report",
+    },
+    {
+      href: "/affiliates/reports/sub-affiliate-report",
+      title: "Reports -> Sub Affiliate Report",
     },
   ];
 

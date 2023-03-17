@@ -10,6 +10,8 @@ import type { NextComponentType, NextPage, NextPageContext } from "next";
 
 import "../styles/globals.css";
 import "@tremor/react/dist/esm/tremor.css";
+import "react-datepicker/dist/react-datepicker.css";
+import "@etchteam/next-pagination/dist/index.css";
 
 import { api } from "../utils/api";
 import { theme } from "../components/chakra-ui-theme";
