@@ -106,8 +106,8 @@ const dateList = (
   const startYear = from.getFullYear();
   const endYear = to.getFullYear();
   for (let i = startYear; i <= endYear; i++) {
-    var endMonth = i != endYear ? 11 : to.getMonth();
-    var startMonth = i === startYear ? from.getMonth() : 0;
+    const endMonth = i != endYear ? 11 : to.getMonth();
+    const startMonth = i === startYear ? from.getMonth() : 0;
 
     for (let j = startMonth; j <= endMonth; j = j > 12 ? j % 12 || 11 : j + 1) {
       const temp = {

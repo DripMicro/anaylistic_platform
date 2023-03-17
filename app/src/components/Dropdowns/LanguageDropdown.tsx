@@ -4,14 +4,14 @@ import { createPopper } from "@popperjs/core";
 const LanguageDropdown = () => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef:any = React.createRef();
-  const popoverDropdownRef:any = React.createRef();
+  const btnDropdownRef: any = React.createRef();
+  const popoverDropdownRef: any = React.createRef();
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
       modifiers: [
         {
-          name: 'offset',
+          name: "offset",
           options: {
             offset: [-60, 4],
           },
@@ -25,7 +25,6 @@ const LanguageDropdown = () => {
   };
   return (
     <>
-      
       <a
         className="text-blueGray-500 block pr-4"
         href="#pablo"
@@ -46,14 +45,20 @@ const LanguageDropdown = () => {
           <span className="h-9 text-base text-[#303134] hidden md:inline-flex items-center justify-center font-semibold pl-2">
             English
           </span>
-          <span 
+          <span
             className={
               (dropdownPopoverShow ? "rotate-180 " : "rotate-0 ") +
               "w-8 h-12 text-sm text-white inline-flex items-center justify-center rounded-full"
             }
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="6" viewBox="0 0 12 6" fill="none">
-              <path d="M0 -5.24537e-07L6 6L12 0" fill="#A0A0A0"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="6"
+              viewBox="0 0 12 6"
+              fill="none"
+            >
+              <path d="M0 -5.24537e-07L6 6L12 0" fill="#A0A0A0" />
             </svg>
           </span>
         </div>

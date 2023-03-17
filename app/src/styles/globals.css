@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-  font-family: 'Inter';
-  background-color: #F5F8FA;
+body {
+  font-family: "Inter";
+  background-color: #f5f8fa;
 }
 
-div, span {
+div,
+span {
   color: #404040;
 }

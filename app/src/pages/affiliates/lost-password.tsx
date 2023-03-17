@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { RecoverLostPassword } from "../../components/affiliates/account/RecoverLostPassword";
-import { MyPage } from "../../components/common/types";
+import type { MyPage } from "../../components/common/types";
 
 const Page: MyPage = () => {
   return (

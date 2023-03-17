@@ -3,7 +3,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import { Dashboard } from "../../components/affiliates/dashboard/Dashboard";
-import { MyPage } from "../../components/common/types";
+import type { MyPage } from "../../components/common/types";
 
 const DashboardPage: MyPage = () => {
   return (
@@ -13,7 +13,7 @@ const DashboardPage: MyPage = () => {
         <meta name="description" content="Affiliates Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <Dashboard />
+      <Dashboard />
     </>
   );
 };
