@@ -1,6 +1,21 @@
-import { Box, FormControl, FormLabel, HStack, Select } from "@chakra-ui/react";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import { useState } from "react";
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  SimpleGrid,
+  HStack,
+  Select,
+  useDisclosure
+} from "@chakra-ui/react";
 import {
   endOfDay,
   endOfMonth,
@@ -15,6 +30,7 @@ import {
 } from "date-fns";
 import { queryTypes, useQueryState } from "next-usequerystate";
 import { useRouter } from "next/router";
+import { DatePicker } from "./datepicker/Datepicker";
 
 type DateRange =
   | "today"
@@ -136,9 +152,18 @@ export const DateRangeSelect = ({ range: defaultRange }: Props) => {
 
   const { name, from, to } = getDateRange(value);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
+
   const setDateRange = async (from: Date | null, to: Date | null) => {
     return setValue(formatValueDateRange(from, to));
   };
+
+  const handleOnchage = () => {
+    setDateRange(fromDate, toDate);
+  }
 
   const handleSelectDateRange = async (value: DateRange) => {
     await setValue(value);
@@ -149,12 +174,13 @@ export const DateRangeSelect = ({ range: defaultRange }: Props) => {
   const month:string[] = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
   return (
+    <>
     <FormControl>
       <HStack>
         <div className="flex">
           <div className="relative">
             <select
-              className="pl-6 pr-14 py-2 flex space-x-2 items-center border rounded border-[#D7D7D7] bg-white appearance-none cursor-pointer"
+              className="pl-2 pr-8 md:pl-6 md:pr-14 py-2 flex space-x-2 items-center border rounded border-[#D7D7D7] bg-white appearance-none cursor-pointer text-xs md:text-base"
               placeholder="Select date range"
               value={name}
               onChange={(event) => {
@@ -174,7 +200,7 @@ export const DateRangeSelect = ({ range: defaultRange }: Props) => {
               <option value="custom">Custom</option>
             </select>
 
-            <div className="absolute -mt-8 right-6 cursor-pointer ">
+            <div className="absolute -mt-7 md:-mt-8 right-2 md:right-6 cursor-pointer ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -194,9 +220,9 @@ export const DateRangeSelect = ({ range: defaultRange }: Props) => {
             </div>
           </div>
 
-          <div className="px-4 py-2 ml-2 border rounded border-[#D7D7D7] bg-white cursor-pointer">
-            {from.getDate()} {month[from.getMonth()]} {from.getFullYear()} &nbsp;&nbsp;&nbsp;
-            TO &nbsp;&nbsp;&nbsp;
+          <div className="px-2 md:px-4 py-2 ml-2 border rounded border-[#D7D7D7] bg-white cursor-pointer text-xs md:text-base" onClick={onOpen}>
+            {from.getDate()} {month[from.getMonth()]} {from.getFullYear()} &nbsp;&nbsp;
+            TO &nbsp;&nbsp;
             {to.getDate()} {month[to.getMonth()]} {to.getFullYear()} 
           </div>
         </div>
@@ -211,5 +237,39 @@ export const DateRangeSelect = ({ range: defaultRange }: Props) => {
         /> */}
       </HStack>
     </FormControl>
+    <Modal isOpen={isOpen} size='3xl' onClose={onClose} isCentered >
+
+        <ModalOverlay />
+        <ModalContent ml={4} mr={4}>
+
+          <div className="flex pl-6 md:pl-8 pt-4 justify-between items-end">
+            <div className="text-[#282560] font-medium">Add Date</div>
+            <img
+              alt="..."
+              className="mr-4 w-10 h-10 rounded-full align-middle "
+              src="/img/icons/close.png"
+              onClick={onClose}
+            />
+          </div>
+
+          <ModalBody>
+            <div className="max-w-lg mt-2 md:mt-7">
+              <label className="text-[#525252] px-0 md:px-4 font-medium text-sm">Start Date</label>
+              <div className="px-0 md:px-2 pt-2">
+                <DatePicker date={fromDate} onChange={setFromDate} handleOnchage={handleOnchage}></DatePicker>
+              </div>
+            </div>
+
+            <div className="max-w-lg mt-2 md:mt-7 pb-10 md:pb-80">
+              <label className="text-[#525252] px-0 md:px-4 font-medium text-sm">End Date</label>
+              <div className="px-0 md:px-2 pt-2">
+                <DatePicker date={toDate} onChange={setToDate} handleOnchage={handleOnchage}></DatePicker>
+              </div>
+            </div>
+          </ModalBody>
+
+        </ModalContent>
+      </Modal>
+    </>
   );
 };

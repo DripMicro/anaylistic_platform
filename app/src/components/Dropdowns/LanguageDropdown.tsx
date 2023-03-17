@@ -26,7 +26,7 @@ const LanguageDropdown = () => {
   return (
     <>
       <a
-        className="text-blueGray-500 block pr-4"
+        className="text-blueGray-500 block md:pr-4"
         href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
@@ -35,7 +35,7 @@ const LanguageDropdown = () => {
         }}
       >
         <div className="items-center flex">
-          <span className="w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
+          <span className="w-6 h-6 md:w-9 md:h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
@@ -71,7 +71,7 @@ const LanguageDropdown = () => {
         }
       >
         <div className="text-sm py-3 pl-6 font-normal w-full whitespace-nowrap bg-transparent flex">
-          <span className="w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
+          <span className="w-6 md:w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
@@ -83,7 +83,7 @@ const LanguageDropdown = () => {
           </span>
         </div>
         <div className="text-sm py-3 pl-6 font-normal w-full whitespace-nowrap bg-transparent flex">
-          <span className="w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
+          <span className="w-6 md:w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
@@ -95,7 +95,7 @@ const LanguageDropdown = () => {
           </span>
         </div>
         <div className="text-sm py-3 pl-6 font-normal w-full whitespace-nowrap bg-transparent flex">
-          <span className="w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
+          <span className="w-6 md:w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"

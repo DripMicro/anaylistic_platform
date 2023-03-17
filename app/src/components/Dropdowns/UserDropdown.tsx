@@ -38,7 +38,7 @@ const UserDropdown = () => {
         }}
       >
         <div className="items-center flex">
-          <span className="w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
+          <span className="w-7 h-7 md:w-9 md:h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"

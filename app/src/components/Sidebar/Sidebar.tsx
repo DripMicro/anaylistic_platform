@@ -31,7 +31,7 @@ export default function Sidebar({ collapseShow }: Props) {
           (collapseShow
             ? "w-64 rounded-tr-[50px] md:rounded-none "
             : "md:w-32 w-0 ") +
-          "fixed flex flex-col top-20 left-0 bg-white dark:bg-gray-900 h-full text-white transition-all duration-300 z-10 sidebar"
+          "fixed flex flex-col top-16 md:top-20 left-0 bg-white dark:bg-gray-900 h-full text-white transition-all duration-300 z-10 sidebar"
         }
       >
         <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -193,6 +193,18 @@ export default function Sidebar({ collapseShow }: Props) {
                   )}
                 </div>
               </Link>
+            </li>
+
+
+            <li>
+              <SingleLink
+                setactiveName={setactiveName}
+                setdropdown={setdropdown}
+                activeName={activeName}
+                collapseShow={collapseShow}
+                link={"profiles"}
+                linkName={"Profiles"}
+              />
             </li>
           </ul>
         </div>
