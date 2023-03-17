@@ -25,7 +25,7 @@ const UserDropdown = () => {
   };
   return (
     <>
-      <span className="h-9 text-base text-[#303134] inline-flex items-center justify-center font-semibold pr-2">
+      <span className="h-9 text-base text-[#303134] hidden md:inline-flex items-center justify-center font-semibold pr-2">
         James Blunt
       </span>
       <a

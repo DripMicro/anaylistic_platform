@@ -1,26 +1,49 @@
 import React from "react";
-
+import Link from "next/link";
 import NotificationDropDown from "../../Dropdowns/NotificationDropdown"
 import UserDropdown from "../../Dropdowns/UserDropdown";
 import LanguageDropdown from "../../Dropdowns/LanguageDropdown";
+import { Dispatch, SetStateAction } from "react";
 
-const AffiliatesNavbar = () => {
+interface Props {
+  collapseShow: boolean;
+  setCollapseShow: Dispatch<SetStateAction<boolean>>;
+}
+
+const AffiliatesNavbar = ({ collapseShow, setCollapseShow }: Props) => {
+  // const [collapseShow, setCollapseShow] = React.useState(false);
   return (
     <>
       {/* Navbar */}
-      <nav className="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4 bg-[#F5F8FA] border-b-2 border-[#E7E7E7]">
+      <nav className="fixed top-0 left-0 w-full z-10 flex-row flex-nowrap justify-start flex items-center p-4 bg-[#F5F8FA] border-b-2 border-[#E7E7E7]">
         <div className="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap ">
           <div className="flex-col items-center justify-center ">
             <div className="items-center flex">
-              <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13 -4.37114e-08C13.5523 -1.95703e-08 14 0.447715 14 1L14 17C14 17.5523 13.5523 18 13 18C12.4477 18 12 17.5523 12 17L12 1C12 0.447715 12.4477 -6.78525e-08 13 -4.37114e-08ZM7 -3.0598e-07C7.55228 -2.81839e-07 8 0.447715 8 1L8 17C8 17.5523 7.55228 18 7 18C6.44771 18 6 17.5523 6 17L6 1C6 0.447715 6.44772 -3.30121e-07 7 -3.0598e-07ZM1 -5.68248e-07C1.55229 -5.44107e-07 2 0.447715 2 0.999999L2 8C2 8.55228 1.55228 9 1 9C0.447714 9 -3.73832e-07 8.55228 -3.49691e-07 8L-4.37114e-08 0.999999C-1.95703e-08 0.447715 0.447715 -5.92389e-07 1 -5.68248e-07Z" fill="#404040"/>
-                </svg>
-              </span>
-              <span className="w-32 h-12 pl-5 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center">
-                <img src="/img/logo.png"/>
-              </span>
-              <div className="pl-16">
+              
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCollapseShow(!collapseShow);
+                }}
+              >
+                <span className= {
+                    (collapseShow ? "-rotate-90 " : "rotate-0 ") +
+                    "w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center duration-300"
+                  }
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13 -4.37114e-08C13.5523 -1.95703e-08 14 0.447715 14 1L14 17C14 17.5523 13.5523 18 13 18C12.4477 18 12 17.5523 12 17L12 1C12 0.447715 12.4477 -6.78525e-08 13 -4.37114e-08ZM7 -3.0598e-07C7.55228 -2.81839e-07 8 0.447715 8 1L8 17C8 17.5523 7.55228 18 7 18C6.44771 18 6 17.5523 6 17L6 1C6 0.447715 6.44772 -3.30121e-07 7 -3.0598e-07ZM1 -5.68248e-07C1.55229 -5.44107e-07 2 0.447715 2 0.999999L2 8C2 8.55228 1.55228 9 1 9C0.447714 9 -3.73832e-07 8.55228 -3.49691e-07 8L-4.37114e-08 0.999999C-1.95703e-08 0.447715 0.447715 -5.92389e-07 1 -5.68248e-07Z" fill="#404040"/>
+                  </svg>
+                </span>
+              </a>
+
+              <Link href="/">
+                <span className="w-32 h-12 pl-5 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center">
+                  <img src="/img/logo.png"/>
+                </span>
+              </Link>
+
+              <div className="pl-16 hidden md:block">
                 <span className="w-10 h-8 pr-2.5 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none">
                     <path d="M14.0641 0H15.9366C16.2935 0.0438377 16.6513 0.0782814 17.0074 0.13073C20.2272 0.587111 23.0539 1.8952 25.3679 4.1818C29.271 8.03951 30.7451 12.7215 29.6562 18.0924C28.7246 22.6821 26.049 26.0607 21.9392 28.2988C21.0626 28.7714 20.135 29.1425 19.1743 29.4049V18.3147H22.3783C22.5404 17.0622 22.7001 15.8317 22.8645 14.5572H19.1751C19.1751 13.5584 19.1336 12.5908 19.1891 11.6295C19.2299 10.9164 19.6213 10.5242 20.3297 10.4208C20.8667 10.3426 21.4186 10.3653 21.9642 10.3512C22.293 10.3426 22.6226 10.3512 22.9545 10.3512V6.97488C22.25 6.93653 21.5611 6.86529 20.8714 6.86999C20.1528 6.87468 19.4154 6.86372 18.7195 7.01481C16.6935 7.4524 15.4074 9.03134 15.3017 11.152C15.2508 12.1649 15.2751 13.1818 15.2657 14.1971C15.2657 14.3114 15.2657 14.4249 15.2657 14.5729H12.0694V18.3351H15.2438V29.981C15.2079 29.989 15.1715 29.9947 15.135 29.9983C15.0567 29.9983 14.9784 30.0022 14.9001 29.9983C12.7333 29.9756 10.651 29.5505 8.69943 28.6017C4.06098 26.3477 1.23946 22.6857 0.234845 17.6157C0.126033 17.0622 0.0782815 16.4978 0 15.9389V14.0617C0.0234845 13.8699 0.0501003 13.6781 0.0704535 13.4856C0.424286 10.2439 1.66583 7.38899 3.85458 4.97009C6.17015 2.41107 9.03604 0.816476 12.4452 0.224668C12.9822 0.133861 13.5247 0.0751503 14.0641 0Z" fill="#2262C6"/>
@@ -42,7 +65,7 @@ const AffiliatesNavbar = () => {
             </div>
           </div>
           {/* User */}
-          <ul className="flex-col md:flex-row list-none items-center hidden md:flex">
+          <ul className="flex-row list-none items-center flex">
             <LanguageDropdown />
             <NotificationDropDown />
             <UserDropdown />

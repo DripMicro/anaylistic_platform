@@ -13,7 +13,7 @@ const NotificationDropDown = () => {
         {
           name: 'offset',
           options: {
-            offset: [-200, 10],
+            offset: [-180, 10],
           },
         },
       ],
