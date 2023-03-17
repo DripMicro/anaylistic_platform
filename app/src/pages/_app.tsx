@@ -1,11 +1,12 @@
-import { type AppType, AppProps  } from "next/app";
+import type { AppProps } from "next/app";
+import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { ReactNode } from "react";
-import { LayoutKeys } from "../layouts/Layouts";
+import type { ReactNode } from "react";
+import type { LayoutKeys } from "../layouts/Layouts";
 
-import { NextComponentType, NextPage, NextPageContext } from "next";
+import type { NextComponentType, NextPage, NextPageContext } from "next";
 
 import "../styles/globals.css";
 import "@tremor/react/dist/esm/tremor.css";
@@ -31,16 +32,13 @@ type MyAppProps = AppProps<{ session: Session | null }> & {
   };
 };
 
-
-
-
 const MyApp = ({
   Component,
   pageProps: { session, ...pageProps },
 }: MyAppProps) => {
   // const Layout = Layouts[Component.Layout] ?? ((page) => page);
   const Layout = Layouts[Component.Layout] ?? ((page) => page);
-  
+
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
@@ -53,7 +51,6 @@ const MyApp = ({
 };
 
 export default api.withTRPC(MyApp);
-
 
 // import "../styles/globals.css";
 // import { MyAppProps } from "components/common/types";

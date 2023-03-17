@@ -3,7 +3,7 @@ import { type NextPage } from "next";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import NextLink from "next/link";
-import { MyPage } from "../components/common/types";
+import type { MyPage } from "../components/common/types";
 
 const Home: MyPage = () => {
   const { data: session } = useSession();

@@ -1,8 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { MyPage } from "../../components/common/types";
+import type { MyPage } from "../../components/common/types";
 import { FormSignup } from "../../components/affiliates/account/FormSignup";
-import {AuthenticationFooter} from "../../components/common/footer/AuthenticationFooter"; 
+import { AuthenticationFooter } from "../../components/common/footer/AuthenticationFooter";
 const Page: MyPage = () => {
   return (
     <>
@@ -13,7 +13,7 @@ const Page: MyPage = () => {
       </Head>
       <main className="flex flex-col items-center min-h-screen px-5">
         <FormSignup />
-        <AuthenticationFooter/>
+        <AuthenticationFooter />
       </main>
     </>
   );

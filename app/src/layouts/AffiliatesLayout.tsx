@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
+import React from "react";
 // components
 
 import AffiliatesNavbar from "../components/common/navbars/AffiliatesNavbar";
@@ -10,15 +11,16 @@ const AffiliatesLayout = ({ children }: PropsWithChildren) => {
   const [collapseShow, setCollapseShow] = React.useState(false);
   return (
     <>
-      
-      <div className={
-        (collapseShow ? "md:ml-64 " : "md:ml-32 ")  +
-        "relative bg-blueGray-100 transition-all duration-300 z-10 sidebar"
-      }>
-        <Sidebar collapseShow= {collapseShow} />
+      <div
+        className={
+          (collapseShow ? "md:ml-64 " : "md:ml-32 ") +
+          "relative bg-blueGray-100 transition-all duration-300 z-10 sidebar"
+        }
+      >
+        <Sidebar collapseShow={collapseShow} />
         <AffiliatesNavbar
-            collapseShow= {collapseShow}
-            setCollapseShow= {setCollapseShow}
+          collapseShow={collapseShow}
+          setCollapseShow={setCollapseShow}
         />
         <div className="px-4 md:px-10 pt-20 mx-auto w-full">
           {children}
@@ -27,6 +29,6 @@ const AffiliatesLayout = ({ children }: PropsWithChildren) => {
       </div>
     </>
   );
-}
+};
 
 export default AffiliatesLayout;

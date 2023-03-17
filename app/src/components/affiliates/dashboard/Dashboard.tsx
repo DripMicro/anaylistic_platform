@@ -190,7 +190,7 @@ export const Dashboard = () => {
   };
 
   return (
-    <div >
+    <div>
       <Heading as="h4" size="md">
         Affiliate Program Dashboard
       </Heading>
@@ -475,5 +475,3 @@ export const Dashboard = () => {
 };
 
 Dashboard.getLayout = Affiliates;
-
-
