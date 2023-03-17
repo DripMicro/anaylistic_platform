@@ -56,6 +56,8 @@ import {
   SignupIcon,
 } from "../../icons";
 
+import Affiliates from "../../../layouts/AffiliatesLayout";
+
 const fields = [
   "Impressions",
   "Clicks",
@@ -199,7 +201,7 @@ export const Dashboard = () => {
   };
 
   return (
-    <Container maxW="container.lg" py="4">
+    <div >
       <Heading as="h4" size="md">
         Affiliate Program Dashboard
       </Heading>
@@ -492,6 +494,10 @@ export const Dashboard = () => {
         </Heading>
         <DataTable data={creative} columns={columns} />
       </Stack>
-    </Container>
+    </div>
   );
 };
+
+Dashboard.getLayout = Affiliates;
+
+
