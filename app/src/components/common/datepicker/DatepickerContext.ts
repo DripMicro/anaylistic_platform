@@ -35,20 +35,46 @@ export const DatepickerCtx = createContext<DatepickerContextType>({
     year: 1970,
   },
   view: "date",
-  nextMonth: () => {},
-  prevMonth: () => {},
-  nextYear: () => {},
-  prevYear: () => {},
-  nextDecade: () => {},
-  prevDecade: () => {},
-  selectMonth: (m) => {},
-  selectYear: (y) => {},
-  selectDate: (d) => {},
-  viewMonths: () => {},
-  viewYears: () => {},
+  nextMonth: () => {
+    // do nothing.
+  },
+  prevMonth: () => {
+    // do nothing.
+  },
+  nextYear: () => {
+    // do nothing.
+  },
+  prevYear: () => {
+    // do nothing.
+  },
+  nextDecade: () => {
+    // do nothing.
+  },
+  prevDecade: () => {
+    // do nothing.
+  },
+  selectMonth: (m) => {
+    // do nothing.
+  },
+  selectYear: (y) => {
+    // do nothing.
+  },
+  selectDate: (d) => {
+    // do nothing.
+  },
+  viewMonths: () => {
+    // do nothing.
+  },
+  viewYears: () => {
+    // do nothing.
+  },
   isVisible: false,
-  showCalendar: () => {},
-  toggleCalendar: () => {},
+  showCalendar: () => {
+    // do nothing.
+  },
+  toggleCalendar: () => {
+    // do nothing.
+  },
   isSelectedDate: (d) => false,
 });
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import SingleLink from "../common/menubar/SingleLink";
 import DropdownLink from "../common/menubar/DropdownLink";
 import NextLink from "next/link";
-import { Link } from "@chakra-ui/react";
+import { Link, Image } from "@chakra-ui/react";
 
 interface Props {
   collapseShow: boolean;
@@ -72,7 +72,7 @@ export default function Sidebar({ collapseShow }: Props) {
                   activeDropdown("marketing");
                 }}
               >
-                <img
+                <Image
                   alt="..."
                   className="w-6 align-middle border-none pt-0.5"
                   src={
@@ -94,7 +94,7 @@ export default function Sidebar({ collapseShow }: Props) {
                   ""
                 )}
                 <span className="py-0.5 ml-auto mr-8 text-xs font-medium tracking-wide truncate">
-                  <img
+                  <Image
                     alt="..."
                     className={
                       "align-middle border-none" +
@@ -170,7 +170,7 @@ export default function Sidebar({ collapseShow }: Props) {
                     activeDropdown("");
                   }}
                 >
-                  <img
+                  <Image
                     alt="..."
                     className="w-6 align-middle border-none pt-0.5"
                     src={
@@ -194,7 +194,6 @@ export default function Sidebar({ collapseShow }: Props) {
                 </div>
               </Link>
             </li>
-
 
             <li>
               <SingleLink

@@ -34,9 +34,12 @@ import {
 import { createColumnHelper } from "@tanstack/react-table";
 import { AreaChart, LineChart } from "@tremor/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
-import DashboardChart from '../../common/chart/DashboardChart';
+import DashboardChart from "../../common/chart/DashboardChart";
+import PerformanceChart from "../../common/chart/PerformanceChart";
+import ConversionChart from "../../common/chart/ConversionChart";
 
-import { useEffect, useState } from "react";
+import { useRef, useLayoutEffect, useEffect, useState } from "react";
+import { useElementSize } from "usehooks-ts";
 
 import type {
   CountryReportType,
@@ -91,16 +94,37 @@ export const Dashboard = () => {
   });
   const { data: performanceChart } =
     api.affiliates.getPerformanceChart.useQuery({ from, to });
+  console.log("performanceChart");
+  console.log(performanceChart);
   const { data: conversionChart } = api.affiliates.getConversionChart.useQuery({
     from,
     to,
   });
+  console.log("conversionChart");
+  console.log(conversionChart);
   const { data: creative } = api.affiliates.getTopMerchantCreative.useQuery();
   const { data: report } = api.affiliates.getCountryReport.useQuery();
   const { data: reportsHiddenCols } =
     api.affiliates.getReportsHiddenCols.useQuery();
   const { data: account, refetch } = api.affiliates.getAccount.useQuery();
   const upsertReportsField = api.affiliates.upsertReportsField.useMutation();
+  const refChart = useRef<null | HTMLDivElement>(null);
+  // const [width, setWidth] = useState<number | undefined>(0);
+
+  // useLayoutEffect(() => {
+  //   console.log("refChart.current?.offsetWidth");
+  //   console.log(refChart.current?.offsetWidth);
+
+  //   const getwidth = () => {
+  //     setWidth(refChart.current?.offsetWidth);
+  //   };
+
+  //   window.addEventListener("resize", getwidth);
+
+  //   return () => window.removeEventListener("resize", getwidth);
+  // });
+
+  const [squareRef, { width, height }] = useElementSize();
 
   useEffect(() => {
     const fieldsArray = fields.map((field, i) => {
@@ -187,7 +211,7 @@ export const Dashboard = () => {
     await upsertReportsField.mutateAsync({
       remove_fields,
     });
-  }
+  };
 
   const handleUnSelectAll = async () => {
     const value = reportFields.map((item) => {
@@ -205,7 +229,7 @@ export const Dashboard = () => {
     await upsertReportsField.mutateAsync({
       remove_fields,
     });
-  }
+  };
 
   const handleReportField = async (event: ChangeEvent<HTMLInputElement>) => {
     const value = reportFields.map((item) => {
@@ -254,14 +278,14 @@ export const Dashboard = () => {
         </div>
       </div>
 
-      <Modal isOpen={isOpen} size='3xl' onClose={onClose} isCentered >
-
+      <Modal isOpen={isOpen} size="3xl" onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent ml={4} mr={4}>
-
           <div className="flex pl-6 md:pl-8 pt-4 justify-between items-end">
-            <div className="text-[#282560] font-medium">Manage Field On Report - Quick Summary</div>
-            <img
+            <div className="text-[#282560] font-medium">
+              Manage Field On Report - Quick Summary
+            </div>
+            <Image
               alt="..."
               className="mr-4 w-10 h-10 rounded-full align-middle "
               src="/img/icons/close.png"
@@ -269,12 +293,12 @@ export const Dashboard = () => {
             />
           </div>
           <div className="text-[#717171] pl-6 md:pl-8 pt-2 text-sm md:w-full w-64 md:mb-16 mb-6">
-            Please activate the fields you want  to display on the report:
+            Please activate the fields you want to display on the report:
           </div>
 
           <ModalBody>
             <div className="px-0 md:px-2">
-              <SimpleGrid minChildWidth='300px' spacing='35px'>
+              <SimpleGrid minChildWidth="300px" spacing="35px">
                 {reportFields.map((field) => {
                   return (
                     <Box key={field.id}>
@@ -307,14 +331,23 @@ export const Dashboard = () => {
 
           <div className="flex justify-between p-6 md:p-8 md:pt-20 font-medium">
             <div className="flex">
-              <button className="bg-[#2262C6] text-white px-3 md:px-14 py-3 rounded-md mr-3" onClick={handleSelectAll}>
+              <button
+                className="bg-[#2262C6] text-white px-3 md:px-14 py-3 rounded-md mr-3"
+                onClick={handleSelectAll}
+              >
                 Select All
               </button>
-              <button className="bg-[#EFEEFF] px-3 md:px-12 py-3 rounded-md text-[#1B48BB] border border-[#1B48BB]" onClick={handleUnSelectAll}>
+              <button
+                className="bg-[#EFEEFF] px-3 md:px-12 py-3 rounded-md text-[#1B48BB] border border-[#1B48BB]"
+                onClick={handleUnSelectAll}
+              >
                 Unselect All
               </button>
             </div>
-            <button className="bg-[#2262C6] text-white px-6 md:px-14 py-3 rounded-md" onClick={onClose}>
+            <button
+              className="bg-[#2262C6] text-white px-6 md:px-14 py-3 rounded-md"
+              onClick={onClose}
+            >
               Save
             </button>
           </div>
@@ -335,20 +368,33 @@ export const Dashboard = () => {
             return (
               <>
                 <div className="rounded-2xl bg-white shadow-sm px-2 md:px-6 pt-3 pb-2">
-                  <div className="text-[#2262C6] text-sm md:text-base font-semibold">{item.title} <span className="text-[#B9B9B9] text-xs md:text-sm font-normal">( Last 6 Month )</span></div>
+                  <div className="text-[#2262C6] text-sm md:text-base font-semibold">
+                    {item.title}{" "}
+                    <span className="text-[#B9B9B9] text-xs md:text-sm font-normal hidden md:inline-flex">
+                      ( Last 6 Month )
+                    </span>
+                  </div>
                   <div className="flex justify-between">
                     <div className="flex-1">
                       <div className="flex items-center h-12">
                         <div className="items-center flex">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
-                            <path d="M6.66685 13.0001L6.66685 3.27612L10.1955 6.80479L11.1382 5.86212L6.00018 0.724121L0.862183 5.86212L1.80485 6.80479L5.33352 3.27612L5.33352 13.0001L6.66685 13.0001Z" fill="#50B8B6" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="13"
+                            viewBox="0 0 12 13"
+                            fill="none"
+                          >
+                            <path
+                              d="M6.66685 13.0001L6.66685 3.27612L10.1955 6.80479L11.1382 5.86212L6.00018 0.724121L0.862183 5.86212L1.80485 6.80479L5.33352 3.27612L5.33352 13.0001L6.66685 13.0001Z"
+                              fill="#50B8B6"
+                            />
                           </svg>
                         </div>
                         <span className="text-xl font-bold ml-1 md:ml-3">
-                        {value}
+                          {value}
                         </span>
                       </div>
-
                     </div>
                     <div className="flex-1 flex justify-end">
                       <DashboardChart />
@@ -391,40 +437,50 @@ export const Dashboard = () => {
             );
           })}
       </div>
-      {/* <Stack mt="8">
-        <Tabs>
-          <Flex direction="row" alignItems="center">
-            <TabList>
-              <Tab>Performace Chart</Tab>
-              <Tab>Conversion Chart</Tab>
-            </TabList>
-          </Flex>
-          <TabPanels>
-            <TabPanel>
-              <AreaChart
-                data={performanceChart}
-                categories={["Accounts", "Active Traders"]}
-                dataKey="date"
-                height="h-72"
-                colors={["indigo", "cyan"]}
-                valueFormatter={performanceFormatter}
-                marginTop="mt-4"
-              />
-            </TabPanel>
-            <TabPanel>
-              <LineChart
-                data={conversionChart}
-                dataKey="date"
-                categories={["Conversions"]}
-                colors={["blue"]}
-                valueFormatter={conversionFormatter}
-                marginTop="mt-6"
-                yAxisWidth="w-10"
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Stack> */}
+      <div className="w-full h-96 block">
+        <ConversionChart />
+      </div>
+      {/* <div
+        className="mt-6 rounded-2xl bg-white shadow-sm px-2 md:px-6 pt-5 pb-2 "
+        id="myID"
+        ref={refChart}
+      >
+        <Stack>
+          <Tabs>
+            <Flex direction="row" alignItems="center">
+              <TabList>
+                <Tab>Performace Chart</Tab>
+                <Tab>Conversion Chart</Tab>
+              </TabList>
+            </Flex>
+            <TabPanels>
+              <TabPanel>
+                <div className="mt-5">
+                  <PerformanceChart performanceChartData={performanceChart} />
+                  <div className="w-full h-96" ref={squareRef}>
+                    <p>{`The square width is ${width}px and height ${height}px`}</p>
+                    <ConversionChart />
+                  </div>
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="w-full h-96">
+                  <ConversionChart />
+                </div>
+                <LineChart
+                  data={conversionChart}
+                  dataKey="date"
+                  categories={["Conversions"]}
+                  colors={["blue"]}
+                  valueFormatter={conversionFormatter}
+                  marginTop="mt-6"
+                  yAxisWidth="w-10"
+                />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Stack>
+      </div> */}
       {/* <Stack mt="5">
         <Flex direction="row" columnGap="10px">
           <Box flex="1" bg="white" border="1px solid gray" padding="20px 16px">

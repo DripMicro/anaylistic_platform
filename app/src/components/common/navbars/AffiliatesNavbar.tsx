@@ -4,6 +4,7 @@ import NotificationDropDown from "../../Dropdowns/NotificationDropdown";
 import UserDropdown from "../../Dropdowns/UserDropdown";
 import LanguageDropdown from "../../Dropdowns/LanguageDropdown";
 import type { Dispatch, SetStateAction } from "react";
+import { Image } from "@chakra-ui/react";
 
 interface Props {
   collapseShow: boolean;
@@ -50,7 +51,7 @@ const AffiliatesNavbar = ({ collapseShow, setCollapseShow }: Props) => {
 
               <Link href="/">
                 <span className="w-20 h-10 md:w-32 md:h-12 md:ml-5 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center">
-                  <img src="/img/logo.png" />
+                  <Image src="/img/logo.png" alt="logo" />
                 </span>
               </Link>
 

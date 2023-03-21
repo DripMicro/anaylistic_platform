@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
+import { Image } from "@chakra-ui/react";
 
 interface Props {
   activeName: string;
@@ -48,7 +49,7 @@ const SingleLink = ({
           className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-white dark:hover:bg-gray-600 text-white-600 hover:text-white-800 pl-8"
           href={"/affiliates/" + defaultLink}
         >
-          <img
+          <Image
             alt="..."
             className="w-6 align-middle border-none pt-0.5"
             src={
@@ -71,7 +72,7 @@ const SingleLink = ({
             ""
           )}
           <span className="py-0.5 ml-auto mr-8 text-xs font-medium tracking-wide truncate">
-            <img
+            <Image
               alt="..."
               className={
                 "align-middle border-none" +
@@ -93,8 +94,8 @@ const SingleLink = ({
           (dropdown == dropdownName && collapseShow ? "flex" : "hidden")
         }
       >
-        {linkName.map((value) => (
-          <li>
+        {linkName.map((value, index) => (
+          <li key={index}>
             <div
               onClick={(e) => {
                 e.preventDefault();

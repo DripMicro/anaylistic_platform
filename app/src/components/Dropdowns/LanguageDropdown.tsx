@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "@chakra-ui/react";
 import { createPopper } from "@popperjs/core";
 
 const LanguageDropdown = () => {
@@ -36,7 +37,7 @@ const LanguageDropdown = () => {
       >
         <div className="items-center flex">
           <span className="w-6 h-6 md:w-9 md:h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
-            <img
+            <Image
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
               src="/img/icons/united-states.png"
@@ -72,7 +73,7 @@ const LanguageDropdown = () => {
       >
         <div className="text-sm py-3 pl-6 font-normal w-full whitespace-nowrap bg-transparent flex">
           <span className="w-6 md:w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
-            <img
+            <Image
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
               src="/img/icons/united-states.png"
@@ -84,7 +85,7 @@ const LanguageDropdown = () => {
         </div>
         <div className="text-sm py-3 pl-6 font-normal w-full whitespace-nowrap bg-transparent flex">
           <span className="w-6 md:w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
-            <img
+            <Image
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
               src="/img/icons/spain.png"
@@ -96,7 +97,7 @@ const LanguageDropdown = () => {
         </div>
         <div className="text-sm py-3 pl-6 font-normal w-full whitespace-nowrap bg-transparent flex">
           <span className="w-6 md:w-9 h-9 text-sm text-white inline-flex items-center justify-center rounded-full">
-            <img
+            <Image
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
               src="/img/icons/france.png"

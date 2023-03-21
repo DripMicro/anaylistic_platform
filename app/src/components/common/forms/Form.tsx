@@ -8,6 +8,7 @@ import type { GridProps } from "@chakra-ui/layout/dist/grid";
 import { FormLayout } from "./FormLayout";
 import { useSubmitAction } from "./useSubmitAction";
 import NextLink from "next/link";
+import { Image } from "@chakra-ui/react";
 
 export interface CommonFormProps {
   onSubmit: (values: unknown) => Promise<void>;
@@ -43,32 +44,25 @@ const CommonForm = ({
       className="w-full md:w-[33rem]"
     >
       <Stack>
-        {/* <FormLayout grid={grid}>{children}</FormLayout> */}
-        {/* <Button
-          className="w-full bg-[#2262C6]"
-          minW={36}
-          type="submit"
-          variant="solid"
-          isLoading={isLoading}
-          alignSelf="start"
-        >
-          {submitButtonText ? submitButtonText : "SAVE"}
-        </Button> */}
-
         <div className="text-4xl text-black flex flex-col items-center mt-20 mb-16 md:mt-28 md:mb-24">
           Login to Your
           <div className="flex items-center">
-            <img className="mt-2" src="/img/logo.png" width="109" />
+            <Image
+              className="mt-2"
+              src="/img/logo.png"
+              width="109"
+              alt="logo"
+            />
             <span className="ml-3 text-black">account</span>
           </div>
         </div>
 
         <div className="pb-4">
-          <label className="block text-gray-600 text-base mb-1.5 ml-2.5 font-medium">
+          <label className="block text-gray-600 mb-1.5 ml-2.5 text-base  font-medium">
             Username
           </label>
           <input
-            className="border rounded-md w-full py-4 px-3 text-gray-700 font-normal text-base"
+            className="border-1 px-3 py-4 placeholder-blueGray-300 text-blueGray-700 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 text-base"
             id="username"
             type="text"
             placeholder="Type Here..."
@@ -76,11 +70,11 @@ const CommonForm = ({
         </div>
 
         <div className="pb-2.5 relative">
-          <label className="block text-gray-600 text-base mb-1.5 ml-2.5 font-medium">
+          <label className="block text-gray-600 mb-1.5 ml-2.5 text-base  font-medium">
             Password
           </label>
           <input
-            className="border rounded-md w-full py-4 px-3 text-gray-700 font-normal text-base"
+            className="border-1 px-3 py-4 placeholder-blueGray-300 text-blueGray-700 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 text-base"
             id="username"
             type={showPassword ? "text" : "password"}
             placeholder="Type Here..."

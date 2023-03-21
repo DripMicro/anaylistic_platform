@@ -44,7 +44,11 @@ interface DatePickerProps {
 }
 
 export const DatePicker: React.FC<DatePickerProps> = (props) => (
-  <RawDatePicker date={props.date} onChange={props.onChange} handleOnchage={props.handleOnchage}></RawDatePicker>
+  <RawDatePicker
+    date={props.date}
+    onChange={props.onChange}
+    handleOnchage={props.handleOnchage}
+  ></RawDatePicker>
 );
 
 export const RawDatePicker: React.FC<{
@@ -73,28 +77,28 @@ export const RawDatePicker: React.FC<{
                 onClick={(e) => ctxValue.toggleCalendar()}
               >
                 <div className=" ">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                    >
-                        <path
-                        d="M17 3.00024H16V1.00024C16 0.735028 15.8946 0.480674 15.7071 0.293137C15.5196 0.105601 15.2652 0.000244141 15 0.000244141C14.7348 0.000244141 14.4804 0.105601 14.2929 0.293137C14.1054 0.480674 14 0.735028 14 1.00024V3.00024H6V1.00024C6 0.735028 5.89464 0.480674 5.70711 0.293137C5.51957 0.105601 5.26522 0.000244141 5 0.000244141C4.73478 0.000244141 4.48043 0.105601 4.29289 0.293137C4.10536 0.480674 4 0.735028 4 1.00024V3.00024H3C2.20435 3.00024 1.44129 3.31631 0.87868 3.87892C0.316071 4.44153 0 5.20459 0 6.00024V7.00024H20V6.00024C20 5.20459 19.6839 4.44153 19.1213 3.87892C18.5587 3.31631 17.7956 3.00024 17 3.00024Z"
-                        fill="#2262C6"
-                        />
-                        <path
-                        d="M0 17.0002C0 17.7959 0.316071 18.5589 0.87868 19.1216C1.44129 19.6842 2.20435 20.0002 3 20.0002H17C17.7956 20.0002 18.5587 19.6842 19.1213 19.1216C19.6839 18.5589 20 17.7959 20 17.0002V9.00024H0V17.0002Z"
-                        fill="#2262C6"
-                        />
-                    </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                  >
+                    <path
+                      d="M17 3.00024H16V1.00024C16 0.735028 15.8946 0.480674 15.7071 0.293137C15.5196 0.105601 15.2652 0.000244141 15 0.000244141C14.7348 0.000244141 14.4804 0.105601 14.2929 0.293137C14.1054 0.480674 14 0.735028 14 1.00024V3.00024H6V1.00024C6 0.735028 5.89464 0.480674 5.70711 0.293137C5.51957 0.105601 5.26522 0.000244141 5 0.000244141C4.73478 0.000244141 4.48043 0.105601 4.29289 0.293137C4.10536 0.480674 4 0.735028 4 1.00024V3.00024H3C2.20435 3.00024 1.44129 3.31631 0.87868 3.87892C0.316071 4.44153 0 5.20459 0 6.00024V7.00024H20V6.00024C20 5.20459 19.6839 4.44153 19.1213 3.87892C18.5587 3.31631 17.7956 3.00024 17 3.00024Z"
+                      fill="#2262C6"
+                    />
+                    <path
+                      d="M0 17.0002C0 17.7959 0.316071 18.5589 0.87868 19.1216C1.44129 19.6842 2.20435 20.0002 3 20.0002H17C17.7956 20.0002 18.5587 19.6842 19.1213 19.1216C19.6839 18.5589 20 17.7959 20 17.0002V9.00024H0V17.0002Z"
+                      fill="#2262C6"
+                    />
+                  </svg>
                 </div>
               </button>
             </div>
           )}
         </Reference>
-        <Popper
+        {/* <Popper
           placement="bottom-start"
           innerRef={(node) => (popupNode.current = node)}
         >
@@ -107,7 +111,7 @@ export const RawDatePicker: React.FC<{
               />
             ) : null
           }
-        </Popper>
+        </Popper> */}
       </Manager>
     </DatepickerCtx.Provider>
   );
@@ -122,7 +126,7 @@ interface CalendarProps {
 const Calendar: React.FC<CalendarProps> = React.forwardRef<
   HTMLDivElement,
   CalendarProps
->((props, ref) => {
+>(function Calendar(props, ref) {
   const { view } = useContext(DatepickerCtx);
 
   let selectionComponent = null;
@@ -154,7 +158,7 @@ const Calendar: React.FC<CalendarProps> = React.forwardRef<
  * Date Selection Component
  * @param props
  */
-const DateSelection: React.FC<{}> = (props) => {
+const DateSelection: React.FC<Record<never, never>> = (props) => {
   const {
     nextMonth,
     prevMonth,
@@ -222,7 +226,7 @@ const DateSelection: React.FC<{}> = (props) => {
 
       {daysOfWeekNames.map((day) => (
         <div
-          key={(200 + day).toString()}
+          key={("200" + day).toString()}
           className="p-1 text-sm font-semibold"
           style={{ textAlign: "center" }}
         >
@@ -239,10 +243,9 @@ const DateSelection: React.FC<{}> = (props) => {
  * Month Selection Component
  * @param props
  */
-const MonthSelection: React.FC<{}> = (props) => {
-  const { viewYears, selectMonth, nextYear, prevYear, visible } = useContext(
-    DatepickerCtx
-  );
+const MonthSelection: React.FC<Record<never, never>> = (props) => {
+  const { viewYears, selectMonth, nextYear, prevYear, visible } =
+    useContext(DatepickerCtx);
 
   return (
     <div
@@ -255,15 +258,19 @@ const MonthSelection: React.FC<{}> = (props) => {
       }}
     >
       <div className="flex" style={{ gridColumn: "1/5" }}>
-        <CalButton chevron="left" onClick={(e) => prevYear()} children={undefined} />
+        <CalButton chevron="left" onClick={(e) => prevYear()}>
+          &nbsp;
+        </CalButton>
         <CalButton className="flex-grow" onClick={(e) => viewYears()}>
           {visible.year}
         </CalButton>
-        <CalButton chevron="right" onClick={(e) => nextYear()} children={undefined} />
+        <CalButton chevron="right" onClick={(e) => nextYear()}>
+          &nbsp;
+        </CalButton>
       </div>
 
       {monthNames.map((month, index) => (
-        <CalButton onClick={(e) => selectMonth(index)}>
+        <CalButton key={index} onClick={(e) => selectMonth(index)}>
           {month.substring(0, 3)}
         </CalButton>
       ))}
@@ -275,7 +282,7 @@ const MonthSelection: React.FC<{}> = (props) => {
  * Year Selection Component
  * @param props
  */
-const YearSelection: React.FC<{}> = (props) => {
+const YearSelection: React.FC<Record<never, never>> = (props) => {
   const {
     selectYear,
     prevDecade,
@@ -283,8 +290,8 @@ const YearSelection: React.FC<{}> = (props) => {
     visible: { year },
   } = useContext(DatepickerCtx);
 
-  let years = [];
-  let [minYear, maxYear] = [year - 6, year + 6];
+  const years = [];
+  const [minYear, maxYear] = [year - 6, year + 6];
 
   for (let i = minYear; i < maxYear; i++) {
     years.push(<CalButton onClick={(e) => selectYear(i)}>{i}</CalButton>);
@@ -301,11 +308,15 @@ const YearSelection: React.FC<{}> = (props) => {
       }}
     >
       <div className="flex" style={{ gridColumn: "1/5" }}>
-        <CalButton chevron="left" onClick={(e) => prevDecade()} children={undefined} />
+        <CalButton chevron="left" onClick={(e) => prevDecade()}>
+          &nbsp;
+        </CalButton>
         <CalButton className="flex-grow">
           {`${minYear} - ${maxYear - 1}`}
         </CalButton>
-        <CalButton chevron="right" onClick={(e) => nextDecade()} children={undefined} />
+        <CalButton chevron="right" onClick={(e) => nextDecade()}>
+          &nbsp;
+        </CalButton>
       </div>
 
       {years}
@@ -317,7 +328,7 @@ const buttonClassName =
   "hover:bg-gray-200 rounded p-1 text-sm flex align-center justify-center focus:outline-none";
 
 const CalButton: React.FC<{
-  children: any;
+  children: string | number | undefined;
   chevron?: "right" | "left";
   className?: string;
   style?: React.StyleHTMLAttributes<HTMLButtonElement>;
