@@ -7,7 +7,7 @@ const Page: MyPage = () => {
   return (
     <>
       <Head>
-        <title>Privacy Policy</title>
+        <title>Announcements</title>
         <meta name="description" content="Privacy" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

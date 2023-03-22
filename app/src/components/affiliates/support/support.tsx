@@ -1,8 +1,8 @@
 import Affiliates from "../../../layouts/AffiliatesLayout";
 
-import AnnouncementsComponent from "./announcementsComponent";
+import SupportComponent from "./supportComponent";
 
-const Announcements = () => {
+const Support = () => {
 
     const data = [
         {
@@ -25,18 +25,17 @@ const Announcements = () => {
     return (
         <div className="pt-5 pb-4">
             <div className="px-6 mb-5 block font-medium text-base">
-                <span className="text-[#2262C6]">Dashboard</span> - Announcements
+                <span className="text-[#2262C6]">Dashboard</span> - Support - FAQ
             </div>
-            <div className="pt-4 mt-7 px-4 rounded-md h-auto md:rounded-2xl bg-white shadow-md pb-20 md:mb-10">
+            <div className="pt-5 px-2 rounded-md h-auto md:rounded-2xl bg-white shadow-md pb-4 md:mb-10">
                 {data.map((data, i) => {
-                    return  <AnnouncementsComponent propsdata={data} key={i} />
-                    
+                    return <SupportComponent propsdata={data} key={i} />
                 })}
             </div>
         </div>
     );
 };
 
-export default Announcements;
+export default Support;
 
-Announcements.getLayout = Affiliates;
+Support.getLayout = Affiliates;
