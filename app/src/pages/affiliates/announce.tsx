@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import Privacy from "../../components/affiliates/privacy/Privacy";
+import Announcements from "../../components/affiliates/announce/announcements";
 import type { MyPage } from "../../components/common/types";
 
 const Page: MyPage = () => {
@@ -11,7 +11,7 @@ const Page: MyPage = () => {
         <meta name="description" content="Privacy" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Privacy />
+      <Announcements />
     </>
   );
 };
