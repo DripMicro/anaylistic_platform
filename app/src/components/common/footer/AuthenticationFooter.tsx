@@ -9,7 +9,7 @@ const AuthenticationFooter = () => {
           Affliatets.com
         </a>
       </span>
-      <Image className="ml-1 h-5" src="/img/logo.png" width="64" alt="logo" />
+      <Image className="ml-1 h-5" src="/img/logo.png" width="15" alt="logo" />
     </footer>
   );
 };

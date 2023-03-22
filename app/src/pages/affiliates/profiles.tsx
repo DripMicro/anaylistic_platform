@@ -21,4 +21,4 @@ const ProfilePage: MyPage = () => {
 
 export default ProfilePage;
 
-ProfilePage.Layout = "NoLayout";
+ProfilePage.Layout = "Affiliates";

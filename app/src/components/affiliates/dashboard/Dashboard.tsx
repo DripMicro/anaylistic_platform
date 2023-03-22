@@ -254,7 +254,7 @@ export const Dashboard = () => {
   return (
     <div className="pt-3.5">
       <div className="block lg:flex md:justify-between font-medium text-base">
-        <div className="flex items-center mb-2.5">
+        <div className="flex items-center mb-2.5 md:mb-5 lg:mb-5 ">
           <span className="text-[#2262C6]">Affliate Program</span>
           &nbsp;-&nbsp;Dashboard
         </div>
@@ -437,9 +437,7 @@ export const Dashboard = () => {
             );
           })}
       </div>
-      <div className="w-full h-96 block">
-        <ConversionChart />
-      </div>
+
       {/* <div
         className="mt-6 rounded-2xl bg-white shadow-sm px-2 md:px-6 pt-5 pb-2 "
         id="myID"

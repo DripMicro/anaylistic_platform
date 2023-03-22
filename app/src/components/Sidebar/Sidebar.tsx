@@ -35,7 +35,7 @@ export default function Sidebar({ collapseShow }: Props) {
         }
       >
         <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
-          <ul className="flex flex-col py-16 space-y-1 cursor-pointer">
+          <ul className="relative min-h-full py-5 md:py-16 space-y-1 cursor-pointer ">
             <li>
               <SingleLink
                 setactiveName={setactiveName}
@@ -60,139 +60,30 @@ export default function Sidebar({ collapseShow }: Props) {
                 ]}
                 defaultLink={"creative"}
                 dropdownName={"marketing"}
+                navbarName={"Marketing Tools"}
+                parentLink={""}
               />
             </li>
 
             <li>
-              <div
-                className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-white dark:hover:bg-gray-600 text-white-600 hover:text-white-800 pl-8"
-                onClick={(e) => {
-                  e.preventDefault();
-                  activeLink("creative");
-                  activeDropdown("marketing");
-                }}
-              >
-                <Image
-                  alt="..."
-                  className="w-6 align-middle border-none pt-0.5"
-                  src={
-                    "/img/icons/marketing" +
-                    (dropdown == "marketing" ? "Active" : "") +
-                    ".png"
-                  }
-                />
-                {collapseShow ? (
-                  <span
-                    className={
-                      "ml-4 text-base font-medium tracking-wide truncate " +
-                      (dropdown == "marketing" ? "text-[#2262C6]" : "")
-                    }
-                  >
-                    Marketing Tools
-                  </span>
-                ) : (
-                  ""
-                )}
-                <span className="py-0.5 ml-auto mr-8 text-xs font-medium tracking-wide truncate">
-                  <Image
-                    alt="..."
-                    className={
-                      "align-middle border-none" +
-                      (dropdown == "marketing" ? " w-3" : " w-2 ")
-                    }
-                    src={
-                      "/img/icons/Vector" +
-                      (dropdown == "marketing" ? "1" : "") +
-                      ".png"
-                    }
-                  />
-                </span>
-              </div>
-              <ul
-                className={
-                  "flex-col pt-2 " +
-                  (dropdown == "marketing" && collapseShow ? "flex" : "hidden")
-                }
-              >
-                <li>
-                  <div
-                    className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-white dark:hover:bg-gray-600 text-white-600 hover:text-white-800 pl-14"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setactiveName("creative");
-                    }}
-                  >
-                    {collapseShow ? (
-                      <span
-                        className={
-                          "ml-4 text-base font-medium tracking-wide truncate " +
-                          (activeName == "creative" ? "text-[#2262C6]" : "")
-                        }
-                      >
-                        Creative Materials
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </li>
-                <li>
-                  <div
-                    className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-white dark:hover:bg-gray-600 text-white-600 hover:text-white-800 pl-14"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setactiveName("sub");
-                    }}
-                  >
-                    {collapseShow ? (
-                      <span
-                        className={
-                          "ml-4 text-base font-medium tracking-wide truncate " +
-                          (activeName == "sub" ? "text-[#2262C6]" : "")
-                        }
-                      >
-                        Sub Affliate Creatives
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link as={NextLink} href="/affiliates/signin">
-                <div
-                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-white dark:hover:bg-gray-600 text-white-600 hover:text-white-800 pl-8"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    activeLink("dashboard");
-                    activeDropdown("");
-                  }}
-                >
-                  <Image
-                    alt="..."
-                    className="w-6 align-middle border-none pt-0.5"
-                    src={
-                      "/img/icons/dashboard" +
-                      (activeName == "dashboard" ? "Active" : "") +
-                      ".png"
-                    }
-                  />
-                  {collapseShow ? (
-                    <span
-                      className={
-                        "ml-4 text-base font-medium tracking-wide truncate " +
-                        (activeName == "dashboard" ? "text-[#2262C6]" : "")
-                      }
-                    >
-                      Dashboard
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </Link>
+              <DropdownLink
+                setactiveName={setactiveName}
+                setdropdown={setdropdown}
+                dropdown={dropdown}
+                activeName={activeName}
+                collapseShow={collapseShow}
+                linkName={[
+                  { name: "Quick Summary Report", link: "quick-summary" },
+                  {
+                    name: "Sub Affiliate Report",
+                    link: "sub-affiliate-report",
+                  },
+                ]}
+                defaultLink={"quick-summary"}
+                dropdownName={"reports"}
+                navbarName={"Reports"}
+                parentLink={"reports"}
+              />
             </li>
 
             <li>
@@ -205,6 +96,94 @@ export default function Sidebar({ collapseShow }: Props) {
                 linkName={"Profiles"}
               />
             </li>
+
+            <li>
+              <DropdownLink
+                setactiveName={setactiveName}
+                setdropdown={setdropdown}
+                dropdown={dropdown}
+                activeName={activeName}
+                collapseShow={collapseShow}
+                linkName={[
+                  { name: "Account Details", link: "account" },
+                  { name: "Document", link: "documents" },
+                  { name: "Payment Method", link: "account-payment" },
+                  { name: "Commission Structure", link: "commissions" },
+                ]}
+                defaultLink={"account"}
+                dropdownName={"myAccount"}
+                navbarName={"My Account"}
+                parentLink={""}
+              />
+            </li>
+
+            <li>
+              <SingleLink
+                setactiveName={setactiveName}
+                setdropdown={setdropdown}
+                activeName={activeName}
+                collapseShow={collapseShow}
+                link={"billings"}
+                linkName={"Billings"}
+              />
+            </li>
+
+            <li>
+              <SingleLink
+                setactiveName={setactiveName}
+                setdropdown={setdropdown}
+                activeName={activeName}
+                collapseShow={collapseShow}
+                link={"pixel-monitor"}
+                linkName={"Pixel Monitor"}
+              />
+            </li>
+
+            <li>
+              <SingleLink
+                setactiveName={setactiveName}
+                setdropdown={setdropdown}
+                activeName={activeName}
+                collapseShow={collapseShow}
+                link={"support"}
+                linkName={"Support"}
+              />
+            </li>
+
+            <li>
+              <SingleLink
+                setactiveName={setactiveName}
+                setdropdown={setdropdown}
+                activeName={activeName}
+                collapseShow={collapseShow}
+                link={"announcements"}
+                linkName={"Announcements"}
+              />
+            </li>
+
+            <div className="absolute bottom-24 md:bottom-36">
+              <li>
+                <SingleLink
+                  setactiveName={setactiveName}
+                  setdropdown={setdropdown}
+                  activeName={activeName}
+                  collapseShow={collapseShow}
+                  link={"privacy"}
+                  linkName={"Privacy policy"}
+                />
+              </li>
+
+              <li>
+                <SingleLink
+                  setactiveName={setactiveName}
+                  setdropdown={setdropdown}
+                  activeName={activeName}
+                  collapseShow={collapseShow}
+                  link={"terms"}
+                  linkName={"Terms & Conditions"}
+                />
+              </li>
+            </div>
           </ul>
         </div>
       </div>

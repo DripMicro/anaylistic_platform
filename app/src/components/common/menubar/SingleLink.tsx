@@ -53,7 +53,7 @@ const SingleLink = ({
               (activeName == link ? "text-[#2262C6]" : "")
             }
           >
-            linkName
+            {linkName}
           </span>
         ) : (
           ""

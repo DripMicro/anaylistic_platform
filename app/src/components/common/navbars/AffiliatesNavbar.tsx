@@ -51,7 +51,7 @@ const AffiliatesNavbar = ({ collapseShow, setCollapseShow }: Props) => {
 
               <Link href="/">
                 <span className="w-20 h-10 md:w-32 md:h-12 md:ml-5 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center">
-                  <Image src="/img/logo.png" alt="logo" />
+                  <Image src="/img/logo.png" htmlWidth="90" alt="logo" />
                 </span>
               </Link>
 

@@ -47,12 +47,7 @@ const CommonForm = ({
         <div className="text-4xl text-black flex flex-col items-center mt-20 mb-16 md:mt-28 md:mb-24">
           Login to Your
           <div className="flex items-center">
-            <Image
-              className="mt-2"
-              src="/img/logo.png"
-              width="109"
-              alt="logo"
-            />
+            <Image className="mt-2" src="/img/logo.png" width="28" alt="logo" />
             <span className="ml-3 text-black">account</span>
           </div>
         </div>
@@ -137,7 +132,7 @@ const CommonForm = ({
         </button>
 
         <div className="text-center pt-6 md:pt-14 text-sm md:text-xl">
-          Don’t have an account yet?&nbsp;
+          Don&apos;t have an account yet?&nbsp;
           <Link as={NextLink} href="/affiliates/signup">
             <span className="text-[#2262C6] text-sm md:text-xl font-bold">
               Sign Up
@@ -152,7 +147,7 @@ const CommonForm = ({
         <div className="text-center pt-3 md:pt-8 text-sm md:text-xl">
           Are you an admin?&nbsp;
           <Link as={NextLink} href="/affiliates/signup">
-            <span className="text-[#2262C6] text-sm md:text-xl font-bold">
+            <span className="text-[#2262C6] text-sm md:text-xl font-bold pl-2">
               Sign In here
             </span>
           </Link>

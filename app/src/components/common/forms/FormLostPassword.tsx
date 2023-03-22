@@ -59,12 +59,7 @@ const CommonForm = ({
         <div className="text-4xl text-black flex flex-col items-center mt-20 mb-16 md:mt-28 md:mb-24">
           Reset to Your
           <div className="flex items-center">
-            <Image
-              className="mt-2"
-              src="/img/logo.png"
-              width="109"
-              alt="logo"
-            />
+            <Image className="mt-2" src="/img/logo.png" width="28" alt="logo" />
             <span className="ml-3 text-black">account</span>
           </div>
         </div>

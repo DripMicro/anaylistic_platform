@@ -90,12 +90,7 @@ const CommonForm = ({
         <div className="text-4xl text-black flex flex-col items-center mt-20 mb-16 md:mt-28 md:mb-24">
           Register to Your
           <div className="flex items-center">
-            <Image
-              className="mt-2"
-              src="/img/logo.png"
-              width="109"
-              alt="Logo"
-            />
+            <Image className="mt-2" src="/img/logo.png" width="28" alt="Logo" />
             <span className="ml-3 text-black">account</span>
           </div>
         </div>
@@ -304,37 +299,42 @@ const CommonForm = ({
               Account Type
             </label>
 
-            <FormControl>
-              <HStack>
-                <div className="flex">
-                  <div className="relative " style={{ width: "400px" }}>
-                    <select
-                      className=" pl-2 pr-8 md:pl-6  md:pr-14 py-4 w-96 flex space-x-2 items-center border rounded shadow border-[##e2e8f0] bg-white appearance-none cursor-pointer text-xs md:text-base"
-                      placeholder="Select date range"
-                      onClick={showAccount}
-                      onChange={(event) => {
-                        if (event.target.value !== "custom") {
-                          void handleChange(event.target.value);
-                        }
-                      }}
-                    >
-                      <option value="Account 1">Account 1</option>
-                      <option value="Account 2">Account 2</option>
-                      <option value="Account 3">Account 3</option>
-                      <option value="account 4">Account 4</option>
-                    </select>
+            <div className="flex">
+              <div className="relative w-full">
+                <select
+                  className="pl-6 py-4 w-full flex space-x-2 items-center border rounded shadow border-[##e2e8f0] bg-white appearance-none cursor-pointer text-base"
+                  placeholder="Select date range"
+                  onClick={showAccount}
+                  onChange={(event) => {
+                    if (event.target.value !== "custom") {
+                      void handleChange(event.target.value);
+                    }
+                  }}
+                >
+                  <option value="Account 1">Account 1</option>
+                  <option value="Account 2">Account 2</option>
+                  <option value="Account 3">Account 3</option>
+                  <option value="account 4">Account 4</option>
+                </select>
 
-                    <div className="absolute -mt-7 md:-mt-9 right-2 md:right-6 cursor-pointer ">
-                      <Image
-                        src="/img/select.png"
-                        className={`${showaccount && "rotate-180"}`}
-                        alt="account"
+                <div className="absolute -mt-8 right-2 md:right-6 cursor-pointer ">
+                  <div className={`${showaccount && "rotate-180"}`}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="8"
+                      viewBox="0 0 12 8"
+                      fill="none"
+                    >
+                      <path
+                        d="M11.9999 5.70697L6.29294 -2.75885e-05L0.585938 5.70697L1.99994 7.12097L6.29294 2.82797L10.5859 7.12097L11.9999 5.70697Z"
+                        fill="#828282"
                       />
-                    </div>
+                    </svg>
                   </div>
                 </div>
-              </HStack>
-            </FormControl>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -406,15 +406,17 @@ const CommonForm = ({
             </span>
           </label>
         </div>
-        <div className="py-4"></div>
 
-        <button className=" w-7/12 bg-[#2262C6] self-center text-white py-3 font-semibold rounded-md">
-          {submitButtonText ? submitButtonText : "SAVE"}
-        </button>
+        <div className="text-center pt-3 md:pt-10">
+          <button className="w-full md:w-6/12 bg-[#2262C6] text-white py-3 font-semibold rounded-md">
+            {submitButtonText ? submitButtonText : "SAVE"}
+          </button>
+        </div>
+
         <div className="text-center pt-6 md:pt-14 text-sm md:text-xl">
-          Do have an account?&nbsp;
+          Do you have an account?
           <Link as={NextLink} href="/affiliates/signin">
-            <span className="text-[#2262C6] text-sm md:text-xl font-bold">
+            <span className="text-[#2262C6] text-sm md:text-xl font-bold pl-2">
               Sign In
             </span>
           </Link>
