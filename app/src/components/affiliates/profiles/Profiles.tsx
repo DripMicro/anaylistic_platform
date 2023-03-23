@@ -97,7 +97,7 @@ export const Profiles = () => {
       cell: (info) => info.getValue(),
       header: "URL",
     }),
-    columnHelper.accessor("description", {
+    columnHelper.accessor(" ", {
       cell: (info) => info.getValue(),
       header: "Description",
       // meta: {
@@ -121,12 +121,15 @@ export const Profiles = () => {
           <Button
             leftIcon={<EditIcon />}
             onClick={() => setEditRec(info.row.original)}
+            fontSize="text-xs"
+            width="14"
+            height="7"
           >
             Edit
           </Button>
         );
       },
-      header: "",
+      header: "Action",
     }),
   ];
 

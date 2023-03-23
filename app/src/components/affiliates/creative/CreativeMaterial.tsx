@@ -44,61 +44,68 @@ export const CreativeMaterial = () => {
   );
 
   return (
-    <Flex direction="column" gap={2}>
-      <Flex direction="row" gap={2}>
-        <QuerySelect
-          label="Creative Type"
-          choices={meta?.type}
-          varName="type"
-        />
-        <QuerySelect
-          label="Category"
-          choices={meta?.merchants_creative_categories}
-          varName="category"
-        />
-        <QuerySelect
-          label="Language"
-          choices={meta?.language}
-          varName="language"
-        />
-        <QuerySelect label="Size" choices={meta?.size} varName="size" />
-        <QuerySelect
-          label="Promotion"
-          choices={meta?.merchants_promotions}
-          emptyTitle="General"
-          varName="promotion"
-        />
-        <QueryText varName="search" label="Search Creative" />
-      </Flex>
-      <CreativeMaterialTable>
-        {data?.map((item) => {
-          const values = [
-            // { title: "Id", value: item.id },
-            { title: "Creative Name", value: item.title },
-            { title: "Type", value: item.type },
-            {
-              title: "Promotion",
-              value: String(item.promotion_id) || "General",
-            },
-            {
-              title: "Category",
-              value: item.category?.categoryname,
-            },
-            { title: "Size (WxH)", value: `${item.width}x${item.height}` },
-            { title: "Language", value: item.language?.title },
-          ];
-
-          return (
-            <CreativeMaterialRow
-              key={item.id}
-              values={values}
-              file={item.file || undefined}
-              alt={item.alt}
-              url={item.url}
+    <div className="pt-5 pb-4 w-full -ml-5">
+      <div className=" mb-5 block font-medium text-base">
+        <span className="text-[#2262C6]">Marketing Tools</span> / Creative Materials
+      </div>
+      <div className="pt-4 mt-6 px-4 h-auto rounded-2xl  pb-20 md:mb-10">
+        <Flex  direction="column" gap={2}>
+          <Flex direction="row" gap={2} className="mb-28">
+            <QuerySelect
+              label="Creative Type"
+              choices={meta?.type}
+              varName="type"
             />
-          );
-        })}
-      </CreativeMaterialTable>
-    </Flex>
+            <QuerySelect
+              label="Category"
+              choices={meta?.merchants_creative_categories}
+              varName="category"
+            />
+            <QuerySelect
+              label="Language"
+              choices={meta?.language}
+              varName="language"
+            />
+            <QuerySelect label="Size" choices={meta?.size} varName="size" />
+            <QuerySelect
+              label="Promotion"
+              choices={meta?.merchants_promotions}
+              emptyTitle="General"
+              varName="promotion"
+            />
+            <QueryText varName="search" label="Search Creative" />
+          </Flex>
+          <CreativeMaterialTable>
+            {data?.map((item) => {
+              const values = [
+                // { title: "Id", value: item.id },
+                { title: "Creative Name", value: item.title },
+                { title: "Type", value: item.type },
+                {
+                  title: "Promotion",
+                  value: String(item.promotion_id) || "General",
+                },
+                {
+                  title: "Category",
+                  value: item.category?.categoryname,
+                },
+                { title: "Size (WxH)", value: `${item.width}x${item.height}` },
+                { title: "Language", value: item.language?.title },
+              ];
+
+              return (
+                <CreativeMaterialRow
+                  key={item.id}
+                  values={values}
+                  file={item.file || undefined}
+                  alt={item.alt}
+                  url={item.url}
+                />
+              );
+            })}
+          </CreativeMaterialTable>
+        </Flex>
+      </div>
+    </div>
   );
 };

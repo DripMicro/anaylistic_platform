@@ -17,9 +17,10 @@ export const QuerySelect = ({ varName, label, choices, emptyTitle }: Props) => {
   const [value, setValue] = useQueryState(varName);
 
   return (
-    <FormControl>
-      <FormLabel>{label}</FormLabel>
-      <CSelect
+    <FormControl  >
+      <FormLabel className="text-[#525252] font-medium
+       text-sm">{label}</FormLabel>
+      <CSelect bg="white"
         placeholder={emptyTitle || "All"}
         value={value || ""}
         onChange={(event) => {
