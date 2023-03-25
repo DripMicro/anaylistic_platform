@@ -17,12 +17,16 @@ export const QuerySelect = ({ varName, label, choices, emptyTitle }: Props) => {
   const [value, setValue] = useQueryState(varName);
 
   return (
-    <FormControl  >
-      <FormLabel className="text-[#525252] font-medium
-       text-sm">{label}</FormLabel>
-      <CSelect bg="white"
+    <FormControl>
+      <FormLabel className="ml-2 text-sm font-medium text-[#525252]">
+        {label}
+      </FormLabel>
+      <CSelect
         placeholder={emptyTitle || "All"}
         value={value || ""}
+        bg={"white"}
+        className="text-[#666666]"
+        fontSize={12}
         onChange={(event) => {
           console.log(`muly:change`, { event: event.target });
           void setValue(event.target.value);

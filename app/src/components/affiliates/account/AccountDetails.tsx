@@ -1,13 +1,18 @@
-import { Box, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
+import type { AffiliateAccountUpdateType } from "../../../server/db-types";
 import { api } from "../../../utils/api";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { FormAccount } from "./FormAccount";
 import { FormContact } from "./FormContact";
 import { FormInvoice } from "./FormInvoice";
 import { FormWebSites } from "./FormWebSites";
-import type { AffiliateAccountUpdateType } from "../../../server/db-types";
-import { AffiliateAccountType } from "../../../server/db-types";
-import { FormMarketInfo } from "./FormMarketInfo";
 
 export const AccountDetails = () => {
   const { data: account, refetch } = api.affiliates.getAccount.useQuery();
@@ -24,19 +29,15 @@ export const AccountDetails = () => {
   };
 
   return (
-    <div className="pt-5 pb-4 w-full -ml-5">
-      <div className="px-6 mb-5 block font-medium text-base">
+    <div className="w-full pt-5 pb-4 ">
+      <div className="mb-5 block px-6 text-base font-medium">
         <span className="text-[#2262C6]">Dashboard</span> - My Account - Account
         Details
       </div>
-      <div className="pt-4 mt-6 px-4 h-auto rounded-2xl bg-white shadow-[4px_3px_33px_0_rgba(0,0,0,0.05)] pb-20 md:mb-10">
-        <Flex
-          direction="column"
-          className=" flex flex-col justify-between"
-          gap={2}
-        >
+      <div className="mt-6 h-auto rounded-2xl bg-white px-4 pt-4 pb-20 shadow-[4px_3px_33px_0_rgba(0,0,0,0.05)] md:mb-10">
+        <Flex direction="column" gap={2} maxW="4xl" width="100%">
           <Tabs>
-            <TabList className="font-medium text-sm">
+            <TabList>
               <Tab>Account</Tab>
               <Tab>Contact</Tab>
               <Tab>Invoice</Tab>
@@ -46,30 +47,21 @@ export const AccountDetails = () => {
 
             <TabPanels>
               <TabPanel>
-                <FormAccount onSubmit={handleSubmit} />
+                <FormAccount account={account} onSubmit={handleSubmit} />
               </TabPanel>
               <TabPanel>
-                <FormContact onSubmit={handleSubmit} />
-              </TabPanel>
-              <TabPanel>
-                <FormInvoice onSubmit={handleSubmit} />
-              </TabPanel>
-              <TabPanel>
-                <FormWebSites onSubmit={handleSubmit} />
-              </TabPanel>
-              {/* <TabPanel>
                 <FormContact account={account} onSubmit={handleSubmit} />
-              </TabPanel> */}
-              {/* <TabPanel>
+              </TabPanel>
+              <TabPanel>
                 <FormInvoice
                   account={account}
                   onSubmit={handleSubmit}
                   countries={countries || []}
                 />
-              </TabPanel> */}
-              {/* <TabPanel>
+              </TabPanel>
+              <TabPanel>
                 <FormWebSites account={account} onSubmit={handleSubmit} />
-              </TabPanel> */}
+              </TabPanel>
               {/*<TabPanel>*/}
               {/*  <FormMarketInfo account={account} onSubmit={handleSubmit} />*/}
               {/*</TabPanel>*/}

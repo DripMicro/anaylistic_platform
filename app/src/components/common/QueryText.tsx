@@ -34,7 +34,7 @@ export const QueryText = ({ varName, label }: Props) => {
   return (
     <FormControl maxW="2xs">
       <FormLabel>{label}</FormLabel>
-      <Input bg='white'
+      <Input
         type="search"
         value={localValue}
         onChange={(e) => {

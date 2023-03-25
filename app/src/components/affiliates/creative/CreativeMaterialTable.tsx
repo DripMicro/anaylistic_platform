@@ -16,9 +16,8 @@ interface Props {
 }
 
 export const CreativeMaterialTable = ({ children }: Props) => {
-  console.log(children);
   return (
-    <TableContainer >
+    <TableContainer>
       <Table variant="simple">
         <Tbody>{children}</Tbody>
       </Table>

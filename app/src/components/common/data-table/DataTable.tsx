@@ -8,21 +8,19 @@ import {
   Td,
   chakra,
   Button,
+  Box,
   Stack,
   HStack,
   useDisclosure,
-  Box,
-  TableContainer,
 } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import type { ColumnDef, SortingState } from "@tanstack/re act-table";
+import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import {
   useReactTable,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import styles from "../../../pages/index.module.css";
 
 export type DataTableProps<Data extends object> = {
   data: Data[] | null | undefined;
@@ -46,11 +44,15 @@ export function DataTable<Data extends object>({
   });
 
   return (
-    <div className=" scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 overflow-x-scroll  scrollbar-thumb-rounded-full scrollbar-track-rounded-full xl:overflow-x-hidden lg:overflow-y-hidden ">
-      <Table border="1px solid #F0F0F0" variant="striped">
+    <div className=" scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 scrollbar-thumb-rounded-full  scrollbar-track-rounded-full mt-4 overflow-x-scroll lg:overflow-y-hidden xl:overflow-x-hidden ">
+      <Table border="1px solid #F0F0F0">
         <Thead bg="#F2F5F7">
           {table.getHeaderGroups().map((headerGroup) => (
-            <Tr key={headerGroup.id} border="1px solid #F0F0F0">
+            <Tr
+              key={headerGroup.id}
+              border="1px solid #F0F0F0"
+              textAlign="left"
+            >
               {headerGroup.headers.map((header) => {
                 // see https://tanstack.com/table/v8/docs/api/core/column-def#meta to type this correctly
                 const meta = header.column.columnDef.meta;
@@ -60,8 +62,6 @@ export function DataTable<Data extends object>({
                     onClick={header.column.getToggleSortingHandler()}
                     // @ts-ignore
                     isNumeric={!!meta?.isNumeric}
-                    fontSize="text-xs md:text-sm"
-                    bgSize="auto"
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -84,8 +84,8 @@ export function DataTable<Data extends object>({
           ))}
         </Thead>
         <Tbody>
-          {table.getRowModel().rows.map((row) => (
-            <Tr key={row.id} maxHeight="6">
+          {table.getRowModel().rows.map((row, index) => (
+            <Tr key={row.id} className={index % 2 == 0 ? "" : " bg-[#F9FAFF]"}>
               {row.getVisibleCells().map((cell) => {
                 // see https://tanstack.com/table/v8/docs/api/core/column-def#meta to type this correctly
                 const meta = cell.column.columnDef.meta;
@@ -94,10 +94,7 @@ export function DataTable<Data extends object>({
                     key={cell.id}
                     // @ts-ignore
                     isNumeric={!!meta?.isNumeric}
-                    paddingBottom="2"
-                    paddingTop="2"
-                    fontSize="text-base"
-                    border="1px solid #F0F0F0 "
+                    className="text-sm"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>

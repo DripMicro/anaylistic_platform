@@ -19,41 +19,38 @@ interface Props {
 
 export const CreativeMaterialRow = ({ values, file, alt, url }: Props) => {
   return (
-    <div className="bg-[#F5F8FA] shadow-md pt-5">
-      <Tr p={4} bg="white" gap={4} className=" border-4 " >
-        <Td>
-          {!!file && (
-            <Image
-              objectFit="cover"
-              maxW={{ base: "100%", sm: "173px" }}
-              src={file}
-              alt={alt}
-            />
-          )}
-        </Td>
+    <Tr p={4} gap={4}>
+      <Td>
+        {!!file && (
+          <Image
+            objectFit="cover"
+            maxW={{ base: "100%", sm: "173px" }}
+            src={file}
+            alt={alt}
+          />
+        )}
+      </Td>
 
-        <Td>
-          <Grid templateColumns="max-content 1fr" gap={1} flexGrow={1}>
-            {values
-              .map(({ title, value }) => [
-                <Text key={title}>{title}</Text>,
-                <Text key={title + "_v"}>{value}</Text>,
-              ])
-              .flat()}
-          </Grid>
-        </Td>
+      <Td>
+        <Grid templateColumns="max-content 1fr" gap={1} flexGrow={1}>
+          {values
+            .map(({ title, value }) => [
+              <Text key={title}>{title}</Text>,
+              <Text key={title + "_v"}>{value}</Text>,
+            ])
+            .flat()}
+        </Grid>
+      </Td>
 
-        <Td>
-          <Stack>
-            <Text>{url}</Text>
-            <HStack>
-              <Button>Copy Click URL</Button>
-              <Button>Get HTML Code</Button>
-            </HStack>
-          </Stack>
-        </Td>
-      </Tr>
-    </div>
-
+      <Td>
+        <Stack>
+          <Text>{url}</Text>
+          <HStack>
+            <Button>Copy Click URL</Button>
+            <Button>Get HTML Code</Button>
+          </HStack>
+        </Stack>
+      </Td>
+    </Tr>
   );
 };
